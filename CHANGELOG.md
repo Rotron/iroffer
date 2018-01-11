@@ -9,9 +9,15 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Changed
 
+- Restructured the projects file layout
 - Code clean-ups
 - Relicense under the GPL-3.0+
 - The *dynip* script can now use either *links*, *lynx* or *wget*.
+
+### Deprecated
+
+- Platform support for *SunOS*, *HP-UX*, *IRIX*, *IRIX64*, *Digital UNIX*, *MacOS X Server* and *AIX*.
+- *convertxdccfile*, since the *statefile* has existed for nearly 14 years now.
 
 ### Fixed
 

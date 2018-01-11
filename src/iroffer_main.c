@@ -159,7 +159,7 @@ static int parsecmdline(int argc, char *argv[])
   
   if (optind >= argc)
     {
-      fprintf(stderr,"%s: no configuration file specifed\n",
+      fprintf(stderr,"%s: no configuration file specified\n",
               argv[0]);
       return PCL_BAD_OPTION;
     }

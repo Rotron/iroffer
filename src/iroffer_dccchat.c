@@ -334,7 +334,7 @@ void setupdccchatconnected(dccchat_t *chat)
   char *tempstr;
   
   ioutput(CALLTYPE_NORMAL, OUT_S|OUT_L|OUT_D, COLOR_MAGENTA,
-          "DCC CHAT connection suceeded, authenticating");
+          "DCC CHAT connection succeeded, authenticating");
   
   chat->status = DCCCHAT_AUTHENTICATING;
   chat->connecttime = gdata.curtime;

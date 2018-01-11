@@ -9,6 +9,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Changed
 
+- Code clean-ups
 - Relicense under the GPL-3.0+
 - The *dynip* script can now use either *links*, *lynx* or *wget*.
 
@@ -21,14 +22,14 @@ and this project **does not** adhere to Semantic Versioning.
 ### Added
 
 - Add *logmessages* config item, similar to *lognotices*.
-- Add *xdcclistfileraw* config, includes control characters to xdcc file.
+- Add *xdcclistfileraw* config, includes control characters to XDCC file.
 
 ### Changed
 
 - Minor performance changes to memory allocator.
 - Better detection of valid usermodes, nick prefixes, and channel-modes.
 - Track usermodes of users in channels (shown in **CHANL** command).
-- *clearrecords* should clear the transferlimit too.
+- *clearrecords* should clear the transfer limit too.
 - Mention directories when you do an **ADDDIR** or **ADDNEW** command
 - Some cleanups to *Configure* and *Makefile*.
 

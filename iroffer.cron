@@ -38,8 +38,3 @@ fi
 
 echo "Starting iroffer..."
 $iroffer_exec
-
-#
-# @(#) iroffer.cron 1.6@(#)
-# pmg@alliance.centerclick.org|iroffer.cron|20011019202404|62443
-#

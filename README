@@ -150,6 +150,3 @@ SIGUSR2 (kill -USR2 xxxx)  re-reads config file    (same as admin command "rehas
 SIGTERM (kill xxxx)        shuts down iroffer      (same as admin command "shutdown")
 
  --- End of README ---
-
-@(#) README 1.93@(#)
-pmg@wellington.i202.centerclick.org|README|20051213024432|46824

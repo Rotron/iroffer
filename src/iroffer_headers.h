@@ -1,18 +1,20 @@
-/*      
- * iroffer by David Johnson (PMG) 
- * Copyright (C) 1998-2005 David Johnson 
- * 
- * By using this file, you agree to the terms and conditions set
- * forth in the GNU General Public License.  More information is    
- * available in the README file.
- * 
- * If you received this file without documentation, it can be
- * downloaded from http://iroffer.org/
- * 
- * @(#) iroffer_headers.h 1.142@(#)
- * pmg@wellington.i202.centerclick.org|src/iroffer_headers.h|20050313225819|56401
- * 
- */
+/*
+iroffer - An IRC file server using the DCC protocol
+Copyright (C) see CONTRIBUTORS
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <https://www.gnu.org/licenses/>.
+*/
 
 #if !defined _IROFFER_HEADERS
 #define _IROFFER_HEADERS

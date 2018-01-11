@@ -9,6 +9,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Changed
 
+- Relicense under the GPL-3.0+
 - The *dynip* script can now use either *links*, *lynx* or *wget*.
 
 ### Fixed

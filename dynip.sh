@@ -19,10 +19,20 @@ PIDFILE="mybot.pid"
 
 set -e
 set -u
+#set -x
 
-links -source ${URL} \
- |sed -e 's=^=usenatip =' \
- > ${CONFIGFILE}.tmp
+if type links >/dev/null 2>&1; then
+    PROG="links -source"
+elif type lynx >/dev/null 2>&1; then
+    PROG="lynx -source"
+elif type wget >/dev/null 2>&1; then
+    PROG="wget --quiet -O -"
+else
+    echo "ERROR: cannot find links, lynx, or wget"
+    exit 1
+fi
+
+${PROG} ${URL} |sed -e 's=^=usenatip =' > ${CONFIGFILE}.tmp
 
 test -f ${CONFIGFILE} || touch ${CONFIGFILE}
 

@@ -7,6 +7,8 @@ and this project **does not** adhere to Semantic Versioning.
 
 ## [Unreleased]
 
+## [1.4.1] - 2017-01-12
+
 ### Changed
 
 - Reworked the changelog and readme.
@@ -17,7 +19,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Deprecated
 
-- Platform support for *SunOS/Solaris*, *HP-UX*, *IRIX*, *IRIX64*, *Digital UNIX*, *Mac OS X Server*, *AIX* and *Cygwin*.
+- Platform support for *SunOS/Solaris*, *HP-UX*, *IRIX/IRIX64*, *Digital UNIX*, *Mac OS X Server*, *AIX* and *Cygwin*.
 - *convertxdccfile*, since the *statefile* has existed for nearly 14 years now.
 
 ### Fixed
@@ -47,7 +49,8 @@ and this project **does not** adhere to Semantic Versioning.
 - Fix username when it cannot be determined automatically.
 - Fix infinite loop when debug output causes memory allocation.
 
-[Unreleased]: https://github.com/AnTiZ/iroffer/compare/v1.4b03...HEAD
+[Unreleased]: https://github.com/AnTiZ/iroffer/compare/v1.4.1...HEAD
+[1.4.1]: https://github.com/AnTiZ/iroffer/compare/v1.4b03...v1.4.1
 
 ---
 

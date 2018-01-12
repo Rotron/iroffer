@@ -17,11 +17,12 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Deprecated
 
-- Platform support for *SunOS/Solaris*, *HP-UX*, *IRIX*, *IRIX64*, *Digital UNIX*, *MacOS X Server* and *AIX*.
+- Platform support for *SunOS/Solaris*, *HP-UX*, *IRIX*, *IRIX64*, *Digital UNIX*, *Mac OS X Server*, *AIX* and *Cygwin*.
 - *convertxdccfile*, since the *statefile* has existed for nearly 14 years now.
 
 ### Fixed
 
+- Use correct "printf format string" length specifier for size_t and ssize_t.
 - Merged Debian patches to fix typos and the *Configure* script.
 
 ## 1.4.b03 - 2005-12-12

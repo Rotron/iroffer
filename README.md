@@ -35,7 +35,7 @@ iroffer is a software program that acts as a fileserver for IRC. It is similar t
 - Linux
 - FreeBSD/OpenBSD/NetBSD
 - macOS
-- Windows (through Cygwin)
+- Windows (through the WSL)
 
 ### Prerequisites
 

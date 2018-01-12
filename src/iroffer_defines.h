@@ -249,4 +249,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #error "** ERROR: This OS Is Not Supported Or You Didn't Run Configure **"
 #endif
 
-#endif _IROFFER_DEFINES
+#endif /* _IROFFER_DEFINES */

@@ -1052,7 +1052,7 @@ static void mainloop(void) {
                     /* remove queued users */
                     for (pq = irlist_get_head(&gdata.mainqueue); pq;
                          pq = irlist_delete(&gdata.mainqueue, pq)) {
-                        notice_slow(pq->nick, tempstr);
+                        notice_slow(pq->nick, "%s", tempstr);
                         mydelete(pq->nick);
                         mydelete(pq->hostname);
                     }

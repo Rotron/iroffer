@@ -804,7 +804,11 @@ static int connectirc(server_t* tserver) {
 #ifdef NO_HOSTCODES
             exit(10);
 #else
+#if defined(_OS_CYGWIN)
+            extern __declspec(dllimport) int h_errno;
+#else
             extern int h_errno;
+#endif
             switch (h_errno) {
             case HOST_NOT_FOUND:
                 exit(20);

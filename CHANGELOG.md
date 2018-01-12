@@ -9,6 +9,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Changed
 
+- Reworked the changelog and readme.
 - Restructured the projects file layout
 - Code clean-ups
 - Relicense under the GPL-3.0+
@@ -16,7 +17,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Deprecated
 
-- Platform support for *SunOS*, *HP-UX*, *IRIX*, *IRIX64*, *Digital UNIX*, *MacOS X Server* and *AIX*.
+- Platform support for *SunOS/Solaris*, *HP-UX*, *IRIX*, *IRIX64*, *Digital UNIX*, *MacOS X Server* and *AIX*.
 - *convertxdccfile*, since the *statefile* has existed for nearly 14 years now.
 
 ### Fixed

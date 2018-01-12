@@ -1462,7 +1462,7 @@ static void mainloop(void) {
                 if (!gdata.attop) {
                     gototop();
                 }
-                ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_YELLOW, "[MD5]: read %d",
+                ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_YELLOW, "[MD5]: read %zd",
                         howmuch);
             }
 

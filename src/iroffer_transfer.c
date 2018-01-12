@@ -463,7 +463,7 @@ void t_transfersome(transfer* const t) {
         }
 
         if (gdata.debug > 4) {
-            ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_BLUE, "File %d Write %d",
+            ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_BLUE, "File %zd Write %zd",
                     howmuch, howmuch2);
         }
 

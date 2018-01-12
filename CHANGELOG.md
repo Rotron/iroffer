@@ -50,7 +50,7 @@ and this project **does not** adhere to Semantic Versioning.
 - Fix infinite loop when debug output causes memory allocation.
 
 [Unreleased]: https://github.com/AnTiZ/iroffer/compare/v1.4.1...HEAD
-[1.4.1]: https://github.com/AnTiZ/iroffer/compare/v1.4b03...v1.4.1
+[1.4.1]: https://github.com/AnTiZ/iroffer/compare/v1.4.b03...v1.4.1
 
 ---
 

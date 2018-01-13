@@ -342,7 +342,9 @@ static void mainloop(void) {
         if (errno != EINTR) {
             outerror(OUTERROR_TYPE_WARN, "Select returned an error: %s",
                      strerror(errno));
-            usleep(10000); /* prevent fast spinning */
+
+            struct timespec delay = {0, 10000000}; // 10 milliseconds
+            nanosleep(&delay, &delay); // prevent fast spinning
         }
 
         /* data is undefined on error, zero and continue */

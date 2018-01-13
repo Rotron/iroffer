@@ -10,6 +10,7 @@ and this project **does not** adhere to Semantic Versioning.
 ### Changed
 
 - Use stdint types instead of manually "detected" sizes + typedefs
+- Refactor code to increase and modernize POSIX compatibility
 
 ### Removed
 

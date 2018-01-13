@@ -458,7 +458,10 @@ void shutdowndccchat(dccchat_t* chat, int flush) {
 
         FD_CLR(chat->fd, &gdata.readset);
         FD_CLR(chat->fd, &gdata.writeset);
-        usleep(100 * 1000);
+
+        struct timespec delay = {0, 100000000}; // 100 milliseconds
+        nanosleep(&delay, &delay);
+
         /*
          * cygwin close() is broke, if outstanding data is present
          * it will block until the TCP connection is dead, sometimes

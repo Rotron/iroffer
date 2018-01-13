@@ -537,11 +537,9 @@ void write_statefile(void) {
                 md5sum_info->st_size.upper =
                     htonl(((uint64_t)xd->st_size) >> 32);
                 md5sum_info->st_size.lower = htonl(xd->st_size & 0xFFFFFFFF);
-                md5sum_info->st_dev.upper =
-                    htonl(((uint64_t)xd->st_dev) >> 32);
+                md5sum_info->st_dev.upper = htonl(((uint64_t)xd->st_dev) >> 32);
                 md5sum_info->st_dev.lower = htonl(xd->st_dev & 0xFFFFFFFF);
-                md5sum_info->st_ino.upper =
-                    htonl(((uint64_t)xd->st_ino) >> 32);
+                md5sum_info->st_ino.upper = htonl(((uint64_t)xd->st_ino) >> 32);
                 md5sum_info->st_ino.lower = htonl(xd->st_ino & 0xFFFFFFFF);
                 md5sum_info->mtime = htonl(xd->mtime);
                 memcpy(md5sum_info->md5sum, xd->md5sum, sizeof(MD5Digest));
@@ -1402,11 +1400,11 @@ void read_statefile(void) {
                     ((uint64_t)ntohl(g_ullint->g_ullint.lower));
 
                 if (gdata.debug > 0) {
-                    ioutput(
-                        CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
-                        "  [Monthly Transfer Limit Used %" PRIu64 "uMB]",
-                        gdata.transferlimits[TRANSFERLIMIT_MONTHLY].used /
-                            1024 / 1024);
+                    ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
+                            COLOR_NO_COLOR,
+                            "  [Monthly Transfer Limit Used %" PRIu64 "uMB]",
+                            gdata.transferlimits[TRANSFERLIMIT_MONTHLY].used /
+                                1024 / 1024);
                 }
             } else {
                 outerror(

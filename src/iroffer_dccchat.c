@@ -26,7 +26,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 int setupdccchatout(const char* nick) {
     int tempc;
     int listenport;
-    struct sockaddr_in listenaddr;
     dccchat_t* chat;
 
     updatecontext();
@@ -73,7 +72,7 @@ int setupdccchatout(const char* nick) {
         setsockopt(chat->fd, SOL_SOCKET, SO_REUSEADDR, &tempc, sizeof(int));
     }
 
-    bzero((char*)&listenaddr, sizeof(struct sockaddr_in));
+    struct sockaddr_in listenaddr = {0};
 
     listenaddr.sin_family = AF_INET;
     listenaddr.sin_addr.s_addr = INADDR_ANY;
@@ -165,8 +164,6 @@ void setupdccchataccept(dccchat_t* chat) {
 }
 
 int setupdccchat(const char* nick, const char* line) {
-    struct sockaddr_in remoteip;
-    struct sockaddr_in localaddr;
     char *ip, *port;
     SIGNEDSOCK int addrlen;
     int retval;
@@ -213,8 +210,6 @@ int setupdccchat(const char* nick, const char* line) {
         return 1;
     }
 
-    bzero((char*)&remoteip, sizeof(remoteip));
-
     chat->fd = socket(AF_INET, SOCK_STREAM, 0);
     if (chat->fd < 0) {
         outerror(OUTERROR_TYPE_WARN_LOUD, "Socket Error: %s", strerror(errno));
@@ -226,6 +221,7 @@ int setupdccchat(const char* nick, const char* line) {
 
     port[strlen(port) - 1] = '\0';
 
+    struct sockaddr_in remoteip = {0};
     remoteip.sin_family = AF_INET;
     remoteip.sin_port = htons(atoi(port));
 
@@ -234,8 +230,8 @@ int setupdccchat(const char* nick, const char* line) {
     mydelete(port);
     mydelete(ip);
 
+    struct sockaddr_in localaddr = {0};
     if (gdata.local_vhost) {
-        bzero((char*)&localaddr, sizeof(struct sockaddr_in));
         localaddr.sin_family = AF_INET;
         localaddr.sin_port = 0;
         localaddr.sin_addr.s_addr = htonl(gdata.local_vhost);

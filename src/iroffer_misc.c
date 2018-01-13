@@ -631,7 +631,7 @@ void getconfig_set(const char* line, int rehash) {
         mydelete(gdata.connectionmethod.host);
         mydelete(gdata.connectionmethod.password);
         mydelete(gdata.connectionmethod.vhost);
-        bzero((char*)&gdata.connectionmethod, sizeof(connectionmethod_t));
+        memset(&gdata.connectionmethod, 0, sizeof(connectionmethod_t));
 
         if (thow && !strcmp(thow, "direct")) {
             gdata.connectionmethod.how = how_direct;
@@ -849,11 +849,7 @@ static int connectirc(server_t* tserver) {
 }
 
 int connectirc2(struct in_addr* remote) {
-    struct sockaddr_in ircserverip;
-    struct sockaddr_in localaddr;
     int retval;
-
-    bzero((char*)&ircserverip, sizeof(ircserverip));
 
     gdata.ircserver = socket(AF_INET, SOCK_STREAM, 0);
     if (gdata.ircserver < 0) {
@@ -861,6 +857,7 @@ int connectirc2(struct in_addr* remote) {
         return 1;
     }
 
+    struct sockaddr_in ircserverip = {0};
     ircserverip.sin_family = AF_INET;
     ircserverip.sin_port = htons(gdata.serv_resolv.to_port);
 
@@ -875,7 +872,7 @@ int connectirc2(struct in_addr* remote) {
     }
 
     if (gdata.local_vhost) {
-        bzero((char*)&localaddr, sizeof(struct sockaddr_in));
+        struct sockaddr_in localaddr = {0};
         localaddr.sin_family = AF_INET;
         localaddr.sin_port = 0;
         localaddr.sin_addr.s_addr = htonl(gdata.local_vhost);
@@ -1920,14 +1917,13 @@ char* getstatusline(char* str, int len) {
            irlist_size(&gdata.serverq_normal) +
            irlist_size(&gdata.serverq_slow);
 
-    i = snprintf(
-        str, len,
-        "Stat: %i/%i Sls, %i/%i Q, %1.1fK/s Rcd, %i SrQ (Bdw: %" PRIu64
-        "uK, %1.1fK/s, %1.1fK/s Rcd)",
-        irlist_size(&gdata.trans), gdata.slotsmax,
-        irlist_size(&gdata.mainqueue), gdata.queuesize, gdata.record, srvq,
-        (xdccsent / 1024),
-        ((float)xdccsent) / XDCC_SENT_SIZE / 1024.0, gdata.sentrecord);
+    i = snprintf(str, len,
+                 "Stat: %i/%i Sls, %i/%i Q, %1.1fK/s Rcd, %i SrQ (Bdw: %" PRIu64
+                 "uK, %1.1fK/s, %1.1fK/s Rcd)",
+                 irlist_size(&gdata.trans), gdata.slotsmax,
+                 irlist_size(&gdata.mainqueue), gdata.queuesize, gdata.record,
+                 srvq, (xdccsent / 1024),
+                 ((float)xdccsent) / XDCC_SENT_SIZE / 1024.0, gdata.sentrecord);
 
     if ((i < 0) || (i >= len)) {
         str[0] = '\0';
@@ -1962,15 +1958,14 @@ char* getstatuslinenums(char* str, int len) {
         xd = irlist_get_next(xd);
     }
 
-    i = snprintf(
-        str, len,
-        "stat %i %1.0f %i %1.0f %i %i %i %i %i %i %1.1f %i %" PRIu64
-        "u %1.1f %1.1f",
-        irlist_size(&gdata.xdccs), ocount / 1024 / 1024, gcount,
-        scount / 1024 / 1024, irlist_size(&gdata.trans), gdata.slotsmax,
-        irlist_size(&gdata.mainqueue), gdata.queuesize, 0, 0, gdata.record,
-        srvq, (xdccsent / 1024),
-        ((float)xdccsent) / XDCC_SENT_SIZE / 1024.0, gdata.sentrecord);
+    i = snprintf(str, len,
+                 "stat %i %1.0f %i %1.0f %i %i %i %i %i %i %1.1f %i %" PRIu64
+                 "u %1.1f %1.1f",
+                 irlist_size(&gdata.xdccs), ocount / 1024 / 1024, gcount,
+                 scount / 1024 / 1024, irlist_size(&gdata.trans),
+                 gdata.slotsmax, irlist_size(&gdata.mainqueue), gdata.queuesize,
+                 0, 0, gdata.record, srvq, (xdccsent / 1024),
+                 ((float)xdccsent) / XDCC_SENT_SIZE / 1024.0, gdata.sentrecord);
     if ((i < 0) || (i >= len)) {
         str[0] = '\0';
     }

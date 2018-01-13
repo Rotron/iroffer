@@ -1388,8 +1388,7 @@ void dumpgdata(void) {
     gdata_print_int(overallmaxspeeddaydays);
 
     for (ii = 0; ii < NUMBER_TRANSFERLIMITS; ii++) {
-        gdata_print_number_array_item("%" PRIu64, transferlimits,
-                                      limit);
+        gdata_print_number_array_item("%" PRIu64, transferlimits, limit);
         gdata_print_number_array_item("%" PRIu64, transferlimits, used);
         gdata_print_number_array_item_cast("%ld", transferlimits, ends,
                                            long int);
@@ -1599,9 +1598,8 @@ void dumpgdata(void) {
             (unsigned long)iter, iter->gets, iter->minspeed, iter->maxspeed,
             (long long)iter->st_size);
     /* st_dev st_ino */
-    ioutput(gdata_common, "  : fd=%d fd_count=%d fd_loc=%lld",
-            iter->file_fd, iter->file_fd_count,
-            (long long)iter->file_fd_location);
+    ioutput(gdata_common, "  : fd=%d fd_count=%d fd_loc=%lld", iter->file_fd,
+            iter->file_fd_count, (long long)iter->file_fd_location);
     ioutput(gdata_common, "  : has_md5=%d md5sum=" MD5_PRINT_FMT,
             iter->has_md5sum, MD5_PRINT_DATA(iter->md5sum));
 #ifdef HAVE_MMAP
@@ -1612,11 +1610,9 @@ void dumpgdata(void) {
              iter2 = irlist_get_next(iter2)) {
             ioutput(gdata_common,
                     "  : ptr=%p ref_count=%d mmap_ptr=%p "
-                    "mmap_offset=0x%.8" PRId64
-                    "X mmap_size=0x%.8zX",
+                    "mmap_offset=0x%.8" PRId64 "X mmap_size=0x%.8zX",
                     iter2, iter2->ref_count, iter2->mmap_ptr,
-                    (int64_t)iter2->mmap_offset,
-                    iter2->mmap_size);
+                    (int64_t)iter2->mmap_offset, iter2->mmap_size);
         }
     }
 #endif
@@ -1633,9 +1629,9 @@ void dumpgdata(void) {
     ioutput(gdata_common, "  : listen=%d client=%d id=%d", iter->listensocket,
             iter->clientsocket, iter->id);
     ioutput(gdata_common,
-            "  : sent=%" PRId64 "d got=%" PRId64
-            "d lastack=%" PRId64 "d curack=%" PRId64
-            "d resume=%" PRId64 "d speedamt=%" PRId64 "d tx_bucket=%li",
+            "  : sent=%" PRId64 "d got=%" PRId64 "d lastack=%" PRId64
+            "d curack=%" PRId64 "d resume=%" PRId64 "d speedamt=%" PRId64
+            "d tx_bucket=%li",
             (int64_t)iter->bytessent, (int64_t)iter->bytesgot,
             (int64_t)iter->lastack, (int64_t)iter->curack,
             (int64_t)iter->startresume, (int64_t)iter->lastspeedamt,
@@ -1664,8 +1660,8 @@ void dumpgdata(void) {
     ioutput(gdata_common, "  : client=%d file=%d ul_status=%d",
             iter->clientsocket, iter->filedescriptor, iter->ul_status);
     ioutput(gdata_common,
-            "  : got=%" PRId64 "d totalsize=%" PRId64
-            "d resume=%" PRId64 "d speedamt=%" PRId64 "d",
+            "  : got=%" PRId64 "d totalsize=%" PRId64 "d resume=%" PRId64
+            "d speedamt=%" PRId64 "d",
             (int64_t)iter->bytesgot, (int64_t)iter->totalsize,
             (int64_t)iter->resumesize, (int64_t)iter->lastspeedamt);
     ioutput(gdata_common, "  : lastcontact=%ld connecttime=%ld lastspeed=%.1f",

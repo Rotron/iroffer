@@ -344,7 +344,7 @@ static void mainloop(void) {
                      strerror(errno));
 
             struct timespec delay = {0, 10000000}; // 10 milliseconds
-            nanosleep(&delay, &delay); // prevent fast spinning
+            nanosleep(&delay, &delay);             // prevent fast spinning
         }
 
         /* data is undefined on error, zero and continue */
@@ -609,7 +609,6 @@ static void mainloop(void) {
             gdata.serverstatus = SERVERSTATUS_NEED_TO_CONNECT;
         } else {
             SIGNEDSOCK int addrlen;
-            struct sockaddr_in localaddr;
 
             ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
                     "Server Connection Established, Logging In");
@@ -619,8 +618,8 @@ static void mainloop(void) {
                 outerror(OUTERROR_TYPE_WARN, "Couldn't Set Blocking");
 
             if (!gdata.usenatip) {
+                struct sockaddr_in localaddr = {0};
                 addrlen = sizeof(localaddr);
-                bzero((char*)&localaddr, sizeof(localaddr));
                 if (getsockname(gdata.ircserver, (struct sockaddr*)&localaddr,
                                 &addrlen) >= 0) {
                     gdata.ourip = ntohl(localaddr.sin_addr.s_addr);
@@ -632,8 +631,9 @@ static void mainloop(void) {
                                 (gdata.ourip >> 8) & 0xFF,
                                 (gdata.ourip) & 0xFF);
                     }
-                } else
+                } else {
                     outerror(OUTERROR_TYPE_WARN, "couldn't get ourip");
+                }
             }
 
             initirc();
@@ -2300,8 +2300,7 @@ noignore:
                         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
                                 COLOR_YELLOW,
                                 "XDCC [%02i:%s]: Resume attempted beyond end "
-                                "of file ( %" PRIu64 "u >= %" PRIu64
-                                "u )",
+                                "of file ( %" PRIu64 "u >= %" PRIu64 "u )",
                                 tr->id, tr->nick, (uint64_t)atoull(msg5),
                                 (uint64_t)tr->xpack->st_size);
                     } else {
@@ -2387,8 +2386,8 @@ noignore:
                 ul->hostname = mymalloc(strlen(hostname) + 1);
                 strcpy(ul->hostname, hostname);
                 ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
-                        "DCC Send Accepted from %s: %s (%" PRId64 "iKB)",
-                        nick, ul->file, (int64_t)(ul->totalsize / 1024));
+                        "DCC Send Accepted from %s: %s (%" PRId64 "iKB)", nick,
+                        ul->file, (int64_t)(ul->totalsize / 1024));
                 l_establishcon(ul);
             }
         }
@@ -2420,13 +2419,13 @@ noignore:
             while (ul) {
                 if ((ul->remoteport == atoi(msg4)) && !strcmp(ul->nick, nick)) {
                     ul->resumed = 1;
-                    ioutput(
-                        CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
-                        "DCC Send Resumed from %s: %s (%" PRId64
-                        "i of %" PRId64 "iKB left)",
-                        nick, ul->file,
-                        (int64_t)((ul->totalsize - ul->resumesize) / 1024),
-                        (int64_t)(ul->totalsize / 1024));
+                    ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
+                            COLOR_YELLOW,
+                            "DCC Send Resumed from %s: %s (%" PRId64
+                            "i of %" PRId64 "iKB left)",
+                            nick, ul->file,
+                            (int64_t)((ul->totalsize - ul->resumesize) / 1024),
+                            (int64_t)(ul->totalsize / 1024));
                     l_establishcon(ul);
                     break;
                 }

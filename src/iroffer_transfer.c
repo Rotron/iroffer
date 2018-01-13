@@ -51,7 +51,7 @@ void t_setuplisten(transfer* const t) {
                    sizeof(int));
     }
 
-    bzero((char*)&t->serveraddress, sizeof(struct sockaddr_in));
+    memset(&t->serveraddress, 0, sizeof(struct sockaddr_in));
 
     t->serveraddress.sin_family = AF_INET;
     t->serveraddress.sin_addr.s_addr = INADDR_ANY;
@@ -408,8 +408,7 @@ void t_transfersome(transfer* const t) {
                         ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_BLUE,
                                 "mmap() [%p] offset=0x%.8" PRId64
                                 "X size=0x%.8zX",
-                                (void*)mm->mmap_ptr,
-                                (int64_t)mm->mmap_offset,
+                                (void*)mm->mmap_ptr, (int64_t)mm->mmap_offset,
                                 mm->mmap_size);
                     }
                 }
@@ -596,7 +595,8 @@ void t_flushed(transfer* const t) {
 
     snprintf(tempstr + strlen(tempstr), maxtextlength - strlen(tempstr) - 1,
              " %" PRIu64 "u.%03" PRIu64 "u sec",
-             ((uint64_t)timetookms % (60 * 1000)) / 1000, ((uint64_t)timetookms % 1000));
+             ((uint64_t)timetookms % (60 * 1000)) / 1000,
+             ((uint64_t)timetookms % 1000));
 
     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
             "XDCC [%02i:%s]: Transfer Completed (%" PRId64
@@ -617,12 +617,12 @@ void t_flushed(transfer* const t) {
                        ((float)timetookms / 1000.0),
                    MD5_PRINT_DATA(t->xpack->md5sum));
         } else {
-            notice(
-                t->nick,
-                "** Transfer Completed (%" PRIu64 "i KB,%s, %0.1f KB/sec)",
-                (int64_t)(t->xpack->st_size - t->startresume) / 1024, tempstr,
-                ((float)(t->xpack->st_size - t->startresume)) / 1024.0 /
-                    ((float)timetookms / 1000.0));
+            notice(t->nick,
+                   "** Transfer Completed (%" PRIu64 "i KB,%s, %0.1f KB/sec)",
+                   (int64_t)(t->xpack->st_size - t->startresume) / 1024,
+                   tempstr,
+                   ((float)(t->xpack->st_size - t->startresume)) / 1024.0 /
+                       ((float)timetookms / 1000.0));
         }
     }
 

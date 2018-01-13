@@ -710,7 +710,7 @@ void read_statefile(void) {
     int fd;
     uint32_t *buffer, *buffer_begin;
     int buffer_len;
-    struct MD5Context md5sum;
+    MD5_CTX md5sum;
     MD5Digest digest;
     struct stat st;
     statefile_hdr_t* hdr;
@@ -757,9 +757,9 @@ void read_statefile(void) {
     /* verify md5sum */
     buffer_len -= sizeof(MD5Digest);
 
-    MD5Init(&md5sum);
-    MD5Update(&md5sum, (md5byte*)buffer, buffer_len);
-    MD5Final(digest, &md5sum);
+    MD5_Init(&md5sum);
+    MD5_Update(&md5sum, (uint8_t *) buffer, buffer_len);
+    MD5_Final(digest, &md5sum);
 
     if (memcmp(digest, buffer + (buffer_len / sizeof(uint32_t)),
                sizeof(MD5Digest))) {

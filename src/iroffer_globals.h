@@ -232,7 +232,7 @@ typedef struct {
     struct {
         xdcc* xpack;
         int file_fd;
-        struct MD5Context md5sum;
+        MD5_CTX md5sum;
     } md5build;
 
     enum {

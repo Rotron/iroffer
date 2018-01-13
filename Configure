@@ -260,29 +260,6 @@ else
  waserror=yes
 fi
 
-echo -n "Determining endianness... "
-echo "
-#define GEX 
-#include \"src/iroffer_config.h\"
-#include \"src/iroffer_defines.h\"
-#include \"src/iroffer_headers.h\"
-#include \"src/iroffer_globals.h\"
-int main (int argc, char **argv) {
- printf(\"%s\", (100 == ntohl(100)) ? \"big\" : \"little\");
- exit(0);
- }
-" > config.temp.c
-if $cctype config.temp.c $libs -o config.temp $WARNS $WERROR && [ "`./config.temp`" = "big" ]; then
- echo "big"
- echo "#define IR_ENDIAN_BIG" >> src/iroffer_config.h
-elif [ "`./config.temp`" = "little" ]; then
- echo "little"
- echo "#define IR_ENDIAN_LITTLE" >> src/iroffer_config.h
-else
- echo "Unknown. ***ERROR***"
- waserror=yes
-fi
-
 
 echo -n "Seeing if large file support works... "
 echo "

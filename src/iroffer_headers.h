@@ -118,7 +118,7 @@ typedef struct {
 typedef struct {
     int fd;
     int flags;
-    struct MD5Context* md5sum;
+    MD5_CTX* md5sum;
     irlist_t segments;
     unsigned int count_written;
     unsigned int count_flushed;

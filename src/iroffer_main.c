@@ -1482,7 +1482,7 @@ static void mainloop(void) {
                 break;
             } else if (howmuch == 0) {
                 /* EOF */
-                MD5Final(gdata.md5build.xpack->md5sum, &gdata.md5build.md5sum);
+                MD5_Final(gdata.md5build.xpack->md5sum, &gdata.md5build.md5sum);
                 gdata.md5build.xpack->has_md5sum = 1;
 
                 if (!gdata.attop) {
@@ -1500,7 +1500,7 @@ static void mainloop(void) {
                 break;
             }
             /* else got data */
-            MD5Update(&gdata.md5build.md5sum, gdata.sendbuff, howmuch);
+            MD5_Update(&gdata.md5build.md5sum, gdata.sendbuff, howmuch);
         }
     }
 
@@ -1520,7 +1520,7 @@ static void mainloop(void) {
                     open(xd->file, O_RDONLY | ADDED_OPEN_FLAGS);
                 if (gdata.md5build.file_fd >= 0) {
                     gdata.md5build.xpack = xd;
-                    MD5Init(&gdata.md5build.md5sum);
+                    MD5_Init(&gdata.md5build.md5sum);
                     if (set_socket_nonblocking(gdata.md5build.file_fd, 1) < 0) {
                         outerror(OUTERROR_TYPE_WARN,
                                  "[MD5]: Couldn't Set Non-Blocking");

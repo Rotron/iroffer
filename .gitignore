@@ -55,7 +55,6 @@ obj/
 # Binaries
 iroffer
 iroffer_chroot
-convertxdccfile
 
 # Files created by Configure
 iroffer_config.h

@@ -7,6 +7,10 @@ and this project **does not** adhere to Semantic Versioning.
 
 ## [Unreleased]
 
+### Removed
+
+- *convertxdccfile*, since the *statefile* has existed for nearly 14 years now.
+
 ## [1.4.1] - 2017-01-12
 
 ### Changed

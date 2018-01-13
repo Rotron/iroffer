@@ -7,9 +7,17 @@ and this project **does not** adhere to Semantic Versioning.
 
 ## [Unreleased]
 
+### Changed
+
+- Use stdint types instead of manually "detected" sizes + typedefs
+
 ### Removed
 
 - *convertxdccfile*, since the *statefile* has existed for nearly 14 years now.
+
+### Fixed
+
+- Adjust printf strings to avoid potential conversion errors.
 
 ## [1.4.1] - 2017-01-12
 

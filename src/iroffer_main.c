@@ -200,7 +200,7 @@ static void mainloop(void) {
     static userinput* urehash;
     static int first_loop = 1;
     static unsigned long long last250ms;
-    static ir_uint64 xdccsent;
+    static uint64_t xdccsent;
 
     int overlimit;
     int highests;
@@ -505,7 +505,7 @@ static void mainloop(void) {
         gdata.totaluptime++;
         xdccsent = 0;
         for (i = 0; i < XDCC_SENT_SIZE; i++)
-            xdccsent += (ir_uint64)gdata.xdccsent[i];
+            xdccsent += (uint64_t)gdata.xdccsent[i];
         if (((float)xdccsent) / XDCC_SENT_SIZE / 1024.0 > gdata.sentrecord)
             gdata.sentrecord = ((float)xdccsent) / XDCC_SENT_SIZE / 1024.0;
         gdata.xdccsent[(gdata.curtime + 1) % XDCC_SENT_SIZE] = 0;
@@ -986,8 +986,8 @@ static void mainloop(void) {
                     gdata.transferlimits[ii].ends) {
                     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
                             COLOR_NO_COLOR,
-                            "Resetting %s transfer limit, used %" LLPRINTFMT
-                            "uMB of the %" LLPRINTFMT "uMB limit",
+                            "Resetting %s transfer limit, used %" PRIu64
+                            "uMB of the %" PRIu64 "uMB limit",
                             transferlimit_type_to_string(ii),
                             gdata.transferlimits[ii].used / 1024 / 1024,
                             gdata.transferlimits[ii].limit / 1024 / 1024);
@@ -1033,7 +1033,7 @@ static void mainloop(void) {
 
                     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
                             COLOR_NO_COLOR,
-                            "All %" LLPRINTFMT
+                            "All %" PRIu64
                             "uMB of the %s transfer limit used. Stopping "
                             "transfers.",
                             gdata.transferlimits[ii].limit / 1024 / 1024,
@@ -1044,7 +1044,7 @@ static void mainloop(void) {
 
                     snprintf(tempstr, maxtextlength,
                              "Sorry, I have exceeded my %s transfer limit of "
-                             "%" LLPRINTFMT "uMB.  Try again after %s.",
+                             "%" PRIu64 "uMB.  Try again after %s.",
                              transferlimit_type_to_string(ii),
                              gdata.transferlimits[ii].limit / 1024 / 1024,
                              tempstr2);
@@ -1329,7 +1329,7 @@ static void mainloop(void) {
 
         xdccsent = 0;
         for (i = 0; i < XDCC_SENT_SIZE; i++)
-            xdccsent += (ir_uint64)gdata.xdccsent[i];
+            xdccsent += (uint64_t)gdata.xdccsent[i];
         xdccsent /= XDCC_SENT_SIZE * 1024;
 
         if ((xdccsent < gdata.lowbdwth) && !gdata.exiting &&
@@ -2298,19 +2298,19 @@ noignore:
                         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
                                 COLOR_YELLOW,
                                 "XDCC [%02i:%s]: Resume attempted beyond end "
-                                "of file ( %" LLPRINTFMT "u >= %" LLPRINTFMT
+                                "of file ( %" PRIu64 "u >= %" PRIu64
                                 "u )",
-                                tr->id, tr->nick, atoull(msg5),
-                                (unsigned long long)tr->xpack->st_size);
+                                tr->id, tr->nick, (uint64_t)atoull(msg5),
+                                (uint64_t)tr->xpack->st_size);
                     } else {
                         t_setresume(tr, msg5);
                         privmsg_fast(nick, "\1DCC ACCEPT %s %s %s\1", msg3,
                                      msg4, msg5);
                         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
                                 COLOR_YELLOW,
-                                "XDCC [%02i:%s]: Resumed at %" LLPRINTFMT "iK",
+                                "XDCC [%02i:%s]: Resumed at %" PRId64 "iK",
                                 tr->id, tr->nick,
-                                (long long)(tr->startresume / 1024));
+                                (int64_t)(tr->startresume / 1024));
                     }
                     break;
                 }
@@ -2385,8 +2385,8 @@ noignore:
                 ul->hostname = mymalloc(strlen(hostname) + 1);
                 strcpy(ul->hostname, hostname);
                 ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
-                        "DCC Send Accepted from %s: %s (%" LLPRINTFMT "iKB)",
-                        nick, ul->file, (long long)(ul->totalsize / 1024));
+                        "DCC Send Accepted from %s: %s (%" PRId64 "iKB)",
+                        nick, ul->file, (int64_t)(ul->totalsize / 1024));
                 l_establishcon(ul);
             }
         }
@@ -2420,11 +2420,11 @@ noignore:
                     ul->resumed = 1;
                     ioutput(
                         CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
-                        "DCC Send Resumed from %s: %s (%" LLPRINTFMT
-                        "i of %" LLPRINTFMT "iKB left)",
+                        "DCC Send Resumed from %s: %s (%" PRId64
+                        "i of %" PRId64 "iKB left)",
                         nick, ul->file,
-                        (long long)((ul->totalsize - ul->resumesize) / 1024),
-                        (long long)(ul->totalsize / 1024));
+                        (int64_t)((ul->totalsize - ul->resumesize) / 1024),
+                        (int64_t)(ul->totalsize / 1024));
                     l_establishcon(ul);
                     break;
                 }
@@ -2874,9 +2874,9 @@ void sendxdccfile(const char* nick, const char* hostname, const char* hostmask,
         if (tr->tr_status == TRANSFER_STATUS_LISTENING) {
             sendnamestr = getsendname(tr->xpack->file);
 
-            privmsg_fast(nick, "\1DCC SEND %s %lu %i %" LLPRINTFMT "u\1",
+            privmsg_fast(nick, "\1DCC SEND %s %lu %i %" PRId64 "u\1",
                          sendnamestr, gdata.ourip, tr->listenport,
-                         (unsigned long long)tr->xpack->st_size);
+                         (int64_t)tr->xpack->st_size);
 
             mydelete(sendnamestr);
         }
@@ -2938,8 +2938,8 @@ void sendxdccinfo(const char* nick, const char* hostname, const char* hostmask,
     }
 
     sizestrstr = sizestr(1, xd->st_size);
-    notice_slow(nick, " Filesize       %" LLPRINTFMT "i [%sB]",
-                (long long)xd->st_size, sizestrstr);
+    notice_slow(nick, " Filesize       %" PRId64 "i [%sB]",
+                (int64_t)xd->st_size, sizestrstr);
     mydelete(sizestrstr);
 
     getdatestr(tempstr, xd->mtime, maxtextlengthshort);
@@ -3119,9 +3119,9 @@ void sendaqueue(int type) {
 
         sendnamestr = getsendname(tr->xpack->file);
 
-        privmsg_fast(pq->nick, "\1DCC SEND %s %lu %i %" LLPRINTFMT "u\1",
+        privmsg_fast(pq->nick, "\1DCC SEND %s %lu %i %" PRId64 "u\1",
                      sendnamestr, gdata.ourip, tr->listenport,
-                     (unsigned long long)tr->xpack->st_size);
+                     (int64_t)tr->xpack->st_size);
 
         mydelete(sendnamestr);
 

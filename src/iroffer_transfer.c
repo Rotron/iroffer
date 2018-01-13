@@ -406,11 +406,11 @@ void t_transfersome(transfer* const t) {
                     }
                     if (gdata.debug > 4) {
                         ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_BLUE,
-                                "mmap() [%p] offset=0x%.8" LLPRINTFMT
-                                "X size=0x%.8" LLPRINTFMT "X",
-                                mm->mmap_ptr,
-                                (unsigned long long)mm->mmap_offset,
-                                (unsigned long long)mm->mmap_size);
+                                "mmap() [%p] offset=0x%.8" PRId64
+                                "X size=0x%.8zX",
+                                (void*)mm->mmap_ptr,
+                                (int64_t)mm->mmap_offset,
+                                mm->mmap_size);
                     }
                 }
             }
@@ -459,7 +459,7 @@ void t_transfersome(transfer* const t) {
         gdata.totalsent += (unsigned long long)howmuch2;
 
         for (ii = 0; ii < NUMBER_TRANSFERLIMITS; ii++) {
-            gdata.transferlimits[ii].used += (ir_uint64)howmuch2;
+            gdata.transferlimits[ii].used += (uint64_t)howmuch2;
         }
 
         if (gdata.debug > 4) {
@@ -585,33 +585,33 @@ void t_flushed(transfer* const t) {
 
     if (timetookms > (60 * 60 * 1000)) {
         snprintf(tempstr + strlen(tempstr), maxtextlength - strlen(tempstr) - 1,
-                 " %" LLPRINTFMT "u hr", timetookms / 60 / 60 / 1000);
+                 " %" PRIu64 "u hr", (uint64_t)timetookms / 60 / 60 / 1000);
     }
 
     if ((timetookms % (60 * 60 * 1000)) > (60 * 1000)) {
         snprintf(tempstr + strlen(tempstr), maxtextlength - strlen(tempstr) - 1,
-                 " %" LLPRINTFMT "u min",
-                 (timetookms % (60 * 60 * 1000)) / 60 / 1000);
+                 " %" PRIu64 "u min",
+                 ((uint64_t)timetookms % (60 * 60 * 1000)) / 60 / 1000);
     }
 
     snprintf(tempstr + strlen(tempstr), maxtextlength - strlen(tempstr) - 1,
-             " %" LLPRINTFMT "u.%03" LLPRINTFMT "u sec",
-             (timetookms % (60 * 1000)) / 1000, (timetookms % 1000));
+             " %" PRIu64 "u.%03" PRIu64 "u sec",
+             ((uint64_t)timetookms % (60 * 1000)) / 1000, ((uint64_t)timetookms % 1000));
 
     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
-            "XDCC [%02i:%s]: Transfer Completed (%" LLPRINTFMT
+            "XDCC [%02i:%s]: Transfer Completed (%" PRId64
             "i KB,%s, %0.1f KB/sec)",
             t->id, t->nick,
-            (long long)(t->xpack->st_size - t->startresume) / 1024, tempstr,
+            (int64_t)(t->xpack->st_size - t->startresume) / 1024, tempstr,
             ((float)(t->xpack->st_size - t->startresume)) / 1024.0 /
                 ((float)timetookms / 1000.0));
 
     if (!gdata.quietmode) {
         if (t->xpack->has_md5sum) {
             notice(t->nick,
-                   "** Transfer Completed (%" LLPRINTFMT
+                   "** Transfer Completed (%" PRId64
                    "i KB,%s, %0.1f KB/sec, md5sum: " MD5_PRINT_FMT ")",
-                   (long long)(t->xpack->st_size - t->startresume) / 1024,
+                   (int64_t)(t->xpack->st_size - t->startresume) / 1024,
                    tempstr,
                    ((float)(t->xpack->st_size - t->startresume)) / 1024.0 /
                        ((float)timetookms / 1000.0),
@@ -619,8 +619,8 @@ void t_flushed(transfer* const t) {
         } else {
             notice(
                 t->nick,
-                "** Transfer Completed (%" LLPRINTFMT "i KB,%s, %0.1f KB/sec)",
-                (long long)(t->xpack->st_size - t->startresume) / 1024, tempstr,
+                "** Transfer Completed (%" PRIu64 "i KB,%s, %0.1f KB/sec)",
+                (int64_t)(t->xpack->st_size - t->startresume) / 1024, tempstr,
                 ((float)(t->xpack->st_size - t->startresume)) / 1024.0 /
                     ((float)timetookms / 1000.0));
         }

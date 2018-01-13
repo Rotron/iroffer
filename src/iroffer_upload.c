@@ -77,8 +77,8 @@ void l_establishcon(upload* const l) {
                 if (l->resumed <= 0) {
                     close(l->filedescriptor);
                     privmsg_fast(
-                        l->nick, "\1DCC RESUME %s %i %" LLPRINTFMT "u\1",
-                        l->file, l->remoteport, (unsigned long long)s.st_size);
+                        l->nick, "\1DCC RESUME %s %i %" PRId64 "u\1",
+                        l->file, l->remoteport, (int64_t)s.st_size);
                     mydelete(fullfile);
                     return;
                 }
@@ -228,9 +228,9 @@ void l_transfersome(upload* const l) {
                  " %li sec", timetook % 60);
 
         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_MAGENTA,
-                "DCC Upload: Transfer Completed (%" LLPRINTFMT
+                "DCC Upload: Transfer Completed (%" PRId64
                 "i KB,%s, %0.1f KB/sec)",
-                (long long)((mysize) / 1024), tempstr,
+                (int64_t)((mysize) / 1024), tempstr,
                 ((float)mysize) / 1024.0 / ((float)timetook));
 
         notice(l->nick, "** Upload Completed (%li KB,%s, %0.1f KB/sec)",

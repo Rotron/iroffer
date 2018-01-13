@@ -87,15 +87,15 @@ typedef enum {
 
 typedef struct {
     statefile_tag_t tag;
-    ir_int32 length; /* includes header */
+    int32_t length; /* includes header */
 } statefile_hdr_t;
 
 #define STATEFILE_MAGIC (('I' << 24) | ('R' << 16) | ('F' << 8) | 'R')
 #define STATEFILE_VERSION 1
 
 typedef struct {
-    ir_uint32 upper;
-    ir_uint32 lower;
+    uint32_t upper;
+    uint32_t lower;
 } statefile_uint64_t;
 
 typedef struct {
@@ -105,12 +105,12 @@ typedef struct {
 
 typedef struct {
     statefile_hdr_t hdr;
-    ir_int32 g_int;
+    int32_t g_int;
 } statefile_item_generic_int_t;
 
 typedef struct {
     statefile_hdr_t hdr;
-    ir_uint32 g_uint;
+    uint32_t g_uint;
 } statefile_item_generic_uint_t;
 
 typedef struct {
@@ -136,7 +136,7 @@ typedef struct {
 static int write_statefile_item(ir_boutput_t* bout, void* item) {
     int callval;
     statefile_hdr_t* hdr = (statefile_hdr_t*)item;
-    ir_int32 length = hdr->length;
+    int32_t length = hdr->length;
     unsigned char dummy[4] = {};
 
     hdr->tag = htonl(hdr->tag);
@@ -172,7 +172,7 @@ void write_statefile(void) {
     int fd;
     int callval;
     statefile_hdr_t* hdr;
-    ir_int32 length;
+    int32_t length;
     ir_boutput_t bout;
 
     updatecontext();
@@ -206,7 +206,7 @@ void write_statefile(void) {
     /*** write ***/
 
     {
-        ir_uint32 magic = htonl(STATEFILE_MAGIC);
+        uint32_t magic = htonl(STATEFILE_MAGIC);
         callval = ir_boutput_write(&bout, &magic, sizeof(magic));
         if (callval != sizeof(magic)) {
             outerror(OUTERROR_TYPE_WARN_LOUD,
@@ -216,7 +216,7 @@ void write_statefile(void) {
     }
 
     {
-        ir_uint32 version = htonl(STATEFILE_VERSION);
+        uint32_t version = htonl(STATEFILE_VERSION);
         callval = ir_boutput_write(&bout, &version, sizeof(version));
         if (callval != sizeof(version)) {
             outerror(OUTERROR_TYPE_WARN_LOUD,
@@ -535,13 +535,13 @@ void write_statefile(void) {
                 md5sum_info->hdr.tag = htonl(STATEFILE_TAG_XDCCS_MD5SUM_INFO);
                 md5sum_info->hdr.length = htonl(sizeof(*md5sum_info));
                 md5sum_info->st_size.upper =
-                    htonl(((ir_uint64)xd->st_size) >> 32);
+                    htonl(((uint64_t)xd->st_size) >> 32);
                 md5sum_info->st_size.lower = htonl(xd->st_size & 0xFFFFFFFF);
                 md5sum_info->st_dev.upper =
-                    htonl(((ir_uint64)xd->st_dev) >> 32);
+                    htonl(((uint64_t)xd->st_dev) >> 32);
                 md5sum_info->st_dev.lower = htonl(xd->st_dev & 0xFFFFFFFF);
                 md5sum_info->st_ino.upper =
-                    htonl(((ir_uint64)xd->st_ino) >> 32);
+                    htonl(((uint64_t)xd->st_ino) >> 32);
                 md5sum_info->st_ino.lower = htonl(xd->st_ino & 0xFFFFFFFF);
                 md5sum_info->mtime = htonl(xd->mtime);
                 memcpy(md5sum_info->md5sum, xd->md5sum, sizeof(MD5Digest));
@@ -681,7 +681,7 @@ error_out:
 }
 
 
-static statefile_hdr_t* read_statefile_item(ir_uint32** buffer,
+static statefile_hdr_t* read_statefile_item(uint32_t** buffer,
                                             int* buffer_len) {
     statefile_hdr_t* all;
 
@@ -701,7 +701,7 @@ static statefile_hdr_t* read_statefile_item(ir_uint32** buffer,
         return NULL;
     }
 
-    *buffer += ceiling(all->length, 4) / sizeof(ir_uint32);
+    *buffer += ceiling(all->length, 4) / sizeof(uint32_t);
     *buffer_len -= ceiling(all->length, 4);
 
     return all;
@@ -710,7 +710,7 @@ static statefile_hdr_t* read_statefile_item(ir_uint32** buffer,
 
 void read_statefile(void) {
     int fd;
-    ir_uint32 *buffer, *buffer_begin;
+    uint32_t *buffer, *buffer_begin;
     int buffer_len;
     struct MD5Context md5sum;
     MD5Digest digest;
@@ -738,7 +738,7 @@ void read_statefile(void) {
     }
 
     if ((fstat(fd, &st) < 0) ||
-        (st.st_size < ((sizeof(ir_uint32) * 2) + sizeof(MD5Digest)))) {
+        (st.st_size < ((sizeof(uint32_t) * 2) + sizeof(MD5Digest)))) {
         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
                 "State File: Too small, Skipping");
         close(fd);
@@ -763,7 +763,7 @@ void read_statefile(void) {
     MD5Update(&md5sum, (md5byte*)buffer, buffer_len);
     MD5Final(digest, &md5sum);
 
-    if (memcmp(digest, buffer + (buffer_len / sizeof(ir_uint32)),
+    if (memcmp(digest, buffer + (buffer_len / sizeof(uint32_t)),
                sizeof(MD5Digest))) {
         outerror(OUTERROR_TYPE_CRASH,
                  "\"%s\" Appears corrupt or is not an iroffer state file",
@@ -780,14 +780,14 @@ void read_statefile(void) {
         goto error_out;
     }
     buffer++;
-    buffer_len -= sizeof(ir_uint32);
+    buffer_len -= sizeof(uint32_t);
 
     if (gdata.debug > 0) {
         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
                 "  [Version %lu State File]", (unsigned long)ntohl(*buffer));
     }
     buffer++;
-    buffer_len -= sizeof(ir_uint32);
+    buffer_len -= sizeof(uint32_t);
 
     while ((hdr = read_statefile_item(&buffer, &buffer_len))) {
         switch (hdr->tag) {
@@ -850,8 +850,8 @@ void read_statefile(void) {
                 statefile_item_generic_ullint_t* g_ullint =
                     (statefile_item_generic_ullint_t*)hdr;
                 gdata.totalsent =
-                    (((ir_uint64)ntohl(g_ullint->g_ullint.upper)) << 32) |
-                    ((ir_uint64)ntohl(g_ullint->g_ullint.lower));
+                    (((uint64_t)ntohl(g_ullint->g_ullint.upper)) << 32) |
+                    ((uint64_t)ntohl(g_ullint->g_ullint.lower));
 
                 if (gdata.debug > 0) {
                     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
@@ -1211,17 +1211,17 @@ void read_statefile(void) {
                         xd->has_md5sum = 1;
 
                         xd->st_size = (off_t)(
-                            (((ir_uint64)ntohl(md5sum_info->st_size.upper))
+                            (((uint64_t)ntohl(md5sum_info->st_size.upper))
                              << 32) |
-                            ((ir_uint64)ntohl(md5sum_info->st_size.lower)));
+                            ((uint64_t)ntohl(md5sum_info->st_size.lower)));
                         xd->st_dev = (dev_t)(
-                            (((ir_uint64)ntohl(md5sum_info->st_dev.upper))
+                            (((uint64_t)ntohl(md5sum_info->st_dev.upper))
                              << 32) |
-                            ((ir_uint64)ntohl(md5sum_info->st_dev.lower)));
+                            ((uint64_t)ntohl(md5sum_info->st_dev.lower)));
                         xd->st_ino = (ino_t)(
-                            (((ir_uint64)ntohl(md5sum_info->st_ino.upper))
+                            (((uint64_t)ntohl(md5sum_info->st_ino.upper))
                              << 32) |
-                            ((ir_uint64)ntohl(md5sum_info->st_ino.lower)));
+                            ((uint64_t)ntohl(md5sum_info->st_ino.lower)));
                         xd->mtime = ntohl(md5sum_info->mtime);
                         memcpy(xd->md5sum, md5sum_info->md5sum,
                                sizeof(MD5Digest));
@@ -1298,13 +1298,13 @@ void read_statefile(void) {
                 statefile_item_generic_ullint_t* g_ullint =
                     (statefile_item_generic_ullint_t*)hdr;
                 gdata.transferlimits[TRANSFERLIMIT_DAILY].used =
-                    (((ir_uint64)ntohl(g_ullint->g_ullint.upper)) << 32) |
-                    ((ir_uint64)ntohl(g_ullint->g_ullint.lower));
+                    (((uint64_t)ntohl(g_ullint->g_ullint.upper)) << 32) |
+                    ((uint64_t)ntohl(g_ullint->g_ullint.lower));
 
                 if (gdata.debug > 0) {
                     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
                             COLOR_NO_COLOR,
-                            "  [Daily Transfer Limit Used %" LLPRINTFMT "uMB]",
+                            "  [Daily Transfer Limit Used %" PRIu64 "uMB]",
                             gdata.transferlimits[TRANSFERLIMIT_DAILY].used /
                                 1024 / 1024);
                 }
@@ -1348,13 +1348,13 @@ void read_statefile(void) {
                 statefile_item_generic_ullint_t* g_ullint =
                     (statefile_item_generic_ullint_t*)hdr;
                 gdata.transferlimits[TRANSFERLIMIT_WEEKLY].used =
-                    (((ir_uint64)ntohl(g_ullint->g_ullint.upper)) << 32) |
-                    ((ir_uint64)ntohl(g_ullint->g_ullint.lower));
+                    (((uint64_t)ntohl(g_ullint->g_ullint.upper)) << 32) |
+                    ((uint64_t)ntohl(g_ullint->g_ullint.lower));
 
                 if (gdata.debug > 0) {
                     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D,
                             COLOR_NO_COLOR,
-                            "  [Weekly Transfer Limit Used %" LLPRINTFMT "uMB]",
+                            "  [Weekly Transfer Limit Used %" PRIu64 "uMB]",
                             gdata.transferlimits[TRANSFERLIMIT_WEEKLY].used /
                                 1024 / 1024);
                 }
@@ -1398,13 +1398,13 @@ void read_statefile(void) {
                 statefile_item_generic_ullint_t* g_ullint =
                     (statefile_item_generic_ullint_t*)hdr;
                 gdata.transferlimits[TRANSFERLIMIT_MONTHLY].used =
-                    (((ir_uint64)ntohl(g_ullint->g_ullint.upper)) << 32) |
-                    ((ir_uint64)ntohl(g_ullint->g_ullint.lower));
+                    (((uint64_t)ntohl(g_ullint->g_ullint.upper)) << 32) |
+                    ((uint64_t)ntohl(g_ullint->g_ullint.lower));
 
                 if (gdata.debug > 0) {
                     ioutput(
                         CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
-                        "  [Monthly Transfer Limit Used %" LLPRINTFMT "uMB]",
+                        "  [Monthly Transfer Limit Used %" PRIu64 "uMB]",
                         gdata.transferlimits[TRANSFERLIMIT_MONTHLY].used /
                             1024 / 1024);
                 }

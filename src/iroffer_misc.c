@@ -1907,13 +1907,13 @@ void switchserver(int which) {
 
 char* getstatusline(char* str, int len) {
     int i, srvq;
-    ir_uint64 xdccsent;
+    uint64_t xdccsent;
 
     updatecontext();
 
     xdccsent = 0;
     for (i = 0; i < XDCC_SENT_SIZE; i++) {
-        xdccsent += (ir_uint64)gdata.xdccsent[i];
+        xdccsent += (uint64_t)gdata.xdccsent[i];
     }
 
     srvq = irlist_size(&gdata.serverq_fast) +
@@ -1922,11 +1922,11 @@ char* getstatusline(char* str, int len) {
 
     i = snprintf(
         str, len,
-        "Stat: %i/%i Sls, %i/%i Q, %1.1fK/s Rcd, %i SrQ (Bdw: %" LLPRINTFMT
+        "Stat: %i/%i Sls, %i/%i Q, %1.1fK/s Rcd, %i SrQ (Bdw: %" PRIu64
         "uK, %1.1fK/s, %1.1fK/s Rcd)",
         irlist_size(&gdata.trans), gdata.slotsmax,
         irlist_size(&gdata.mainqueue), gdata.queuesize, gdata.record, srvq,
-        (unsigned long long)(xdccsent / 1024),
+        (xdccsent / 1024),
         ((float)xdccsent) / XDCC_SENT_SIZE / 1024.0, gdata.sentrecord);
 
     if ((i < 0) || (i >= len)) {
@@ -1939,13 +1939,13 @@ char* getstatuslinenums(char* str, int len) {
     int i, gcount, srvq;
     float scount, ocount;
     xdcc* xd;
-    ir_uint64 xdccsent;
+    uint64_t xdccsent;
 
     updatecontext();
 
     xdccsent = 0;
     for (i = 0; i < XDCC_SENT_SIZE; i++) {
-        xdccsent += (ir_uint64)gdata.xdccsent[i];
+        xdccsent += (uint64_t)gdata.xdccsent[i];
     }
 
     srvq = irlist_size(&gdata.serverq_fast) +
@@ -1964,12 +1964,12 @@ char* getstatuslinenums(char* str, int len) {
 
     i = snprintf(
         str, len,
-        "stat %i %1.0f %i %1.0f %i %i %i %i %i %i %1.1f %i %" LLPRINTFMT
+        "stat %i %1.0f %i %1.0f %i %i %i %i %i %i %1.1f %i %" PRIu64
         "u %1.1f %1.1f",
         irlist_size(&gdata.xdccs), ocount / 1024 / 1024, gcount,
         scount / 1024 / 1024, irlist_size(&gdata.trans), gdata.slotsmax,
         irlist_size(&gdata.mainqueue), gdata.queuesize, 0, 0, gdata.record,
-        srvq, (unsigned long long)(xdccsent / 1024),
+        srvq, (xdccsent / 1024),
         ((float)xdccsent) / XDCC_SENT_SIZE / 1024.0, gdata.sentrecord);
     if ((i < 0) || (i >= len)) {
         str[0] = '\0';
@@ -2592,7 +2592,7 @@ void notifyqueued(void) {
     unsigned long rtime, lastrtime;
     pqueue* pq;
     transfer* tr;
-    ir_uint64 xdccsent;
+    uint64_t xdccsent;
 
     updatecontext();
 
@@ -2668,7 +2668,7 @@ void notifyqueued(void) {
 void notifybandwidth(void) {
     int i;
     transfer* tr;
-    ir_uint64 xdccsent;
+    uint64_t xdccsent;
 
     updatecontext();
 
@@ -2679,7 +2679,7 @@ void notifybandwidth(void) {
 
     xdccsent = 0;
     for (i = 0; i < XDCC_SENT_SIZE; i++) {
-        xdccsent += (ir_uint64)gdata.xdccsent[i];
+        xdccsent += (uint64_t)gdata.xdccsent[i];
     }
     xdccsent /= 1024;
 

@@ -51,6 +51,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <grp.h>
 #include <assert.h>
 #include <termios.h>
+#include <inttypes.h>
 
 #ifdef HAS_CRYPT_H
 #include <crypt.h>
@@ -367,7 +368,7 @@ typedef struct {
 } context_t;
 
 typedef struct {
-    ir_uint16 port;
+    uint16_t port;
     time_t listen_time;
 } ir_listen_port_item_t;
 
@@ -379,7 +380,7 @@ typedef struct {
 
 typedef struct {
     char* hostname;
-    ir_uint16 port;
+    uint16_t port;
     char* password;
 } server_t;
 
@@ -583,7 +584,7 @@ void irlist_sort(irlist_t* list,
 
 transfer* does_tr_id_exist(int tr_id);
 int get_next_tr_id(void);
-void ir_listen_port_connected(ir_uint16 port);
+void ir_listen_port_connected(uint16_t port);
 int ir_bind_listen_socket(int fd, struct sockaddr_in* sa);
 
 int ir_boutput_write(ir_boutput_t* bout, const void* buffer, int buffer_len);

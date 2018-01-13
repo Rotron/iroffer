@@ -24,7 +24,7 @@ Still in the public domain.
 #define MD5_H
 
 #define md5byte unsigned char
-#define UWORD32 ir_uint32
+#define UWORD32 uint32_t
 
 struct MD5Context {
     UWORD32 buf[4];

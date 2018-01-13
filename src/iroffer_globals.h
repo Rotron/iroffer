@@ -52,8 +52,8 @@ typedef struct {
     } autosend;
 
     struct {
-        ir_uint64 limit;
-        ir_uint64 used;
+        uint64_t limit;
+        uint64_t used;
         time_t ends;
     } transferlimits[NUMBER_TRANSFERLIMITS];
     int transferlimits_over;

@@ -19,6 +19,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Fixed
 
+- Trunc '\1' from end of nicks. (Fixed typo in the assignment).
 - Adjust printf strings to avoid potential conversion errors.
 
 ## [1.4.1] - 2017-01-12

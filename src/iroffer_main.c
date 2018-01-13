@@ -2006,8 +2006,9 @@ static void parseline(char* line) {
                             /* found a nick mode */
                             char* nick = getpart(line, part++);
                             if (nick) {
-                                if (nick[strlen(nick) - 1] == '\1') {
-                                    nick[strlen(nick) - 1] == '\0';
+                                if (nick[strlen(nick) - 1] ==
+                                    '\1') { //? why trunc \1 from end of nick?
+                                    nick[strlen(nick) - 1] = '\0';
                                 }
                                 changeinmemberlist_mode(
                                     ch, nick, gdata.prefixes[ii].p_symbol,

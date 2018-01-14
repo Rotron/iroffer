@@ -239,7 +239,7 @@ void write_statefile(void) {
         hdr->length = sizeof(statefile_hdr_t);
         next = (unsigned char*)(&hdr[1]);
 
-        length = snprintf(next, maxtextlength - 1,
+        length = snprintf((char*)next, maxtextlength - 1,
                           "iroffer v" VERSIONLONG ", %s", gdata.osstring);
 
         if ((length < 0) || (length >= maxtextlength)) {
@@ -329,7 +329,7 @@ void write_statefile(void) {
 
                 data = mycalloc(length);
 
-                /* outter header */
+                /* outer header */
                 hdr = (statefile_hdr_t*)data;
                 hdr->tag = STATEFILE_TAG_IGNORE;
                 hdr->length = length;
@@ -362,7 +362,7 @@ void write_statefile(void) {
                 hdr->length = htonl(sizeof(statefile_hdr_t) +
                                     strlen(ignore->hostmask) + 1);
                 next = (unsigned char*)(&hdr[1]);
-                strcpy(next, ignore->hostmask);
+                strcpy((char*)next, ignore->hostmask);
                 next += ceiling(strlen(ignore->hostmask) + 1, 4);
 
                 write_statefile_item(&bout, data);
@@ -416,7 +416,7 @@ void write_statefile(void) {
             hdr->length =
                 htonl(sizeof(statefile_hdr_t) + strlen(msglog->hostmask) + 1);
             next = (unsigned char*)(&hdr[1]);
-            strcpy(next, msglog->hostmask);
+            strcpy((char*)next, msglog->hostmask);
             next += ceiling(strlen(msglog->hostmask) + 1, 4);
 
             /* message */
@@ -425,7 +425,7 @@ void write_statefile(void) {
             hdr->length =
                 htonl(sizeof(statefile_hdr_t) + strlen(msglog->message) + 1);
             next = (unsigned char*)(&hdr[1]);
-            strcpy(next, msglog->message);
+            strcpy((char*)next, msglog->message);
             next += ceiling(strlen(msglog->message) + 1, 4);
 
             write_statefile_item(&bout, data);
@@ -481,7 +481,7 @@ void write_statefile(void) {
             hdr->tag = htonl(STATEFILE_TAG_XDCCS_FILE);
             hdr->length = htonl(sizeof(statefile_hdr_t) + strlen(xd->file) + 1);
             next = (unsigned char*)(&hdr[1]);
-            strcpy(next, xd->file);
+            strcpy((char*)next, xd->file);
             next += ceiling(strlen(xd->file) + 1, 4);
 
             /* desc */
@@ -489,7 +489,7 @@ void write_statefile(void) {
             hdr->tag = htonl(STATEFILE_TAG_XDCCS_DESC);
             hdr->length = htonl(sizeof(statefile_hdr_t) + strlen(xd->desc) + 1);
             next = (unsigned char*)(&hdr[1]);
-            strcpy(next, xd->desc);
+            strcpy((char*)next, xd->desc);
             next += ceiling(strlen(xd->desc) + 1, 4);
 
             /* note */
@@ -497,7 +497,7 @@ void write_statefile(void) {
             hdr->tag = htonl(STATEFILE_TAG_XDCCS_NOTE);
             hdr->length = htonl(sizeof(statefile_hdr_t) + strlen(xd->note) + 1);
             next = (unsigned char*)(&hdr[1]);
-            strcpy(next, xd->note);
+            strcpy((char*)next, xd->note);
             next += ceiling(strlen(xd->note) + 1, 4);
 
             /* gets */
@@ -757,7 +757,7 @@ void read_statefile(void) {
     buffer_len -= sizeof(MD5Digest);
 
     MD5_Init(&md5sum);
-    MD5_Update(&md5sum, (uint8_t *) buffer, buffer_len);
+    MD5_Update(&md5sum, (uint8_t*)buffer, buffer_len);
     MD5_Final(digest, &md5sum);
 
     if (memcmp(digest, buffer + (buffer_len / sizeof(uint32_t)),

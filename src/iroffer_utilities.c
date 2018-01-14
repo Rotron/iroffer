@@ -1062,7 +1062,7 @@ char* removenonprintable(char* str1) {
     if (!str)
         return NULL;
 
-    for (i = 0; i < strlen(str); i++) {
+    for (i = 0; i < strlen((char*)str); i++) {
         if (!((str[i] >= 0x20 && str[i] <= 0x7E) || (str[i] >= 0xA1) ||
               str[i] == 0x01 || /* ctcp */
               str[i] == 0x02 || /* bold */
@@ -1075,7 +1075,7 @@ char* removenonprintable(char* str1) {
               str[i] == 0x1F))  /* underline */
             str[i] = '.';
     }
-    return str;
+    return (char*)str;
 }
 
 char* removenonprintablectrl(char* str1) {
@@ -1084,11 +1084,11 @@ char* removenonprintablectrl(char* str1) {
     if (!str)
         return NULL;
 
-    for (i = 0; i < strlen(str); i++) {
+    for (i = 0; i < strlen((char*)str); i++) {
         if (!((str[i] >= 0x20 && str[i] <= 0x7E) || (str[i] >= 0xA1)))
             str[i] = ' ';
     }
-    return str;
+    return (char*)str;
 }
 
 char* removenonprintablefile(char* str) {

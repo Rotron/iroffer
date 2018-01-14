@@ -229,7 +229,9 @@ void getos(void) {
     {
         int count, v1 = 0, v2 = 0, v3 = 0;
         count = sscanf(u1.release, "%d.%d.%d", &v1, &v2, &v3);
-        if ((v1 < 1) || ((v1 == 1) && (v2 < 5)) ||
+        if (count != 3) {
+            outerror(OUTERROR_TYPE_CRASH, "Couldn't determine CYGWIN version.");
+        } else if ((v1 < 1) || ((v1 == 1) && (v2 < 5)) ||
             ((v1 == 1) && (v2 == 5) && (v3 < 3))) {
             printf(", Too Old\n");
             outerror(OUTERROR_TYPE_CRASH,

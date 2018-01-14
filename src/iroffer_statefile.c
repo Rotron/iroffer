@@ -397,7 +397,7 @@ void write_statefile(void) {
 
             data = mycalloc(length);
 
-            /* outter header */
+            /* outer header */
             hdr = (statefile_hdr_t*)data;
             hdr->tag = STATEFILE_TAG_MSGLOG;
             hdr->length = length;
@@ -470,7 +470,7 @@ void write_statefile(void) {
 
             data = mycalloc(length);
 
-            /* outter header */
+            /* outer header */
             hdr = (statefile_hdr_t*)data;
             hdr->tag = STATEFILE_TAG_XDCCS;
             hdr->length = length;
@@ -675,7 +675,6 @@ error_out:
 
     mydelete(statefile_tmp);
     mydelete(statefile_bkup);
-    return;
 }
 
 
@@ -1478,6 +1477,4 @@ void read_statefile(void) {
 error_out:
 
     mydelete(buffer_begin);
-
-    return;
 }

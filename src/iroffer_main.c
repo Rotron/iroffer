@@ -1797,11 +1797,10 @@ static void parseline(char* line) {
     /* JOIN */
     if (!strcmp(part2, "JOIN") && part3a && gdata.caps_nick) {
         char* nick;
-        int j, found;
+        int j;
         nick = mycalloc(strlen(line) + 1);
         j = 1;
         gdata.nocon = 0;
-        found = 0;
         while (line[j] != '!' && j < sstrlen(line)) {
             nick[j - 1] = line[j];
             j++;
@@ -1809,7 +1808,7 @@ static void parseline(char* line) {
         nick[j - 1] = '\0';
         if (!strcmp(caps(nick), gdata.caps_nick)) {
             /* we joined */
-            /* clear now, we have succesfully logged in */
+            /* clear now, we have successfully logged in */
             gdata.serverconnectbackoff = 0;
             ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
                     "Joined %s", caps(part3a));

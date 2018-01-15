@@ -16,8 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#if !defined _IROFFER_HEADERS
-#define _IROFFER_HEADERS
+#ifndef IROFFER_HEADERS_H
+#define IROFFER_HEADERS_H
 
 /*------------ includes ------------- */
 
@@ -688,4 +688,4 @@ void u_fillwith_clean(userinput* u);
 
 void u_parseit(userinput* u);
 
-#endif /* !_IROFFER_HEADERS */
+#endif //IROFFER_HEADERS_H

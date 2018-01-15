@@ -16,9 +16,8 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 */
 
-#if !defined _IROFFER_DEFINES
-#define _IROFFER_DEFINES
-
+#ifndef IROFFER_DEFINES_H
+#define IROFFER_DEFINES_H
 
 /* options, these should be on */
 /*       Ping The Server */
@@ -250,4 +249,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #error "** ERROR: This OS Is Not Supported Or You Didn't Run Configure **"
 #endif
 
-#endif /* _IROFFER_DEFINES */
+#endif //IROFFER_DEFINES_H

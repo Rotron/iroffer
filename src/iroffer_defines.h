@@ -238,6 +238,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 /* CYGWIN */
 #elif defined(_OS_CYGWIN)
+#define _GNU_SOURCE
 #undef ADDED_OPEN_FLAGS
 #define ADDED_OPEN_FLAGS O_BINARY
 

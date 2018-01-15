@@ -279,7 +279,6 @@ int main (int argc, char **argv) {
 if $cctype -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE config.temp.c $libs -o config.temp $WARNS $WERROR ; then
  echo "yes"
  echo "#define _FILE_OFFSET_BITS 64" >> src/iroffer_config.h
- echo "#define _LARGEFILE_SOURCE" >> src/iroffer_config.h
 else
  echo "No.  Max filesize will be 2GB."
 fi

@@ -83,10 +83,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <sys/statvfs.h>
 #endif
 
-#if defined(_OS_CYGWIN)
-#include <sys/termios.h>
-#endif
-
 #include "iroffer_md5.h"
 
 /*------------ structures ------------- */

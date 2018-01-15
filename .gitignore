@@ -71,3 +71,4 @@ build/
 build-*/
 builddir/
 cmake-build-*/
+generated-docs/

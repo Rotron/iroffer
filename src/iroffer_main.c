@@ -2720,7 +2720,7 @@ static void autosendf(char* line) {
 
     if (!gdata.ignore) {
         char* tempstr;
-        const char* format = " :** Sending You %s by DCC";
+#define SENDING_FORMAT_STR  " :** Sending You %s by DCC"
 
         gdata.inamnt[gdata.curtime % INAMNT_SIZE]++;
 
@@ -2730,9 +2730,9 @@ static void autosendf(char* line) {
         ioutput(CALLTYPE_MULTI_FIRST, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
                 "AutoSend ");
 
-        tempstr = mycalloc(strlen(gdata.autosend.message) + strlen(format) - 1);
-        snprintf(tempstr, strlen(gdata.autosend.message) + strlen(format) - 1,
-                 format, gdata.autosend.message);
+        tempstr = mycalloc(strlen(gdata.autosend.message) + strlen(SENDING_FORMAT_STR) - 1);
+        snprintf(tempstr, strlen(gdata.autosend.message) + strlen(SENDING_FORMAT_STR) - 1,
+                 SENDING_FORMAT_STR, gdata.autosend.message);
 
         sendxdccfile(nick, hostname, hostmask, gdata.autosend.pack, tempstr);
 

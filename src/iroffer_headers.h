@@ -496,7 +496,7 @@ int verifyhost(irlist_t* list, const char* hmask);
 int verifypass(const char* testpass);
 int packnumtonum(const char* a);
 int sstrlen(const char* p);
-char dayofweektomask(const char a);
+char dayofweektomask(char a);
 char* strrev(char* str);
 int isprintable(char a);
 char onlyprintable(char a);
@@ -603,8 +603,8 @@ void
 void vwriteserver(writeserver_type_e type, const char* format, va_list ap);
 
 void sendserver(void);
-char* getsendname(char* const full);
-const char* getfilename(const char* const full);
+char* getsendname(char* full);
+const char* getfilename(const char* full);
 void pingserver(void);
 void xdccsavetext(void);
 void writepidfile(const char* filename);
@@ -669,31 +669,31 @@ void plugin_ircinput(const char* fullline, const char* part2, const char* part3,
                      const char* part4);
 
 /* transfer.c */
-void t_initvalues(transfer* const t);
-void t_setuplisten(transfer* const t);
-void t_establishcon(transfer* const t);
-void t_transfersome(transfer* const t);
-void t_readjunk(transfer* const t);
-void t_istimeout(transfer* const t);
-void t_flushed(transfer* const t);
-void t_closeconn(transfer* const t, const char* msg, int errno1);
-void t_setresume(transfer* const t, const char* amt);
-void t_remind(transfer* const t);
-void t_checkminspeed(transfer* const t);
+void t_initvalues(transfer* t);
+void t_setuplisten(transfer* t);
+void t_establishcon(transfer* t);
+void t_transfersome(transfer* t);
+void t_readjunk(transfer* t);
+void t_istimeout(transfer* t);
+void t_flushed(transfer* t);
+void t_closeconn(transfer* t, const char* msg, int errno1);
+void t_setresume(transfer* t, const char* amt);
+void t_remind(transfer* t);
+void t_checkminspeed(transfer* t);
 
 /* upload.c */
-void l_initvalues(upload* const l);
-void l_establishcon(upload* const l);
-void l_transfersome(upload* const l);
-void l_istimeout(upload* const l);
-void l_closeconn(upload* const l, const char* msg, int errno1);
+void l_initvalues(upload* l);
+void l_establishcon(upload* l);
+void l_transfersome(upload* l);
+void l_istimeout(upload* l);
+void l_closeconn(upload* l, const char* msg, int errno1);
 
 /* admin.c */
-void u_fillwith_console(userinput* const u, char* line);
-void u_fillwith_dcc(userinput* const u, dccchat_t* chat, char* line);
-void u_fillwith_msg(userinput* const u, const char* n, const char* line);
-void u_fillwith_clean(userinput* const u);
+void u_fillwith_console(userinput* u, char* line);
+void u_fillwith_dcc(userinput* u, dccchat_t* chat, char* line);
+void u_fillwith_msg(userinput* u, const char* n, const char* line);
+void u_fillwith_clean(userinput* u);
 
-void u_parseit(userinput* const u);
+void u_parseit(userinput* u);
 
 #endif /* !_IROFFER_HEADERS */

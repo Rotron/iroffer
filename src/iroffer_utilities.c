@@ -60,9 +60,9 @@ char* getpart2(const char* line, int howmany, const char* src_function,
         while (line[li] != ' ') {
             if (line[li] == '\0') {
                 return NULL;
-            } else {
-                li++;
             }
+
+            li++;
         }
         li++;
     }
@@ -71,8 +71,9 @@ char* getpart2(const char* line, int howmany, const char* src_function,
         return NULL;
     }
 
-    for (plen = 0; (line[li] != ' ') && (line[li] != '\0'); plen++, li++)
+    for (plen = 0; (line[li] != ' ') && (line[li] != '\0'); plen++, li++) {
         ;
+    }
 
     li -= plen;
 
@@ -86,22 +87,15 @@ char* getpart2(const char* line, int howmany, const char* src_function,
 
 char* caps(char* text) {
     int i;
-    if (text)
-        for (i = 0; i < sstrlen(text); i++)
-            if (text[i] >= 'a' && text[i] <= 'z')
+    if (text) {
+        for (i = 0; i < sstrlen(text); i++) {
+            if (text[i] >= 'a' && text[i] <= 'z') {
                 text[i] = text[i] - 32;
+            }
+        }
+    }
     return text;
 }
-
-char* nocaps(char* text) {
-    int i;
-    if (text)
-        for (i = 0; i < sstrlen(text); i++)
-            if (text[i] >= 'A' && text[i] <= 'Z')
-                text[i] = text[i] + 32;
-    return text;
-}
-
 
 char* sizestr(int spaces, off_t num) {
 #define SIZESTR_SIZE 5
@@ -146,8 +140,9 @@ void getos(void) {
 
     updatecontext();
 
-    if (uname(&u1) < 0)
+    if (uname(&u1) < 0) {
         outerror(OUTERROR_TYPE_CRASH, "Couldn't Get Your OS Type");
+    }
 
     printf("** You Are Running %s %s on a %s", u1.sysname, u1.release,
            u1.machine);
@@ -232,7 +227,7 @@ void getos(void) {
         if (count != 3) {
             outerror(OUTERROR_TYPE_CRASH, "Couldn't determine CYGWIN version.");
         } else if ((v1 < 1) || ((v1 == 1) && (v2 < 5)) ||
-            ((v1 == 1) && (v2 == 5) && (v3 < 3))) {
+                   ((v1 == 1) && (v2 == 5) && (v3 < 3))) {
             printf(", Too Old\n");
             outerror(OUTERROR_TYPE_CRASH,
                      "CYGWIN too old (1.5.3 or greater required)");
@@ -269,8 +264,9 @@ void outerror(outerror_type_e type, const char* format, ...) {
                  "OUTERROR-INT: Output too large, ignoring!");
     }
 
-    if (!gdata.background && !gdata.attop)
+    if (!gdata.background && !gdata.attop) {
         gototop();
+    }
 
     if (type == OUTERROR_TYPE_CRASH) {
         ioutput(CALLTYPE_NORMAL, ioutput_options, COLOR_RED | COLOR_BOLD,
@@ -285,8 +281,9 @@ void outerror(outerror_type_e type, const char* format, ...) {
         }
 
         mylog(CALLTYPE_NORMAL, "iroffer exited (Error)\n\n");
-        if (gdata.pidfile)
+        if (gdata.pidfile) {
             unlink(gdata.pidfile);
+        }
 
         exit(1);
     } else if (type == OUTERROR_TYPE_WARN_LOUD) {
@@ -385,41 +382,43 @@ void mylog(calltype_e type, const char* format, ...) {
     if ((type == CALLTYPE_NORMAL) || (type == CALLTYPE_MULTI_END)) {
         write(gdata.logfd, "\n", 1);
     }
-
-    return;
 }
 
 
 unsigned long atoul(const char* str) {
     unsigned long num, temp;
     int i, j;
-    if (str == NULL)
+    if (str == NULL) {
         return 0;
+    }
 
     num = 0;
 
     for (i = strlen(str) - 1; i >= 0; i--) {
         temp = (str[i] - '0');
-        for (j = strlen(str) - 1; j > i; j--)
+        for (j = strlen(str) - 1; j > i; j--) {
             temp *= 10;
+        }
         num += temp;
     }
     return num;
 }
 
-// TODO: evaluate replacement with stdint types
+// TODO(AnTiZ): evaluate replacement with stdint types
 unsigned long long atoull(const char* str) {
     unsigned long long num, temp;
     int i, j;
-    if (str == NULL)
+    if (str == NULL) {
         return 0;
+    }
 
     num = 0;
 
     for (i = strlen(str) - 1; i >= 0; i--) {
         temp = (str[i] - '0');
-        for (j = strlen(str) - 1; j > i; j--)
+        for (j = strlen(str) - 1; j > i; j--) {
             temp *= 10;
+        }
         num += temp;
     }
     return num;
@@ -448,8 +447,9 @@ void vioutput(calltype_e type, int dest, unsigned int color_flags,
 
     /* screen */
     if (!gdata.background && (dest & OUT_S)) {
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
 
         if ((type == CALLTYPE_NORMAL) || (type == CALLTYPE_MULTI_FIRST)) {
             if (!gdata.nocolor && (color_flags != COLOR_NO_COLOR)) {
@@ -477,8 +477,9 @@ void vioutput(calltype_e type, int dest, unsigned int color_flags,
     }
 
     /* log */
-    if (dest & OUT_L)
+    if (dest & OUT_L) {
         mylog(type, "%s", tempstr);
+    }
 
     /* dcc chat */
     if (dest & OUT_D) {
@@ -511,8 +512,9 @@ void vprivmsg_slow(const char* nick, const char* format, va_list ap) {
     char tempstr[maxtextlength];
     int len;
 
-    if (!nick)
+    if (!nick) {
         return;
+    }
 
     len = vsnprintf(tempstr, maxtextlength, format, ap);
 
@@ -536,8 +538,9 @@ void vprivmsg_fast(const char* nick, const char* format, va_list ap) {
     char tempstr[maxtextlength];
     int len;
 
-    if (!nick)
+    if (!nick) {
         return;
+    }
 
     len = vsnprintf(tempstr, maxtextlength, format, ap);
 
@@ -561,8 +564,9 @@ void vprivmsg(const char* nick, const char* format, va_list ap) {
     char tempstr[maxtextlength];
     int len;
 
-    if (!nick)
+    if (!nick) {
         return;
+    }
 
     len = vsnprintf(tempstr, maxtextlength, format, ap);
 
@@ -585,8 +589,9 @@ void vnotice_slow(const char* nick, const char* format, va_list ap) {
     char tempstr[maxtextlength];
     int len;
 
-    if (!nick)
+    if (!nick) {
         return;
+    }
 
     len = vsnprintf(tempstr, maxtextlength, format, ap);
 
@@ -610,8 +615,9 @@ void vnotice_fast(const char* nick, const char* format, va_list ap) {
     char tempstr[maxtextlength];
     int len;
 
-    if (!nick)
+    if (!nick) {
         return;
+    }
 
     len = vsnprintf(tempstr, maxtextlength, format, ap);
 
@@ -635,8 +641,9 @@ void vnotice(const char* nick, const char* format, va_list ap) {
     char tempstr[maxtextlength];
     int len;
 
-    if (!nick)
+    if (!nick) {
         return;
+    }
 
     len = vsnprintf(tempstr, maxtextlength, format, ap);
 
@@ -655,8 +662,9 @@ char* hostmasktoregex(const char* str) {
 
     updatecontext();
 
-    if (!str)
+    if (!str) {
         return NULL;
+    }
 
     maxlen = 2 + (strlen(str) * 11);
 
@@ -667,11 +675,11 @@ char* hostmasktoregex(const char* str) {
     for (i = 0, j = 1; i < sstrlen(str); i++, j++) {
         if ((str[i] >= 'a' && str[i] <= 'z') ||
             (str[i] >= 'A' && str[i] <= 'Z') ||
-            (str[i] >= '0' && str[i] <= '9'))
+            (str[i] >= '0' && str[i] <= '9')) {
             tempstr[j] = str[i];
-        else if (str[i] == '?')
+        } else if (str[i] == '?') {
             tempstr[j] = '.';
-        else if (str[i] == '*') {
+        } else if (str[i] == '*') {
             tempstr[j] = '.';
             j++;
             tempstr[j] = '*';
@@ -732,23 +740,28 @@ int verifypass(const char* testpass) {
 
     updatecontext();
 
-    if (!gdata.adminpass || !testpass)
+    if (!gdata.adminpass || !testpass) {
         return 0;
+    }
 
     if (strlen(gdata.adminpass) != 13 || strlen(testpass) < 5 ||
-        strlen(testpass) > 8)
+        strlen(testpass) > 8) {
         return 0;
+    }
 
     pwout = crypt(testpass, gdata.adminpass);
 
-    if (strcmp(pwout, gdata.adminpass))
+    if (strcmp(pwout, gdata.adminpass) != 0) {
         return 0;
+    }
 #else
-    if (!gdata.adminpass || !testpass)
+    if (!gdata.adminpass || !testpass) {
         return 0;
+    }
 
-    if (strcmp(testpass, gdata.adminpass))
+    if (strcmp(testpass, gdata.adminpass)) {
         return 0;
+    }
 #endif
 
     return 1;
@@ -797,19 +810,22 @@ char* getfline(char* str, int slen, int descr, int ret) {
 }
 
 int packnumtonum(const char* a) {
-    if (!a)
+    if (!a) {
         return 0;
+    }
 
-    if (a[0] == '#')
+    if (a[0] == '#') {
         a++;
+    }
 
     return atoi(a);
 }
 
 
 int sstrlen(const char* p) {
-    if (!p)
+    if (!p) {
         return -1;
+    }
     return ((int)(strlen(p)));
 }
 
@@ -835,34 +851,16 @@ char dayofweektomask(const char a) {
     return 0;
 }
 
-
-/* reverse a string */
-char* strrev(char* str) {
-    int i, len;
-    char c;
-
-    len = sstrlen(str);
-    for (i = 0; i < len / 2; i++) {
-        c = str[i];
-        str[i] = str[len - i];
-        str[len - i] = c;
-    }
-
-    return str;
-}
-
 int isprintable(char a) {
-    if (a >= 0x20 && a <= 0x7E)
-        return 1;
-    else
-        return 0;
+    return a >= 0x20 && a <= 0x7E;
 }
 
 char onlyprintable(char a) {
-    if (a >= 0x20 && a <= 0x7E)
+    if (a >= 0x20 && a <= 0x7E) {
         return a;
-    else
-        return '.';
+    }
+
+    return '.';
 }
 
 static unsigned long alloc_hash(void* ptr) {
@@ -921,8 +919,9 @@ static void meminfo_grow(int grow) {
                      newmeminfo[(i + start) % (MEMINFOHASHSIZE *
                                                (gdata.meminfo_depth + grow))]
                          .ptr;
-                     i++)
+                     i++) {
                     ;
+                }
 
                 i = (i + start) %
                     (MEMINFOHASHSIZE * (gdata.meminfo_depth + grow));
@@ -946,8 +945,6 @@ static void meminfo_grow(int grow) {
                 "growing meminfo from %d to %d", gdata.meminfo_depth - grow,
                 gdata.meminfo_depth);
     }
-
-    return;
 }
 
 void* mymalloc2(int len, int zero, const char* src_function,
@@ -973,8 +970,9 @@ void* mymalloc2(int len, int zero, const char* src_function,
     for (i = 0;
          gdata.meminfo[(i + start) % (MEMINFOHASHSIZE * gdata.meminfo_depth)]
              .ptr;
-         i++)
+         i++) {
         ;
+    }
 
     i = (i + start) % (MEMINFOHASHSIZE * gdata.meminfo_depth);
 
@@ -997,8 +995,9 @@ void mydelete2(void* t) {
 
     updatecontext();
 
-    if (t == NULL)
+    if (t == NULL) {
         return;
+    }
 
     start = alloc_hash(t) * gdata.meminfo_depth;
 
@@ -1006,8 +1005,9 @@ void mydelete2(void* t) {
          (i < (MEMINFOHASHSIZE * gdata.meminfo_depth) &&
           (gdata.meminfo[(i + start) % (MEMINFOHASHSIZE * gdata.meminfo_depth)]
                .ptr != t));
-         i++)
+         i++) {
         ;
+    }
 
     if (i == (MEMINFOHASHSIZE * gdata.meminfo_depth)) {
         outerror(OUTERROR_TYPE_WARN_LOUD,
@@ -1051,29 +1051,29 @@ void mydelete2(void* t) {
         (gdata.meminfo_count < ((MEMINFOHASHSIZE * gdata.meminfo_depth) / 8))) {
         meminfo_grow(-1);
     }
-
-    return;
 }
 
 char* removenonprintable(char* str1) {
     int i;
     unsigned char* str = (unsigned char*)str1;
 
-    if (!str)
+    if (!str) {
         return NULL;
+    }
 
     for (i = 0; i < strlen((char*)str); i++) {
         if (!((str[i] >= 0x20 && str[i] <= 0x7E) || (str[i] >= 0xA1) ||
-              str[i] == 0x01 || /* ctcp */
-              str[i] == 0x02 || /* bold */
-              str[i] == 0x03 || /* color */
-              str[i] == 0x09 || /* tab */
-              str[i] == 0x0A || /* return */
-              str[i] == 0x0D || /* return */
-              str[i] == 0x0F || /* end formatting */
-              str[i] == 0x16 || /* inverse */
-              str[i] == 0x1F))  /* underline */
+              str[i] == 0x01 ||  /* ctcp */
+              str[i] == 0x02 ||  /* bold */
+              str[i] == 0x03 ||  /* color */
+              str[i] == 0x09 ||  /* tab */
+              str[i] == 0x0A ||  /* return */
+              str[i] == 0x0D ||  /* return */
+              str[i] == 0x0F ||  /* end formatting */
+              str[i] == 0x16 ||  /* inverse */
+              str[i] == 0x1F)) { /* underline */
             str[i] = '.';
+        }
     }
     return (char*)str;
 }
@@ -1081,12 +1081,14 @@ char* removenonprintable(char* str1) {
 char* removenonprintablectrl(char* str1) {
     int i;
     unsigned char* str = (unsigned char*)str1;
-    if (!str)
+    if (!str) {
         return NULL;
+    }
 
     for (i = 0; i < strlen((char*)str); i++) {
-        if (!((str[i] >= 0x20 && str[i] <= 0x7E) || (str[i] >= 0xA1)))
+        if (!((str[i] >= 0x20 && str[i] <= 0x7E) || (str[i] >= 0xA1))) {
             str[i] = ' ';
+        }
     }
     return (char*)str;
 }
@@ -1095,14 +1097,17 @@ char* removenonprintablefile(char* str) {
     int i;
     char last = '.';
 
-    if (!str)
+    if (!str) {
         return NULL;
+    }
 
     for (i = 0; i < strlen(str); i++) {
-        if (str[i] >= 0x7E)
+        if (str[i] >= 0x7E) {
             str[i] = '_';
-        if (str[i] < 0x28)
+        }
+        if (str[i] < 0x28) {
             str[i] = '_';
+        }
         switch (str[i]) {
         case 0x2F:
         case 0x3A:
@@ -1113,10 +1118,13 @@ char* removenonprintablefile(char* str) {
         case 0x60:
         case 0x7C:
             str[i] = '_';
+            break;
+        default:
+            break;
         }
-        if (last == '.' && str[i] == '.')
+        if (last == '.' && str[i] == '.') {
             str[i] = '_';
-
+        }
         last = str[i];
     }
 
@@ -1129,15 +1137,17 @@ int doesfileexist(const char* f) {
 
     updatecontext();
 
-    if (!f)
+    if (!f) {
         return 0;
+    }
 
     if ((fd = open(f, O_RDONLY | O_CREAT | O_EXCL | ADDED_OPEN_FLAGS,
                    CREAT_PERMISSIONS)) < 0 &&
-        errno == EEXIST)
+        errno == EEXIST) {
         return 1;
-    else if (fd < 0)
+    } else if (fd < 0) {
         return 0;
+    }
 
     close(fd);
     unlink(f);
@@ -1151,19 +1161,22 @@ void checkadminpass(void) {
 
     updatecontext();
 
-    if (!gdata.adminpass || strlen(gdata.adminpass) != 13)
+    if (!gdata.adminpass || strlen(gdata.adminpass) != 13) {
         err++;
+    }
 
     for (i = 0; !err && i < 13; i++) {
         if (!((gdata.adminpass[i] >= 'a' && gdata.adminpass[i] <= 'z') ||
               (gdata.adminpass[i] >= 'A' && gdata.adminpass[i] <= 'Z') ||
               (gdata.adminpass[i] >= '0' && gdata.adminpass[i] <= '9') ||
-              (gdata.adminpass[i] == '.') || (gdata.adminpass[i] == '/')))
+              (gdata.adminpass[i] == '.') || (gdata.adminpass[i] == '/'))) {
             err++;
+        }
     }
 
-    if (err)
+    if (err) {
         outerror(OUTERROR_TYPE_CRASH, "adminpass is not encrypted!");
+    }
 
 #endif
 }
@@ -1176,8 +1189,9 @@ void updatecontext_f(const char* file, const char* func, int line) {
     }
 
     gdata.context_cur_ptr++;
-    if (gdata.context_cur_ptr > (2 * MAXCONTEXTS))
+    if (gdata.context_cur_ptr > (2 * MAXCONTEXTS)) {
         gdata.context_cur_ptr = gdata.context_cur_ptr % MAXCONTEXTS;
+    }
 
     c = &gdata.context_log[gdata.context_cur_ptr % MAXCONTEXTS];
 
@@ -1206,7 +1220,6 @@ void dumpcontext(void) {
                 c->line, (unsigned long)c->tv.tv_sec,
                 (unsigned long)c->tv.tv_usec);
     }
-    return;
 }
 
 
@@ -1705,9 +1718,7 @@ void clearmemberlist(channel_t* c) {
     }
 
     irlist_delete_all(&c->members);
-    return;
 }
-
 
 int isinmemberlist(const char* nick) {
     member_t* member;
@@ -1735,7 +1746,6 @@ int isinmemberlist(const char* nick) {
     return 0;
 }
 
-
 void addtomemberlist(channel_t* c, const char* nick) {
     member_t* member;
     char prefixes[MAX_PREFIX] = {};
@@ -1755,8 +1765,9 @@ more:
             if (*nick == gdata.prefixes[pi].p_symbol) {
                 for (pi = 0;
                      (pi < MAX_PREFIX && prefixes[pi] && prefixes[pi] != *nick);
-                     pi++)
+                     pi++) {
                     ;
+                }
                 if (pi < MAX_PREFIX) {
                     prefixes[pi] = *nick;
                 }
@@ -1781,8 +1792,6 @@ more:
         strcpy(member->nick, nick);
         memcpy(member->prefixes, prefixes, sizeof(prefixes));
     }
-
-    return;
 }
 
 void removefrommemberlist(channel_t* c, const char* nick) {
@@ -1804,11 +1813,8 @@ void removefrommemberlist(channel_t* c, const char* nick) {
         }
         member = irlist_get_next(member);
     }
-
     /* not found */
-    return;
 }
-
 
 void changeinmemberlist_mode(channel_t* c, const char* nick, char mode,
                              int add) {
@@ -1836,8 +1842,9 @@ void changeinmemberlist_mode(channel_t* c, const char* nick, char mode,
         if (add) {
             for (pi = 0; (pi < MAX_PREFIX && member->prefixes[pi] &&
                           member->prefixes[pi] != mode);
-                 pi++)
+                 pi++) {
                 ;
+            }
             if (pi < MAX_PREFIX) {
                 member->prefixes[pi] = mode;
             }
@@ -1853,10 +1860,7 @@ void changeinmemberlist_mode(channel_t* c, const char* nick, char mode,
             }
         }
     }
-
-    return;
 }
-
 
 void changeinmemberlist_nick(channel_t* c, const char* oldnick,
                              const char* newnick) {
@@ -1891,8 +1895,6 @@ void changeinmemberlist_nick(channel_t* c, const char* oldnick,
         /* this shouldn't happen, set no prefixes */
         memset(newmember->prefixes, 0, sizeof(newmember->prefixes));
     }
-
-    return;
 }
 
 int set_socket_nonblocking(int s, int nonblock) {
@@ -1904,10 +1906,11 @@ int set_socket_nonblocking(int s, int nonblock) {
         return -1;
     }
 
-    if (nonblock)
+    if (nonblock) {
         return fcntl(s, F_SETFL, current | O_NONBLOCK);
-    else
+    } else {
         return fcntl(s, F_SETFL, current & ~O_NONBLOCK);
+    }
 }
 
 void set_loginname(void) {
@@ -1933,7 +1936,6 @@ void set_loginname(void) {
     }
 }
 
-
 int is_fd_readable(int fd) {
     int ret;
     fd_set readfds;
@@ -1957,31 +1959,6 @@ int is_fd_readable(int fd) {
 
     return 0;
 }
-
-int is_fd_writeable(int fd) {
-    int ret;
-    fd_set writefds;
-    struct timeval timeout;
-
-    FD_ZERO(&writefds);
-    FD_SET(fd, &writefds);
-
-    timeout.tv_sec = 0;
-    timeout.tv_usec = 0;
-
-    ret = select(fd + 1, NULL, &writefds, NULL, &timeout);
-
-    if (ret < 0) {
-        return 0;
-    }
-
-    if (FD_ISSET(fd, &writefds)) {
-        return 1;
-    }
-
-    return 0;
-}
-
 
 #ifdef NO_SNPRINTF
 
@@ -2065,10 +2042,9 @@ char* convert_to_unix_slash(char* ss) {
     }
 }
 
-#define IRLIST_INT_TO_EXT(p) ((irlist_item_t*)p + 1)
-#define IRLIST_INT_TO_EXT_CONST(p) ((const irlist_item_t*)p + 1)
-#define IRLIST_EXT_TO_INT(p) ((irlist_item_t*)p - 1)
-#define IRLIST_EXT_TO_INT_CONST(p) ((const irlist_item_t*)p - 1)
+#define IRLIST_INT_TO_EXT(p) ((irlist_item_t*)(p) + 1)
+#define IRLIST_EXT_TO_INT(p) ((irlist_item_t*)(p)-1)
+#define IRLIST_EXT_TO_INT_CONST(p) ((const irlist_item_t*)(p)-1)
 
 void* irlist_add2(irlist_t* list, unsigned int size, const char* src_function,
                   const char* src_file, int src_line) {
@@ -2111,8 +2087,6 @@ void irlist_insert_head(irlist_t* list, void* item) {
     list->head = iitem;
 
     list->size++;
-
-    return;
 }
 
 void irlist_insert_tail(irlist_t* list, void* item) {
@@ -2142,8 +2116,6 @@ void irlist_insert_tail(irlist_t* list, void* item) {
     list->tail = iitem;
 
     list->size++;
-
-    return;
 }
 
 void irlist_insert_before(irlist_t* list, void* item, void* before_this) {
@@ -2168,8 +2140,6 @@ void irlist_insert_before(irlist_t* list, void* item, void* before_this) {
     iitem->next = ibefore;
 
     list->size++;
-
-    return;
 }
 
 void irlist_insert_after(irlist_t* list, void* item, void* after_this) {
@@ -2194,10 +2164,7 @@ void irlist_insert_after(irlist_t* list, void* item, void* after_this) {
     iitem->prev = iafter;
 
     list->size++;
-
-    return;
 }
-
 
 void* irlist_delete(irlist_t* list, void* item) {
     irlist_item_t* iitem = IRLIST_EXT_TO_INT(item);
@@ -2257,22 +2224,19 @@ void* irlist_remove(irlist_t* list, void* item) {
     }
 }
 
-
 void irlist_delete_all(irlist_t* list) {
     void* cur;
 
     updatecontext();
 
-    for (cur = irlist_get_head(list); cur; cur = irlist_delete(list, cur))
+    for (cur = irlist_get_head(list); cur; cur = irlist_delete(list, cur)) {
         ;
+    }
 
     assert(list->size == 0);
     assert(!list->head);
     assert(!list->tail);
-
-    return;
 }
-
 
 void* irlist_get_head(const irlist_t* list) {
     updatecontext();
@@ -2304,27 +2268,12 @@ void* irlist_get_tail(const irlist_t* list) {
     }
 }
 
-
 void* irlist_get_next(const void* cur) {
     const irlist_item_t* iitem = IRLIST_EXT_TO_INT_CONST(cur);
 
     if (iitem->next) {
         assert(iitem->next->prev == iitem);
         return IRLIST_INT_TO_EXT(iitem->next);
-    } else {
-        return NULL;
-    }
-}
-
-
-void* irlist_get_prev(const void* cur) {
-    const irlist_item_t* iitem = IRLIST_EXT_TO_INT_CONST(cur);
-
-    updatecontext();
-
-    if (iitem->prev) {
-        assert(iitem->prev->next == iitem);
-        return IRLIST_INT_TO_EXT(iitem->prev);
     } else {
         return NULL;
     }
@@ -2345,8 +2294,9 @@ void* irlist_get_nth(irlist_t* list, int nth) {
 
     assert(nth >= 0);
 
-    for (iitem = list->head; (iitem && nth--); iitem = iitem->next)
+    for (iitem = list->head; (iitem && nth--); iitem = iitem->next) {
         ;
+    }
 
     if (iitem) {
         return IRLIST_INT_TO_EXT(iitem);
@@ -2404,9 +2354,7 @@ void irlist_sort(irlist_t* list,
         }
     }
 
-
     *list = newlist;
-    return;
 }
 
 transfer* does_tr_id_exist(int tr_id) {
@@ -2452,7 +2400,6 @@ void ir_listen_port_connected(uint16_t port) {
             lp = irlist_get_next(lp);
         }
     }
-    return;
 }
 
 static int ir_listen_port_is_in_list(uint16_t port) {
@@ -2592,10 +2539,6 @@ begin_again:
     return buffer_len;
 }
 
-int ir_boutput_need_flush(ir_boutput_t* bout) {
-    return irlist_size(&bout->segments);
-}
-
 int ir_boutput_attempt_flush(ir_boutput_t* bout) {
     ir_boutput_segment_t* segment;
     int count = 0;
@@ -2644,7 +2587,6 @@ void ir_boutput_init(ir_boutput_t* bout, int fd, int flags) {
         bout->md5sum = mycalloc(sizeof(MD5_CTX));
         MD5_Init(bout->md5sum);
     }
-    return;
 }
 
 void ir_boutput_set_flags(ir_boutput_t* bout, int flags) {
@@ -2655,7 +2597,6 @@ void ir_boutput_set_flags(ir_boutput_t* bout, int flags) {
     } else if (!(bout->flags & BOUTPUT_MD5SUM) && bout->md5sum) {
         mydelete(bout->md5sum);
     }
-    return;
 }
 
 
@@ -2663,7 +2604,6 @@ void ir_boutput_delete(ir_boutput_t* bout) {
     irlist_delete_all(&bout->segments);
     mydelete(bout->md5sum);
     memset(bout, 0, sizeof(*bout));
-    return;
 }
 
 void ir_boutput_get_md5sum(ir_boutput_t* bout, MD5Digest digest) {
@@ -2672,7 +2612,6 @@ void ir_boutput_get_md5sum(ir_boutput_t* bout, MD5Digest digest) {
         bout->flags &= ~BOUTPUT_MD5SUM;
         mydelete(bout->md5sum);
     }
-    return;
 }
 
 const char* transferlimit_type_to_string(transferlimit_type_e type) {

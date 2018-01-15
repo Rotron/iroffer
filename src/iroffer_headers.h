@@ -407,7 +407,6 @@ const char* strstrnocase(const char* str1, const char* match1);
 char* getpart2(const char* line, int howmany, const char* src_function,
                const char* src_file, int src_line);
 char* caps(char* text);
-char* nocaps(char* text);
 char* sizestr(int spaces, off_t num);
 void getos(void);
 void floodchk(void);
@@ -516,7 +515,6 @@ void changeinmemberlist_nick(channel_t* c, const char* oldnick,
 int set_socket_nonblocking(int s, int nonblock);
 void set_loginname(void);
 int is_fd_readable(int fd);
-int is_fd_writeable(int fd);
 char* convert_to_unix_slash(char* ss);
 
 void* mymalloc2(int a, int zero, const char* src_function, const char* src_file,
@@ -559,7 +557,6 @@ void irlist_insert_after(irlist_t* list, void* item, void* after_this);
 void* irlist_get_head(const irlist_t* list);
 void* irlist_get_tail(const irlist_t* list);
 void* irlist_get_next(const void* cur);
-void* irlist_get_prev(const void* cur);
 int irlist_size(const irlist_t* list);
 void* irlist_get_nth(irlist_t* list, int nth); /* zero based n */
 
@@ -577,7 +574,6 @@ void ir_listen_port_connected(uint16_t port);
 int ir_bind_listen_socket(int fd, struct sockaddr_in* sa);
 
 int ir_boutput_write(ir_boutput_t* bout, const void* buffer, int buffer_len);
-int ir_boutput_need_flush(ir_boutput_t* bout);
 int ir_boutput_attempt_flush(ir_boutput_t* bout);
 void ir_boutput_init(ir_boutput_t* bout, int fd, int flags);
 void ir_boutput_set_flags(ir_boutput_t* bout, int flags);

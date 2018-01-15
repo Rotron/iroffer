@@ -21,10 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 /*------------ includes ------------- */
 
-#ifndef _OS_HPUX
 #include <stdio.h>
-#endif
-
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
@@ -85,13 +82,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include <sys/statvfs.h>
 #endif
 
-#if defined(_OS_SunOS) || defined(_OS_HPUX) || defined(_OS_CYGWIN)
+#if defined(_OS_CYGWIN)
 #include <sys/termios.h>
-#endif
-
-#if defined(_OS_SunOS) || defined(_OS_HPUX) || defined(_OS_IRIX) ||            \
-    defined(_OS_IRIX64)
-#include <strings.h>
 #endif
 
 #include "iroffer_md5.h"

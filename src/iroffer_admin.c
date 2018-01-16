@@ -27,68 +27,68 @@ static void
 #ifdef __GNUC__
     __attribute__((format(printf, 2, 3)))
 #endif
-    u_respond(const userinput* const u, const char* format, ...);
+    u_respond(const userinput* u, const char* format, ...);
 
-static void u_help(const userinput* const u);
-static void u_xdl(const userinput* const u);
-static void u_xds(const userinput* const u);
-static void u_dcl(const userinput* const u);
-static void u_dcld(const userinput* const u);
-static void u_qul(const userinput* const u);
-static void u_close(const userinput* const u);
-static void u_closeu(const userinput* const u);
-static void u_nomin(const userinput* const u);
-static void u_nomax(const userinput* const u);
-static void u_rmq(const userinput* const u);
-static void u_raw(const userinput* const u);
-static void u_redraw(const userinput* const u);
-static void u_delhist(const userinput* const u);
-static void u_info(const userinput* const u);
-static void u_remove(const userinput* const u);
-static void u_removedir(const userinput* const u);
-static void u_send(const userinput* const u);
-static void u_psend(const userinput* const u);
-static void u_msg(const userinput* const u);
-static void u_mesg(const userinput* const u);
-static void u_mesq(const userinput* const u);
-static void u_quit(const userinput* const u);
-static void u_status(const userinput* const u);
-static void u_chfile(const userinput* const u);
-static void u_chdesc(const userinput* const u);
-static void u_chnote(const userinput* const u);
-static void u_chmins(const userinput* const u);
-static void u_chmaxs(const userinput* const u);
-static void u_chgets(const userinput* const u);
-static void u_add(const userinput* const u);
-static void u_adddir(const userinput* const u);
-static void u_addnew(const userinput* const u);
-static void u_chatme(const userinput* const u);
-static void u_chatl(const userinput* const u);
-static void u_closec(const userinput* const u);
-static void u_rehash(const userinput* const u);
-static void u_botinfo(const userinput* const u);
-static void u_ignl(const userinput* const u);
-static void u_ignore(const userinput* const u);
-static void u_unignore(const userinput* const u);
-static void u_nosave(const userinput* const u);
-static void u_nosend(const userinput* const u);
-static void u_nolist(const userinput* const u);
-static void u_renumber(const userinput* const u);
-static void u_msgread(const userinput* const u);
-static void u_msgdel(const userinput* const u);
-static void u_memstat(const userinput* const u);
-static void u_qsend(const userinput* const u);
-static void u_shutdown(const userinput* const u);
-static void u_debug(const userinput* const u);
-static void u_jump(const userinput* const u);
-static void u_servqc(const userinput* const u);
-static void u_servers(const userinput* const u);
-static void u_trinfo(const userinput* const u);
-static void u_listul(const userinput* const u);
-static void u_clearrecords(const userinput* const u);
-static void u_rmul(const userinput* const u);
-static void u_crash(const userinput* const u);
-static void u_chanl(const userinput* const u);
+static void u_help(const userinput* u);
+static void u_xdl(const userinput* u);
+static void u_xds(const userinput* u);
+static void u_dcl(const userinput* u);
+static void u_dcld(const userinput* u);
+static void u_qul(const userinput* u);
+static void u_close(const userinput* u);
+static void u_closeu(const userinput* u);
+static void u_nomin(const userinput* u);
+static void u_nomax(const userinput* u);
+static void u_rmq(const userinput* u);
+static void u_raw(const userinput* u);
+static void u_redraw(const userinput* u);
+static void u_delhist(const userinput* u);
+static void u_info(const userinput* u);
+static void u_remove(const userinput* u);
+static void u_removedir(const userinput* u);
+static void u_send(const userinput* u);
+static void u_psend(const userinput* u);
+static void u_msg(const userinput* u);
+static void u_mesg(const userinput* u);
+static void u_mesq(const userinput* u);
+static void u_quit(const userinput* u);
+static void u_status(const userinput* u);
+static void u_chfile(const userinput* u);
+static void u_chdesc(const userinput* u);
+static void u_chnote(const userinput* u);
+static void u_chmins(const userinput* u);
+static void u_chmaxs(const userinput* u);
+static void u_chgets(const userinput* u);
+static void u_add(const userinput* u);
+static void u_adddir(const userinput* u);
+static void u_addnew(const userinput* u);
+static void u_chatme(const userinput* u);
+static void u_chatl(const userinput* u);
+static void u_closec(const userinput* u);
+static void u_rehash(const userinput* u);
+static void u_botinfo(const userinput* u);
+static void u_ignl(const userinput* u);
+static void u_ignore(const userinput* u);
+static void u_unignore(const userinput* u);
+static void u_nosave(const userinput* u);
+static void u_nosend(const userinput* u);
+static void u_nolist(const userinput* u);
+static void u_renumber(const userinput* u);
+static void u_msgread(const userinput* u);
+static void u_msgdel(const userinput* u);
+static void u_memstat(const userinput* u);
+static void u_qsend(const userinput* u);
+static void u_shutdown(const userinput* u);
+static void u_debug(const userinput* u);
+static void u_jump(const userinput* u);
+static void u_servqc(const userinput* u);
+static void u_servers(const userinput* u);
+static void u_trinfo(const userinput* u);
+static void u_listul(const userinput* u);
+static void u_clearrecords(const userinput* u);
+static void u_rmul(const userinput* u);
+static void u_crash(const userinput* u);
+static void u_chanl(const userinput* u);
 
 
 typedef struct {
@@ -239,8 +239,6 @@ void u_fillwith_console(userinput* const u, char* line) {
     } else {
         u->arg2e = NULL;
     }
-
-    return;
 }
 
 void u_fillwith_dcc(userinput* const u, dccchat_t* chat, char* line) {
@@ -273,8 +271,6 @@ void u_fillwith_dcc(userinput* const u, dccchat_t* chat, char* line) {
     } else {
         u->arg2e = NULL;
     }
-
-    return;
 }
 
 void u_fillwith_msg(userinput* const u, const char* n, const char* line) {
@@ -324,8 +320,6 @@ void u_fillwith_msg(userinput* const u, const char* n, const char* line) {
     mydelete(t3);
     mydelete(t4);
     mydelete(t5);
-
-    return;
 }
 
 void u_fillwith_clean(userinput* const u) {
@@ -420,26 +414,31 @@ void u_parseit(userinput* const u) {
 
     for (i = 0;
          !found && i < (sizeof(userinput_parse) / sizeof(userinput_parse_t));
-         i++)
+         i++) {
         if ((!strcmp(userinput_parse[i].command, u->cmd)) &&
             (userinput_parse[i].methods_allowed & u->method)) {
             found = 1;
             userinput_parse[i].handler(u);
         }
+    }
 
-    if (!found)
+    if (!found) {
         u_respond(u, "** User Command Not Recognized, try \"HELP\"");
+    }
 
-    if (found && u->method == method_console)
+    if (found && u->method == method_console) {
         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_MAGENTA,
                 "ADMIN %s Requested (console)", u->cmd);
-    if (found && u->method == method_dcc)
+    }
+    if (found && u->method == method_dcc) {
         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_MAGENTA,
                 "ADMIN %s Requested (DCC Chat: %s)", u->cmd,
                 u->chat->nick ? u->chat->nick : "???");
-    if (found && u->method == method_msg)
+    }
+    if (found && u->method == method_msg) {
         ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_MAGENTA,
                 "ADMIN %s Requested (MSG: %s)", u->cmd, u->snick);
+    }
 
     u_fillwith_clean(u);
 }
@@ -502,14 +501,16 @@ static void u_xdl(const userinput* const u) {
 
     tempstr = mycalloc(maxtextlength);
 
-    if (u->method == method_xdl_channel_min)
+    if (u->method == method_xdl_channel_min) {
         m = 1;
-    else
+    } else {
         m = 0;
-    if (u->method == method_xdl_channel_sum)
+    }
+    if (u->method == method_xdl_channel_sum) {
         m1 = 1;
-    else
+    } else {
         m1 = 0;
+    }
 
     if (gdata.headline) {
         u_respond(u, "\2**\2 %s \2**\2", gdata.headline);
@@ -611,14 +612,18 @@ static void u_xdl(const userinput* const u) {
     }
     i = s;
     s = 5;
-    if (i < 10000)
+    if (i < 10000) {
         s = 4;
-    if (i < 1000)
+    }
+    if (i < 1000) {
         s = 3;
-    if (i < 100)
+    }
+    if (i < 100) {
         s = 2;
-    if (i < 10)
+    }
+    if (i < 10) {
         s = 1;
+    }
 
     i = 1;
     toffered = 0;
@@ -1042,8 +1047,9 @@ static void u_close(const userinput* const u) {
     int num = -1;
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if ((num < 0) || !does_tr_id_exist(num)) {
         u_respond(u, "Invalid ID number, Try \"DCL\" for a list");
@@ -1058,8 +1064,9 @@ static void u_closeu(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if ((num < 0) || (num >= irlist_size(&gdata.uploads))) {
         u_respond(u, "Invalid ID number, Try \"DCL\" for a list");
@@ -1076,8 +1083,9 @@ static void u_nomin(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if ((num < 0) || !does_tr_id_exist(num)) {
         u_respond(u, "Invalid ID number, Try \"DCL\" for a list");
@@ -1093,8 +1101,9 @@ static void u_nomax(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if ((num < 0) || !does_tr_id_exist(num)) {
         u_respond(u, "Invalid ID number, Try \"DCL\" for a list");
@@ -1198,8 +1207,6 @@ static void u_info(const userinput* const u) {
         u_respond(u, " md5sum         " MD5_PRINT_FMT,
                   MD5_PRINT_DATA(xd->md5sum));
     }
-
-    return;
 }
 
 static void u_remove(const userinput* const u) {
@@ -1210,8 +1217,9 @@ static void u_remove(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if (num < 1 || num > irlist_size(&gdata.xdccs)) {
         u_respond(u, "Try a valid pack number");
@@ -1354,7 +1362,6 @@ static void u_removedir(const userinput* const u) {
     closedir(d);
 
     mydelete(thedir);
-    return;
 }
 
 static void u_redraw(const userinput* const u) {
@@ -1372,16 +1379,15 @@ static void u_delhist(const userinput* const u) {
 
     irlist_delete_all(&gdata.console_history);
     gdata.console_history_offset = 0;
-
-    return;
 }
 
 static void u_send(const userinput* const u) {
     int num = 0;
     updatecontext();
 
-    if (u->arg2)
+    if (u->arg2) {
         num = atoi(u->arg2);
+    }
 
     if (!u->arg1 || !strlen(u->arg1)) {
         u_respond(u, "Try Specifying a Nick");
@@ -1530,8 +1536,9 @@ static void u_chfile(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if (num < 1 || num > irlist_size(&gdata.xdccs)) {
         u_respond(u, "Try Specifying a Valid Pack Number");
@@ -1780,8 +1787,8 @@ static void u_adddir(const userinput* const u) {
         if (stat(tempstr, &st) < 0) {
             u_respond(u, "cannot access %s, ignoring: %s", tempstr,
                       strerror(errno));
-        } else if (strcmp(f->d_name, ".") && strcmp(f->d_name, "..") &&
-                   S_ISDIR(st.st_mode)) {
+        } else if (strcmp(f->d_name, ".") != 0 &&
+                   strcmp(f->d_name, "..") != 0 && S_ISDIR(st.st_mode)) {
             u_respond(u, "  Ignoring directory: %s", tempstr);
         } else if (S_ISREG(st.st_mode)) {
             thefile = irlist_add(&dirlist, len + thedirlen + 2);
@@ -1809,7 +1816,6 @@ static void u_adddir(const userinput* const u) {
     }
 
     mydelete(thedir);
-    return;
 }
 
 static void u_addnew(const userinput* const u) {
@@ -1865,8 +1871,8 @@ static void u_addnew(const userinput* const u) {
         if (stat(tempstr, &st) < 0) {
             u_respond(u, "cannot access %s, ignoring: %s", tempstr,
                       strerror(errno));
-        } else if (strcmp(f->d_name, ".") && strcmp(f->d_name, "..") &&
-                   S_ISDIR(st.st_mode)) {
+        } else if (strcmp(f->d_name, ".") != 0 &&
+                   strcmp(f->d_name, "..") != 0 && S_ISDIR(st.st_mode)) {
             u_respond(u, "  Ignoring directory: %s", tempstr);
         } else if (S_ISREG(st.st_mode)) {
             foundit = 0;
@@ -1907,7 +1913,6 @@ static void u_addnew(const userinput* const u) {
     }
 
     mydelete(thedir);
-    return;
 }
 
 static void u_chdesc(const userinput* const u) {
@@ -1916,8 +1921,10 @@ static void u_chdesc(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
+
     if (num < 1 || num > irlist_size(&gdata.xdccs)) {
         u_respond(u, "Try Specifying a Valid Pack Number");
         return;
@@ -1947,8 +1954,9 @@ static void u_chnote(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if (num < 1 || num > irlist_size(&gdata.xdccs)) {
         u_respond(u, "Try Specifying a Valid Pack Number");
@@ -1980,8 +1988,10 @@ static void u_chmins(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
+
     if (num < 1 || num > irlist_size(&gdata.xdccs)) {
         u_respond(u, "Try Specifying a Valid Pack Number");
         return;
@@ -1998,8 +2008,9 @@ static void u_chmins(const userinput* const u) {
               atof(u->arg2));
 
     xd->minspeed = gdata.transferminspeed;
-    if (atof(u->arg2) != gdata.transferminspeed)
+    if (atof(u->arg2) != gdata.transferminspeed) {
         xd->minspeed = atof(u->arg2);
+    }
 
     write_statefile();
     xdccsavetext();
@@ -2011,8 +2022,10 @@ static void u_chmaxs(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
+
     if (num < 1 || num > irlist_size(&gdata.xdccs)) {
         u_respond(u, "Try Specifying a Valid Pack Number");
         return;
@@ -2029,8 +2042,9 @@ static void u_chmaxs(const userinput* const u) {
               atof(u->arg2));
 
     xd->maxspeed = gdata.transfermaxspeed;
-    if (atof(u->arg2) != gdata.transfermaxspeed)
+    if (atof(u->arg2) != gdata.transfermaxspeed) {
         xd->maxspeed = atof(u->arg2);
+    }
 
     write_statefile();
     xdccsavetext();
@@ -2072,8 +2086,9 @@ static void u_chatme(const userinput* const u) {
 
     u_respond(u, "Sending You A DCC Chat Request");
 
-    if (setupdccchatout(u->snick))
+    if (setupdccchatout(u->snick)) {
         u_respond(u, "[Failed to listen, try again]");
+    }
 }
 
 static void u_chatl(const userinput* const u) {
@@ -2140,8 +2155,6 @@ static void u_chatl(const userinput* const u) {
                   (chat->remoteip >> 16) & 0xFF, (chat->remoteip >> 8) & 0xFF,
                   (chat->remoteip) & 0xFF, chat->remoteport);
     }
-
-    return;
 }
 
 static void u_closec(const userinput* const u) {
@@ -2150,8 +2163,9 @@ static void u_closec(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if ((num < 1) || (num > irlist_size(&gdata.dccchats))) {
         u_respond(u, "Invalid ID number, Try \"CHATL\" for a list");
@@ -2166,8 +2180,6 @@ static void u_closec(const userinput* const u) {
             shutdowndccchat(chat, 1);
         }
     }
-
-    return;
 }
 
 
@@ -2180,8 +2192,9 @@ static void u_rehash(const userinput* const u) {
 
     updatecontext();
 
-    if (u->method == method_out_all)
+    if (u->method == method_out_all) {
         u_respond(u, "Caught SIGUSR2, Rehashing...");
+    }
 
     gdata.r_transferminspeed = gdata.transferminspeed;
     gdata.r_transfermaxspeed = gdata.transfermaxspeed;
@@ -2307,7 +2320,7 @@ static void u_rehash(const userinput* const u) {
     if (((!gdata.pidfile) && (gdata.r_pidfile)) ||
         ((gdata.pidfile) && (!gdata.r_pidfile)) ||
         ((gdata.pidfile) && (gdata.r_pidfile) &&
-         strcmp(gdata.pidfile, gdata.r_pidfile))) {
+         strcmp(gdata.pidfile, gdata.r_pidfile) != 0)) {
         u_respond(u, "pidfile changed, switching");
         if (gdata.pidfile) {
             unlink(gdata.pidfile);
@@ -2323,7 +2336,7 @@ static void u_rehash(const userinput* const u) {
     if (!gdata.r_config_nick) {
         u_respond(u, "user_nick missing! keeping old nick!");
     } else {
-        if (strcmp(gdata.config_nick, gdata.r_config_nick)) {
+        if (strcmp(gdata.config_nick, gdata.r_config_nick) != 0) {
             u_respond(u, "user_nick changed, renaming nick to %s",
                       gdata.r_config_nick);
             writeserver(WRITESERVER_NOW, "NICK %s", gdata.r_config_nick);
@@ -2340,8 +2353,9 @@ static void u_rehash(const userinput* const u) {
 
         if (localt->tm_hour >= gdata.overallmaxspeeddaytimestart &&
             localt->tm_hour < gdata.overallmaxspeeddaytimeend &&
-            (gdata.overallmaxspeeddaydays & (1 << localt->tm_wday)))
+            (gdata.overallmaxspeeddaydays & (1 << localt->tm_wday))) {
             gdata.maxb = gdata.overallmaxspeeddayspeed;
+        }
     }
 
     if (gdata.r_transferminspeed != gdata.transferminspeed) {
@@ -2369,15 +2383,17 @@ static void u_rehash(const userinput* const u) {
 
     if (!irlist_size(&gdata.servers) || gdata.config_nick == NULL ||
         gdata.user_realname == NULL || gdata.user_modes == NULL ||
-        gdata.slotsmax == 0)
+        gdata.slotsmax == 0) {
         u_respond(
             u, "**WARNING** missing vital information, fix and re-rehash ASAP");
+    }
 
     if (irlist_size(&gdata.uploadhost) &&
-        (gdata.uploaddir == NULL || strlen(gdata.uploaddir) < 2))
+        (gdata.uploaddir == NULL || strlen(gdata.uploaddir) < 2)) {
         u_respond(u,
                   "**WARNING** incomplete upload information, fix and "
                   "re-rehash ASAP");
+    }
 
     if (!irlist_size(&gdata.downloadhost)) {
         u_respond(u, "**WARNING** no download hosts defined");

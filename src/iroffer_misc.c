@@ -21,7 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "iroffer_defines.h"
 #include "iroffer_headers.h"
 #include "iroffer_globals.h"
-
+#include "conversions.h"
 
 void getconfig(void) {
     char* templine = mycalloc(maxtextlength);

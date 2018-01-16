@@ -426,8 +426,6 @@ void
     mylog(calltype_e type, const char* format, ...);
 
 void logstat(void);
-unsigned long atoul(const char* str);
-unsigned long long atoull(const char* str);
 
 void
 #ifdef __GNUC__
@@ -688,4 +686,4 @@ void u_fillwith_clean(userinput* u);
 
 void u_parseit(userinput* u);
 
-#endif //IROFFER_HEADERS_H
+#endif // IROFFER_HEADERS_H

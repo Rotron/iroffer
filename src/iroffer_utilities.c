@@ -384,46 +384,6 @@ void mylog(calltype_e type, const char* format, ...) {
     }
 }
 
-
-unsigned long atoul(const char* str) {
-    unsigned long num, temp;
-    int i, j;
-    if (str == NULL) {
-        return 0;
-    }
-
-    num = 0;
-
-    for (i = strlen(str) - 1; i >= 0; i--) {
-        temp = (str[i] - '0');
-        for (j = strlen(str) - 1; j > i; j--) {
-            temp *= 10;
-        }
-        num += temp;
-    }
-    return num;
-}
-
-// TODO(AnTiZ): evaluate replacement with stdint types
-unsigned long long atoull(const char* str) {
-    unsigned long long num, temp;
-    int i, j;
-    if (str == NULL) {
-        return 0;
-    }
-
-    num = 0;
-
-    for (i = strlen(str) - 1; i >= 0; i--) {
-        temp = (str[i] - '0');
-        for (j = strlen(str) - 1; j > i; j--) {
-            temp *= 10;
-        }
-        num += temp;
-    }
-    return num;
-}
-
 void ioutput(calltype_e type, int dest, unsigned int color_flags,
              const char* format, ...) {
     va_list args;

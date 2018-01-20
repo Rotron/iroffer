@@ -1548,7 +1548,7 @@ static void mainloop(void) {
 
         mylog(CALLTYPE_NORMAL, "iroffer exited\n\n");
 
-        tostdout_disable_buffering(1);
+        tostdout_disable_buffering();
         uninitscreen();
         if (gdata.pidfile)
             unlink(gdata.pidfile);

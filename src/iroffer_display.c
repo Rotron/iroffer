@@ -198,7 +198,7 @@ void gotobot(void) {
 }
 
 
-void tostdout_disable_buffering(int flush) {
+void tostdout_disable_buffering(void) {
     if (!gdata.stdout_buffer_init) {
         return;
     }
@@ -209,8 +209,6 @@ void tostdout_disable_buffering(int flush) {
 
     ir_boutput_delete(&gdata.stdout_buffer);
     gdata.stdout_buffer_init = 0;
-
-    return;
 }
 
 void tostdout_write(void) {

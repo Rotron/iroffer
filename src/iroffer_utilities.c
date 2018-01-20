@@ -272,7 +272,7 @@ void outerror(outerror_type_e type, const char* format, ...) {
         ioutput(CALLTYPE_NORMAL, ioutput_options, COLOR_RED | COLOR_BOLD,
                 "ERROR: %s", tempstr);
 
-        tostdout_disable_buffering(1);
+        tostdout_disable_buffering();
 
         uninitscreen();
 

@@ -399,7 +399,7 @@ void
 
 void vtostdout(const char* format, va_list ap);
 void tostdout_write(void);
-void tostdout_disable_buffering(int flush);
+void tostdout_disable_buffering(void);
 
 /* utilities.c */
 const char* strstrnocase(const char* str1, const char* match1);

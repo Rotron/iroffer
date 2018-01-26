@@ -192,7 +192,7 @@ void write_statefile(void) {
                 "Saving State File... ");
     }
 
-    fd = open(statefile_tmp, O_WRONLY | O_CREAT | O_TRUNC | ADDED_OPEN_FLAGS,
+    fd = open(statefile_tmp, O_WRONLY | O_CREAT | O_TRUNC,
               CREAT_PERMISSIONS);
 
     if (fd < 0) {
@@ -725,7 +725,7 @@ void read_statefile(void) {
     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
             "Loading State File... ");
 
-    fd = open(gdata.statefile, O_RDONLY | O_CREAT | ADDED_OPEN_FLAGS,
+    fd = open(gdata.statefile, O_RDONLY | O_CREAT,
               CREAT_PERMISSIONS);
 
     if (fd < 0) {
@@ -1248,7 +1248,7 @@ void read_statefile(void) {
                 irlist_delete(&gdata.xdccs, xd);
             } else {
                 int xfd;
-                xfd = open(xd->file, O_RDONLY | ADDED_OPEN_FLAGS);
+                xfd = open(xd->file, O_RDONLY);
                 if (xfd < 0) {
                     outerror(OUTERROR_TYPE_WARN,
                              "Cant Access Offered File '%s': %s", xd->file,

@@ -49,11 +49,7 @@ int main(int argc, char* argv[]) {
             "iroffer v" VERSIONLONG
             " by PMG, see http://iroffer.org/\n"
             "\n"
-            "Usage: %s [-vc] [-bdkn"
-#if !defined(_OS_CYGWIN)
-            "s"
-#endif
-            "]"
+            "Usage: %s [-vc] [-bdkns]"
 #if !defined(NO_SETUID)
             " [-u user]"
 #endif
@@ -67,9 +63,7 @@ int main(int argc, char* argv[]) {
             "        -b        Go to background mode\n"
             "        -k        Attempt to adjust ulimit to allow core files\n"
             "        -n        No colors in foreground mode\n"
-#if !defined(_OS_CYGWIN)
             "        -s        No screen manipulation in foreground mode\n"
-#endif
 #if !defined(NO_SETUID)
             "        -u user   Run as user (you have to start as root).\n"
 #endif
@@ -89,10 +83,6 @@ int main(int argc, char* argv[]) {
         break;
     }
 
-#if defined(_OS_CYGWIN)
-    gdata.noscreen = 1;
-#endif
-
     first_config_arg = optind;
 
     for (i = 0; i < MAXCONFIG && i < (argc - first_config_arg); i++)
@@ -109,15 +99,7 @@ int main(int argc, char* argv[]) {
 
 static int parsecmdline(int argc, char* argv[]) {
     int retval;
-#if defined(_OS_CYGWIN)
-    const char* options = "bndkct:u:v";
-#else
     const char* options = "bndkcst:u:v";
-#endif
-
-#if 0
-  opterr = 0; /* No printed error from getopt() */
-#endif
 
     while ((retval = getopt(argc, argv, options)) != -1) {
         switch (retval) {
@@ -1519,7 +1501,7 @@ static void mainloop(void) {
                         "[MD5]: Calculating pack %d", packnum);
 
                 gdata.md5build.file_fd =
-                    open(xd->file, O_RDONLY | ADDED_OPEN_FLAGS);
+                    open(xd->file, O_RDONLY);
                 if (gdata.md5build.file_fd >= 0) {
                     gdata.md5build.xpack = xd;
                     MD5_Init(&gdata.md5build.md5sum);

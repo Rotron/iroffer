@@ -67,29 +67,6 @@ case "$ostype" in
  HP-UX )
   ostype=HPUX
   ;;
- CYGWIN* )
-  ostype=$short_ostype
-  exe=.exe
-  
-  # only 1.5.6 or later is supported
-  echo -n "Checking for cygwin >= 1.5.6... "
-  ver=`uname -r | cut -d '(' -f 1`
-  ver_A=`echo $ver | cut -d '.' -f 1`
-  ver_B=`echo $ver | cut -d '.' -f 2`
-  ver_C=`echo $ver | cut -d '.' -f 3`
-  
-  # 2.x.x - 9.x.x, 1.6.x - 1.9.x, and 1.5.6 - 1.5.9 are ok
-  if [ \( "$ver_A" -ge "2" \)                                         \
-    -o \( "$ver_A" -eq "1" -a "$ver_B" -ge "6" \)                     \
-    -o \( "$ver_A" -eq "1" -a "$ver_B" -eq "5" -a "$ver_C" -ge "6" \) \
-     ]; then
-   echo "OK, $ver"
-  else
-   echo "***ERROR***: $ver < 1.5.6"
-   exit # fatal error
-   waserror=yes
-  fi
-  ;;
  *)
   echo "***ERROR***: This OS is not supported"
   exit
@@ -271,7 +248,7 @@ echo "
 int main (int argc, char **argv) {
  int fd;
  int array[ ((int)sizeof(off_t)) - 7 ];
- fd=open(\"foo\", O_RDWR | O_CREAT | ADDED_OPEN_FLAGS);
+ fd=open(\"foo\", O_RDWR | O_CREAT);
  array[0] = array[0];
  exit(0);
  }
@@ -914,7 +891,6 @@ echo "# Automatically Generated, Do Not Edit #"
 echo
 echo VERSION=$VERSION
 echo CC=$cctype
-echo CONFIG_EXE=$exe
 echo CONFIG_LDLIBS=$libs
 echo CONFIG_LDFLAGS=$PROF $DEBUG
 echo CONFIG_CFLAGS=$PROF $WARNS $DEBUG
@@ -923,7 +899,7 @@ echo CONFIG_CHROOT=$NSSLIBS
 if [ -z "$NSSLIBS" ]; then
  echo CONFIG_TARGETS=
 else
- echo CONFIG_TARGETS=iroffer_chroot$exe
+ echo CONFIG_TARGETS=iroffer_chroot
 fi
 echo
 cat Makefile.config 

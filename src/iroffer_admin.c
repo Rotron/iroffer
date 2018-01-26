@@ -369,9 +369,6 @@ static void u_respond(const userinput* const u, const char* format, ...) {
             removenonprintablectrl(tempstr);
         }
 
-#if defined(_OS_CYGWIN)
-        tempstr[llen++] = '\r';
-#endif
         tempstr[llen++] = '\n';
         tempstr[llen] = '\0';
 
@@ -1555,12 +1552,12 @@ static void u_chfile(const userinput* const u) {
 
     convert_to_unix_slash(u->arg2e);
 
-    xfiledescriptor = open(u->arg2e, O_RDONLY | ADDED_OPEN_FLAGS);
+    xfiledescriptor = open(u->arg2e, O_RDONLY);
 
     if (xfiledescriptor < 0 && (errno == ENOENT) && gdata.filedir) {
         snprintf(tempstr, maxtextlength - 1, "%s/%s", gdata.filedir, u->arg2e);
         convert_to_unix_slash(tempstr);
-        xfiledescriptor = open(tempstr, O_RDONLY | ADDED_OPEN_FLAGS);
+        xfiledescriptor = open(tempstr, O_RDONLY);
     }
 
     if (xfiledescriptor < 0) {
@@ -1658,14 +1655,14 @@ static void u_add(const userinput* const u) {
     xd->minspeed = gdata.transferminspeed;
     xd->maxspeed = gdata.transfermaxspeed;
 
-    xfiledescriptor = open(xd->file, O_RDONLY | ADDED_OPEN_FLAGS);
+    xfiledescriptor = open(xd->file, O_RDONLY);
 
     if (xfiledescriptor < 0 && (errno == ENOENT) && gdata.filedir) {
         mydelete(xd->file);
         xd->file = mymalloc(strlen(gdata.filedir) + 1 + strlen(u->arg1e) + 1);
         sprintf(xd->file, "%s/%s", gdata.filedir, u->arg1e);
         convert_to_unix_slash(xd->file);
-        xfiledescriptor = open(xd->file, O_RDONLY | ADDED_OPEN_FLAGS);
+        xfiledescriptor = open(xd->file, O_RDONLY);
     }
 
     if (xfiledescriptor < 0) {
@@ -2212,7 +2209,7 @@ static void u_rehash(const userinput* const u) {
     for (h = 0; h < MAXCONFIG && gdata.configfile[h]; h++) {
         u_respond(u, "Reloading %s ...", gdata.configfile[h]);
 
-        filedescriptor = open(gdata.configfile[h], O_RDONLY | ADDED_OPEN_FLAGS);
+        filedescriptor = open(gdata.configfile[h], O_RDONLY);
         if (filedescriptor < 0) {
             u_respond(u, "Cant Access File, Aborting rehash: %s",
                       strerror(errno));

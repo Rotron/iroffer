@@ -112,7 +112,7 @@ void t_establishcon(transfer* const t) {
     }
 
     if (t->xpack->file_fd == FD_UNUSED) {
-        t->xpack->file_fd = open(t->xpack->file, O_RDONLY | ADDED_OPEN_FLAGS);
+        t->xpack->file_fd = open(t->xpack->file, O_RDONLY);
         if (t->xpack->file_fd < 0) {
             t->xpack->file_fd = FD_UNUSED;
             outerror(OUTERROR_TYPE_WARN_LOUD,

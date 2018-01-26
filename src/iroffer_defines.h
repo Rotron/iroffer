@@ -179,9 +179,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /* how long to tollerate a missing user before disconnecting */
 #define RESTRICTSEND_TIMEOUT 300
 
-/* some os's (cygwin, cough, cough, ... ) require extra flags to open() */
-#define ADDED_OPEN_FLAGS 0
-
 #define FD_UNUSED 0
 
 #define MD5_PRINT_FMT                                                          \
@@ -234,12 +231,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 /* MacOS X */
 #elif defined(_OS_Darwin)
-
-/* CYGWIN */
-#elif defined(_OS_CYGWIN)
-#define _GNU_SOURCE
-#undef ADDED_OPEN_FLAGS
-#define ADDED_OPEN_FLAGS O_BINARY
 
 /* AIX */
 #elif defined(_OS_AIX)

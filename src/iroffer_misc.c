@@ -34,7 +34,7 @@ void getconfig(void) {
 
         printf("** Loading %s ... \n", gdata.configfile[h]);
 
-        filedescriptor = open(gdata.configfile[h], O_RDONLY | ADDED_OPEN_FLAGS);
+        filedescriptor = open(gdata.configfile[h], O_RDONLY);
         if (filedescriptor < 0) {
             outerror(OUTERROR_TYPE_CRASH, "Cant Access Config File '%s': %s",
                      gdata.configfile[h], strerror(errno));
@@ -497,7 +497,7 @@ void getconfig_set(const char* line, int rehash) {
         mydelete(gdata.statefile);
         gdata.statefile = var;
         convert_to_unix_slash(gdata.statefile);
-        i = open(gdata.statefile, O_RDWR | O_CREAT | ADDED_OPEN_FLAGS,
+        i = open(gdata.statefile, O_RDWR | O_CREAT,
                  CREAT_PERMISSIONS);
         if (i >= 0)
             close(i);
@@ -804,11 +804,7 @@ static int connectirc(server_t* tserver) {
 #ifdef NO_HOSTCODES
             exit(10);
 #else
-#if defined(_OS_CYGWIN)
-            extern __declspec(dllimport) int h_errno;
-#else
             extern int h_errno;
-#endif
             switch (h_errno) {
             case HOST_NOT_FOUND:
                 exit(20);
@@ -1283,7 +1279,7 @@ void xdccsavetext(void) {
     sprintf(xdcclistfile_tmp, "%s.tmp", gdata.xdcclistfile);
     sprintf(xdcclistfile_bkup, "%s~", gdata.xdcclistfile);
 
-    fd = open(xdcclistfile_tmp, O_WRONLY | O_CREAT | O_TRUNC | ADDED_OPEN_FLAGS,
+    fd = open(xdcclistfile_tmp, O_WRONLY | O_CREAT | O_TRUNC,
               CREAT_PERMISSIONS);
     if (fd < 0) {
         outerror(OUTERROR_TYPE_WARN_LOUD, "Cant Create XDCC List File '%s': %s",
@@ -1346,7 +1342,7 @@ void writepidfile(const char* filename) {
             "Writing pid file...");
 
     filedescriptor =
-        open(filename, O_WRONLY | O_TRUNC | O_CREAT | ADDED_OPEN_FLAGS,
+        open(filename, O_WRONLY | O_TRUNC | O_CREAT,
              CREAT_PERMISSIONS);
     if (filedescriptor < 0)
         outerror(OUTERROR_TYPE_CRASH, "Cant Create PID File '%s': %s", filename,

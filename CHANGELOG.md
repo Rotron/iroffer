@@ -15,7 +15,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 ### Removed
 
-- Platform support for *SunOS/Solaris*, *HP-UX*, *IRIX/IRIX64*, *Digital UNIX*, *Mac OS X Server* and *AIX*.
+- Platform support for *SunOS/Solaris*, *HP-UX*, *IRIX/IRIX64*, *Digital UNIX*, *Mac OS X Server*, *AIX* and *Cygwin*.
 - *convertxdccfile*, since the *statefile* has existed for nearly 14 years now.
 
 ### Fixed

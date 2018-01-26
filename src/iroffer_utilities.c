@@ -216,25 +216,6 @@ void getos(void) {
                  "Configured for AIX but not running AIX?!?");
     printf(", Good\n");
 
-#elif defined(_OS_CYGWIN)
-    if (strncmp(u1.sysname, "CYGWIN", 6)) {
-        outerror(OUTERROR_TYPE_WARN_LOUD,
-                 "Configured for CYGWIN but not running CYGWIN?!?");
-    }
-    {
-        int count, v1 = 0, v2 = 0, v3 = 0;
-        count = sscanf(u1.release, "%d.%d.%d", &v1, &v2, &v3);
-        if (count != 3) {
-            outerror(OUTERROR_TYPE_CRASH, "Couldn't determine CYGWIN version.");
-        } else if ((v1 < 1) || ((v1 == 1) && (v2 < 5)) ||
-                   ((v1 == 1) && (v2 == 5) && (v3 < 3))) {
-            printf(", Too Old\n");
-            outerror(OUTERROR_TYPE_CRASH,
-                     "CYGWIN too old (1.5.3 or greater required)");
-        }
-    }
-    printf(", Good\n");
-
 #else
     printf(", I don't know of that!\n");
 
@@ -349,7 +330,7 @@ void mylog(calltype_e type, const char* format, ...) {
 
     if (gdata.logfd == FD_UNUSED) {
         gdata.logfd = open(gdata.logfile,
-                           O_WRONLY | O_CREAT | O_APPEND | ADDED_OPEN_FLAGS,
+                           O_WRONLY | O_CREAT | O_APPEND,
                            CREAT_PERMISSIONS);
         if (gdata.logfd < 0) {
             outerror(OUTERROR_TYPE_WARN_LOUD | OUTERROR_TYPE_NOLOG,
@@ -1101,7 +1082,7 @@ int doesfileexist(const char* f) {
         return 0;
     }
 
-    if ((fd = open(f, O_RDONLY | O_CREAT | O_EXCL | ADDED_OPEN_FLAGS,
+    if ((fd = open(f, O_RDONLY | O_CREAT | O_EXCL,
                    CREAT_PERMISSIONS)) < 0 &&
         errno == EEXIST) {
         return 1;

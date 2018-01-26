@@ -45,7 +45,7 @@ void l_establishcon(upload* const l) {
     sprintf(fullfile, "%s/%s", gdata.uploaddir, l->file);
 
     l->filedescriptor =
-        open(fullfile, O_WRONLY | O_CREAT | O_EXCL | ADDED_OPEN_FLAGS,
+        open(fullfile, O_WRONLY | O_CREAT | O_EXCL,
              CREAT_PERMISSIONS);
 
     if ((l->filedescriptor < 0) && (errno == EEXIST)) {
@@ -67,7 +67,7 @@ void l_establishcon(upload* const l) {
 #endif
         {
             l->filedescriptor =
-                open(fullfile, O_WRONLY | O_APPEND | ADDED_OPEN_FLAGS);
+                open(fullfile, O_WRONLY | O_APPEND);
 
             if (l->filedescriptor >= 0) {
                 l->resumesize = l->bytesgot = s.st_size;

@@ -24,6 +24,26 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #endif
 
 
+typedef enum {
+    SERVERSTATUS_NEED_TO_CONNECT,
+    SERVERSTATUS_RESOLVING,
+    SERVERSTATUS_TRYING,
+    SERVERSTATUS_CONNECTED,
+} server_status_e;
+
+typedef enum {
+#ifdef HAVE_FREEBSD_SENDFILE
+    TRANSFERMETHOD_FREEBSD_SENDFILE,
+#endif
+#ifdef HAVE_LINUX_SENDFILE
+    TRANSFERMETHOD_LINUX_SENDFILE,
+#endif
+#ifdef HAVE_MMAP
+    TRANSFERMETHOD_MMAP,
+#endif
+    TRANSFERMETHOD_READ_WRITE,
+} transfermethod_e;
+
 typedef struct {
     /* config */
     connectionmethod_t connectionmethod;
@@ -121,12 +141,7 @@ typedef struct {
         pid_t child_pid;
     } serv_resolv;
 
-    enum {
-        SERVERSTATUS_NEED_TO_CONNECT,
-        SERVERSTATUS_RESOLVING,
-        SERVERSTATUS_TRYING,
-        SERVERSTATUS_CONNECTED,
-    } serverstatus;
+    server_status_e serverstatus;
     long lastservercontact;
     irlist_t serverq_fast;
     irlist_t serverq_normal;
@@ -235,18 +250,7 @@ typedef struct {
         MD5_CTX md5sum;
     } md5build;
 
-    enum {
-#ifdef HAVE_FREEBSD_SENDFILE
-        TRANSFERMETHOD_FREEBSD_SENDFILE,
-#endif
-#ifdef HAVE_LINUX_SENDFILE
-        TRANSFERMETHOD_LINUX_SENDFILE,
-#endif
-#ifdef HAVE_MMAP
-        TRANSFERMETHOD_MMAP,
-#endif
-        TRANSFERMETHOD_READ_WRITE,
-    } transfermethod;
+    transfermethod_e transfermethod;
 
 } gdata_t;
 
@@ -254,4 +258,4 @@ typedef struct {
 GEX gdata_t gdata;
 
 
-#endif //IROFFER_GLOBALS_H
+#endif // IROFFER_GLOBALS_H

@@ -244,14 +244,16 @@ typedef struct {
     int resumed;
 } upload;
 
+typedef enum {
+    DCCCHAT_UNUSED,
+    DCCCHAT_LISTENING,
+    DCCCHAT_CONNECTING,
+    DCCCHAT_AUTHENTICATING,
+    DCCCHAT_CONNECTED,
+} dccchat_status_e;
+
 typedef struct {
-    enum {
-        DCCCHAT_UNUSED,
-        DCCCHAT_LISTENING,
-        DCCCHAT_CONNECTING,
-        DCCCHAT_AUTHENTICATING,
-        DCCCHAT_CONNECTED,
-    } status;
+    dccchat_status_e status;
     int fd;
     ir_boutput_t boutput;
     time_t lastcontact;

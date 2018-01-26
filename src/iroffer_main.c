@@ -29,6 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /* local functions */
 static void mainloop(void);
 static void parseline(char* line);
+static void select_dump(const char* desc, int highests);
 static char* addtoqueue(const char* nick, const char* hostname, int pack);
 static int parsecmdline(int argc, char* argv[]);
 

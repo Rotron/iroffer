@@ -1388,12 +1388,12 @@ void gobackground(void) {
 
     s = setsid();
     if (s < 0)
-        outerror(OUTERROR_TYPE_CRASH, "Couldn't setsid");
+        outerror(OUTERROR_TYPE_CRASH, "Couldn't set sid");
 
     /* parent forks */
     s = fork();
     if (s < 0)
-        outerror(OUTERROR_TYPE_CRASH, "Unable to Fork");
+        outerror(OUTERROR_TYPE_CRASH, "Unable to fork");
     else if (s > 0)
         /* parent exits */
         exit(0);
@@ -1484,7 +1484,7 @@ static void iroffer_signal_handler(int signo)
                 break;
 
             case BUS_ADRERR:
-                code = "non-existant physical address";
+                code = "non-existent physical address";
                 break;
 
             case BUS_OBJERR:

@@ -29,7 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 /* local functions */
 static void mainloop(void);
 static void parseline(char* line);
-static void select_dump(const char* desc, int highests);
+static void select_dump(const char* desc, int highest);
 static char* addtoqueue(const char* nick, const char* hostname, int pack);
 static int parsecmdline(int argc, char* argv[]);
 
@@ -152,20 +152,20 @@ static int parsecmdline(int argc, char* argv[]) {
 }
 
 
-static void select_dump(const char* desc, int highests) {
+static void select_dump(const char* desc, int highest) {
     int ii;
 
     if (!gdata.attop)
         gototop();
 
     ioutput(CALLTYPE_MULTI_FIRST, OUT_S, COLOR_CYAN, "select %s: [read", desc);
-    for (ii = 0; ii < highests + 1; ii++) {
+    for (ii = 0; ii < highest + 1; ii++) {
         if (FD_ISSET(ii, &gdata.readset)) {
             ioutput(CALLTYPE_MULTI_MIDDLE, OUT_S, COLOR_CYAN, " %d", ii);
         }
     }
     ioutput(CALLTYPE_MULTI_MIDDLE, OUT_S, COLOR_CYAN, "] [write");
-    for (ii = 0; ii < highests + 1; ii++) {
+    for (ii = 0; ii < highest + 1; ii++) {
         if (FD_ISSET(ii, &gdata.writeset)) {
             ioutput(CALLTYPE_MULTI_MIDDLE, OUT_S, COLOR_CYAN, " %d", ii);
         }
@@ -174,7 +174,7 @@ static void select_dump(const char* desc, int highests) {
 }
 
 static void mainloop(void) {
-    /* data is persistant across calls */
+    /* data is persistent across calls */
     static char server_input_line[INPUT_BUFFER_LENGTH];
     static struct timeval timestruct;
     static int i, j, length, changequartersec, changesec, changemin, changehour;
@@ -2314,7 +2314,7 @@ static char* addtoqueue(const char* nick, const char* hostname, int pack) {
 
         snprintf(
             tempstr, maxtextlength,
-            "Added you to the main queue in position %d. To Remove youself at "
+            "Added you to the main queue in position %d. To remove yourself at "
             "a later time type \"/msg %s xdcc remove\".",
             irlist_size(&gdata.mainqueue),
             (gdata.user_nick ? gdata.user_nick : "??"));
@@ -2335,9 +2335,9 @@ void sendaqueue(int type) {
 
     if (irlist_size(&gdata.mainqueue)) {
         /*
-         * first determine what the first queue position is that is eligable
+         * first determine what the first queue position is that is eligible
          * for a transfer find the first person who has not already maxed out
-         * his sends if noone, do nothing and let execution continue to pack
+         * his sends if no one, do nothing and let execution continue to pack
          * queue check
          */
 

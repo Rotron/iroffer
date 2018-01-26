@@ -1602,7 +1602,7 @@ void dumpgdata(void) {
 #ifdef HAVE_MMAP
     ioutput(gdata_common, "  : mmap_info=%p", iter->mmap_info);
 #endif
-    /* severaddress */
+    /* serveraddress */
     gdata_iter_print_string(nick);
     gdata_iter_print_string(caps_nick);
     gdata_iter_print_string(hostname);

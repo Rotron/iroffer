@@ -18,7 +18,7 @@ iroffer is a software program that acts as a fileserver for IRC. It is similar t
 - remote administration via /msg or DCC CHAT
 - bandwidth monitoring, shows last 2 minutes bandwidth average
 - Allow sending of queued packs when using low amounts of bandwidth, comes in handy when all slots are filled with people transferring 1k/sec, will keep sending out queued items while bandwidth usage is under a specified amount
-- Background or Foreground mode. background mode does not require screen and is cronable
+- Background or Foreground mode. background mode does not require screen and can be run by cron
 - Chroot support (run iroffer from inside a chroot'ed environment)
 - overall and pack minspeed
 - maximum bandwidth limiting, when set, iroffer will not use more than the set amount of bandwidth (keeps your sysadmin happy)

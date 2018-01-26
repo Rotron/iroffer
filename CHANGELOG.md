@@ -113,7 +113,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 - fix build issues with OSF1
 - fix unaligned bus fault for 64bit writes in md5sum state structure
-- fix infinate loop when more than 1 transfer in progress
+- fix infinite loop when more than 1 transfer in progress
 - dont allow plistoffset must be greater than plist time
 
 ## 1.3.b08 - 2004-08-09
@@ -130,7 +130,7 @@ and this project **does not** adhere to Semantic Versioning.
 ## 1.3.b07 - 2004-04-06
 
 - add convertxdccfile (convert .xdcc -> .state)
-- dont ignore nickserv, re-register on succesful nick rename
+- dont ignore nickserv, re-register on successful nick rename
 
 ## 1.3.b06 - 2004-04-03
 
@@ -141,7 +141,7 @@ and this project **does not** adhere to Semantic Versioning.
 - add xdcclistfile config, save xdl to text file
 - update info and xdl commands, add 'xdcc info' message for users
 - add nomd5sum config option
-- add md5sum calcluation to packs
+- add md5sum calculation to packs
 - fixup logstats
 - add removedir, remove all files from within a directory
 - share filedescriptors and mmaps between transfers
@@ -157,7 +157,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 - dcc chat fixes
 - stop updating context log after crash starts
-- fix nonblocking connect error checking
+- fix non-blocking connect error checking
 - change some privmsg to notice
 - fix various rehash crashes if items removed/added
 - add generic state file (remove xdccfile, messagefile, ignorefile)
@@ -257,7 +257,7 @@ and this project **does not** adhere to Semantic Versioning.
 ## 1.2b21 - 2003-10-12
 
 - fix crash when running on Digital UNIX
-- when pack max speed is set, send data more smoothly (250ms instead of 4 second graunlarity)
+- when pack max speed is set, send data more smoothly (250ms instead of 4 second granularity)
 - unlimited number of packs
 - unlimited number of channels
 - unlimited number of servers
@@ -278,7 +278,7 @@ and this project **does not** adhere to Semantic Versioning.
 - 'qsend' fixes to send first queued item
 - fix pack queue crash
 - reuse TCP ports from 'dccrangestart'
-- fix infinate loop if all servers don't resolve
+- fix infinite loop if all servers don't resolve
 - fix 'lowbdwth' bug (debian bug #210349)
 - add 'notifytime' configurable, how often to notify queue/bandwidth
 - add 'dynip.sh' shell script to update 'usenatip'
@@ -302,8 +302,8 @@ and this project **does not** adhere to Semantic Versioning.
 - respond to '!LIST nick' (debian bug #191027)
 - set IP TOS for transfers
 - add 'hideos', to not show os in quit/version, etc..
-- add 'respondtochannelxdcc', configure respons to 'xdcc sent' on channel
-- add 'respondtochannellist', configure respons to 'xdcc list' on channel
+- add 'respondtochannelxdcc', configure response to 'xdcc sent' on channel
+- add 'respondtochannellist', configure response to 'xdcc list' on channel
 - decrease queue/bandwidth notification to every 5 minutes
 - allow queueing even if slots available but maxtransfersperperson applies
 - smart dequeuing: skip over people that would violate maxtransfersperperson
@@ -312,7 +312,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 - fix delete headline on rehash (debian bug #193110)
 - fix freebsd, didn't have all sigcodes
-- fix super-long retry backoff
+- fix super-long retry back-off
 - fix for some os's dont have strsignal()
 - fix invocation to require at least one config file
 - fix to handle CRLF on dcc chat
@@ -320,16 +320,16 @@ and this project **does not** adhere to Semantic Versioning.
 - work around cygwin bug: >2GB files return bad size in stat()
 - proper handling of max open files ulimit setting
 - fix 'chatme' to use firewall ports too
-- fix perodicmsg every second bug
+- fix periodicmsg every second bug
 - work around cygwin bug: close() hangs
 - fix uninitialized data problem
 
 ## 1.2b17 - 2003-06-10
 
-- server retry backoff
+- server retry back-off
 - stdout buffering (ctrl-s will no longer block iroffer)
-- fix signal hander mess
-- fix infinate looping
+- fix signal handler mess
+- fix infinite looping
 - largefile support (upto 4GB on OSs that support it)
 - xdcc list is saved to text file for external use
 - handle files that change on the fly (size, replace, modify, etc...)
@@ -381,11 +381,11 @@ and this project **does not** adhere to Semantic Versioning.
 - add SCCS tags
 - wouldn't queue correctly if extra slots were in use
 - add checks for backwards windows paths
-- fix uninited dcc chat socket
+- fix uninitiated dcc chat socket
 - increase ignore count limit
 - fix gcc-3.0 #endif warnings
 - add profiling option
-- usenatip was lost of server reconnect, requried rehash
+- usenatip was lost of server reconnect, required rehash
 - fix more dcc chat / server text buffer corruption
 - don't send notifications if not connected to server
 - logging recursive loop problem fixed
@@ -453,7 +453,7 @@ and this project **does not** adhere to Semantic Versioning.
 
 - ignore file added to config file, will now store ignore list across a shutdown
 - search xdcc list for a keyword, "/msg \<bot\> xdcc search \<word\>"
-- support for Digial UNIX
+- support for Digital UNIX
 - support for MacOS X Server
 - clear records admin command
 - can now compile with either gcc or cc
@@ -504,7 +504,7 @@ and this project **does not** adhere to Semantic Versioning.
 ## 1.1b6 - 2000-01-02
 
 - help is now broken up into sections
-- when packs are added, desctiption now contains filename
+- when packs are added, description now contains filename
 - ADDDIR admin command, adds every file in a directory
 - LISTUL admin command, lists contents of upload directory
 - can use either XDCC SEND or XDCC GET
@@ -513,7 +513,7 @@ and this project **does not** adhere to Semantic Versioning.
 ## 1.1b5 - 1999-12-19
 
 - TRINFO admin command, lists information about a transfer
-- combigned DSHUTDOWN and SHUTDOWN into one command
+- combined DSHUTDOWN and SHUTDOWN into one command
 - support for BNC, wingate, and custom proxies (connectionmethod in config file)
 - bandwidth limit is now reported only to users who are actually effected by the limit
 - bug fixes
@@ -546,7 +546,7 @@ script "convertxdccfile" to convert your v1.0 xdcc file
 - contains all 1.0 fixes upto 1.0b37
 - adminpass is now stored encrypted in the config file
 - removed total snagged and added total transferred.  total transferred is amount actually sent by iroffer
-- can now read multiple config files.  if more than one config file is specified on the command line, iroffer will read them all in sequence. This can be used to have common commands for multiple bots in one file and seperate smaller files for each individual bot, or for a system administrator that wants to enforce some commands for your bots.
+- can now read multiple config files.  if more than one config file is specified on the command line, iroffer will read them all in sequence. This can be used to have common commands for multiple bots in one file and separate smaller files for each individual bot, or for a system administrator that wants to enforce some commands for your bots.
 - manual send first queued person (qsend)
 - maximum bandwidth per transfer, overall and per-pack
 - transfermaxspeed in config file, overall max speed for transfer
@@ -606,7 +606,7 @@ script "convertxdccfile" to convert your v1.0 xdcc file
 - alpha linux support
 - manual ignore
 - delayed shutdown (dshutdown)
-- etailed dcl (dcld)
+- detailed dcl (dcld)
 - safe memory allocating/freeing/reporting
 - bug fixes
 
@@ -618,7 +618,7 @@ script "convertxdccfile" to convert your v1.0 xdcc file
 - xdcc and server connections are now non-blocking
 - better minspeed calculation and enforcing
 - smoother slow speed transfers
-- better overall speed fareness
+- better overall speed fairness
 - better server switching and responsiveness when switching
 - better server connection timeout support
 - less likely to have problems when both slow and fast transfers happen at the same time
@@ -632,7 +632,7 @@ script "convertxdccfile" to convert your v1.0 xdcc file
 - default dir for files
 - message log
 - transfer rates/records are all shown in 1/10th a K now
-- more consistant xdcc messages
+- more consistent xdcc messages
 - bug fixes
 
 ## 0.1b29 - 1999-07-10
@@ -718,7 +718,7 @@ script "convertxdccfile" to convert your v1.0 xdcc file
 
 ## 0.1b19 - 1998-12-30
 
-- agressive server retrying (if not connected, will try to get connected)
+- aggressive server retrying (if not connected, will try to get connected)
 - maximum bandwidth limiting with fair share to all users
 - bug fixes
 

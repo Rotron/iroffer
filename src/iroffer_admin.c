@@ -2700,8 +2700,6 @@ static void u_ignl(const userinput* const u) {
         }
         ignore = irlist_get_next(ignore);
     }
-
-    return;
 }
 
 static void u_ignore(const userinput* const u) {
@@ -2710,8 +2708,9 @@ static void u_ignore(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if (!u->arg1) {
         u_respond(u, "Try specifying an amount of time to ignore");
@@ -2792,8 +2791,6 @@ static void u_unignore(const userinput* const u) {
     if (!ignore) {
         u_respond(u, "Hostmask not found");
     }
-
-    return;
 }
 
 
@@ -2802,8 +2799,9 @@ static void u_nosave(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
     gdata.noautosave = gdata.curtime + 60 * num - 1;
     u_respond(u, "** XDCC AutoSave has been disabled for the next %i minute%s",
               num, num != 1 ? "s" : "");
@@ -2815,8 +2813,9 @@ static void u_nosend(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
     gdata.nonewcons = gdata.curtime + 60 * num - 1;
     u_respond(u, "** XDCC Send has been disabled for the next %i minute%s", num,
               num != 1 ? "s" : "");
@@ -2828,8 +2827,9 @@ static void u_nolist(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
     gdata.nolisting = gdata.curtime + 60 * num - 1;
     u_respond(
         u, "** XDCC List and PLIST have been disabled for the next %i minute%s",
@@ -2843,10 +2843,12 @@ static void u_renumber(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         oldp = atoi(u->arg1);
-    if (u->arg2)
+    }
+    if (u->arg2) {
         newp = atoi(u->arg2);
+    }
 
     if ((oldp < 1) || (oldp > irlist_size(&gdata.xdccs)) || (newp < 1) ||
         (newp > irlist_size(&gdata.xdccs)) || (newp == oldp)) {
@@ -2894,7 +2896,6 @@ static void u_msgread(const userinput* const u) {
     u_respond(u, "msglog: %i message%s in log%s%s", count,
               count != 1 ? "s" : "", count ? ", use MSGDEL to remove " : "",
               count > 1 ? "them" : (count == 1 ? "it" : ""));
-    return;
 }
 
 
@@ -2912,7 +2913,6 @@ static void u_msgdel(const userinput* const u) {
     }
 
     write_statefile();
-    return;
 }
 
 
@@ -3033,7 +3033,7 @@ static void u_memstat(const userinput* const u) {
     }
 #endif
 
-    if (!u->arg1 || strcmp(u->arg1, "list")) {
+    if (!u->arg1 || strcmp(u->arg1, "list") != 0) {
         u_respond(u, "for a detailed listing use \"memstat list\"");
     }
 }
@@ -3053,7 +3053,6 @@ static void u_qsend(const userinput* const u) {
     }
 
     sendaqueue(2);
-    return;
 }
 
 static void u_shutdown(const userinput* const u) {
@@ -3063,8 +3062,9 @@ static void u_shutdown(const userinput* const u) {
         caps(u->arg1);
     }
 
-    if (!u->arg1 || (strcmp(u->arg1, "NOW") && strcmp(u->arg1, "DELAYED") &&
-                     strcmp(u->arg1, "CANCEL"))) {
+    if (!u->arg1 ||
+        (strcmp(u->arg1, "NOW") != 0 && strcmp(u->arg1, "DELAYED") &&
+         strcmp(u->arg1, "CANCEL") != 0)) {
         u_respond(u, "Usage: SHUTDOWN <now|delayed|cancel>");
         return;
     }
@@ -3087,8 +3087,9 @@ static void u_shutdown(const userinput* const u) {
 static void u_debug(const userinput* const u) {
     updatecontext();
 
-    if (!u->arg1)
+    if (!u->arg1) {
         return;
+    }
 
     gdata.debug = atoi(u->arg1);
 }
@@ -3104,7 +3105,6 @@ static void u_servqc(const userinput* const u) {
     irlist_delete_all(&gdata.serverq_fast);
     irlist_delete_all(&gdata.serverq_normal);
     irlist_delete_all(&gdata.serverq_slow);
-    return;
 }
 
 static void u_jump(const userinput* const u) {
@@ -3161,8 +3161,9 @@ static void u_trinfo(const userinput* const u) {
 
     updatecontext();
 
-    if (u->arg1)
+    if (u->arg1) {
         num = atoi(u->arg1);
+    }
 
     if ((num < 0) || !does_tr_id_exist(num)) {
         u_respond(u, "Try Specifying a Valid Transfer Number");
@@ -3299,7 +3300,7 @@ static void u_listul(const userinput* const u) {
     }
 
     while ((f = readdir(d))) {
-        if (strcmp(f->d_name, ".") && strcmp(f->d_name, "..")) {
+        if (strcmp(f->d_name, ".") != 0 && strcmp(f->d_name, "..")) {
             thefile = irlist_add(&dirlist, strlen(f->d_name) + 1);
             strcpy(thefile, f->d_name);
         }
@@ -3404,8 +3405,6 @@ static void u_listul(const userinput* const u) {
     }
 #endif
 #endif
-
-    return;
 }
 
 static void u_clearrecords(const userinput* const u) {
@@ -3452,12 +3451,14 @@ static void u_rmul(const userinput* const u) {
     sprintf(tempstr, "%s/%s", gdata.uploaddir, u->arg1e);
 
     if (doesfileexist(tempstr)) {
-        if (unlink(tempstr) < 0)
+        if (unlink(tempstr) < 0) {
             u_respond(u, "Unable to remove the file");
-        else
+        } else {
             u_respond(u, "Deleted");
-    } else
+        }
+    } else {
         u_respond(u, "That filename doesn't exist");
+    }
 
     mydelete(tempstr);
 }

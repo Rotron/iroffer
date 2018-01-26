@@ -155,9 +155,10 @@ void getos(void) {
 
     /* verify we are who we were configured for, and set config */
 #if defined(_OS_Linux)
-    if (strcmp(u1.sysname, "Linux"))
+    if (strcmp(u1.sysname, "Linux") != 0) {
         outerror(OUTERROR_TYPE_WARN_LOUD,
                  "Configured for Linux but not running Linux?!?");
+    }
     printf(", Good\n");
 
 #elif defined(_OS_FreeBSD) || defined(_OS_OpenBSD) || defined(_OS_NetBSD) ||   \
@@ -329,8 +330,7 @@ void mylog(calltype_e type, const char* format, ...) {
     }
 
     if (gdata.logfd == FD_UNUSED) {
-        gdata.logfd = open(gdata.logfile,
-                           O_WRONLY | O_CREAT | O_APPEND,
+        gdata.logfd = open(gdata.logfile, O_WRONLY | O_CREAT | O_APPEND,
                            CREAT_PERMISSIONS);
         if (gdata.logfd < 0) {
             outerror(OUTERROR_TYPE_WARN_LOUD | OUTERROR_TYPE_NOLOG,
@@ -1082,8 +1082,7 @@ int doesfileexist(const char* f) {
         return 0;
     }
 
-    if ((fd = open(f, O_RDONLY | O_CREAT | O_EXCL,
-                   CREAT_PERMISSIONS)) < 0 &&
+    if ((fd = open(f, O_RDONLY | O_CREAT | O_EXCL, CREAT_PERMISSIONS)) < 0 &&
         errno == EEXIST) {
         return 1;
     } else if (fd < 0) {

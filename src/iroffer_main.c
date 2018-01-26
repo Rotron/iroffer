@@ -85,8 +85,9 @@ int main(int argc, char* argv[]) {
 
     first_config_arg = optind;
 
-    for (i = 0; i < MAXCONFIG && i < (argc - first_config_arg); i++)
+    for (i = 0; i < MAXCONFIG && i < (argc - first_config_arg); i++) {
         gdata.configfile[i] = argv[i + first_config_arg];
+    }
 
     startupiroffer();
 
@@ -155,8 +156,9 @@ static int parsecmdline(int argc, char* argv[]) {
 static void select_dump(const char* desc, int highest) {
     int ii;
 
-    if (!gdata.attop)
+    if (!gdata.attop) {
         gototop();
+    }
 
     ioutput(CALLTYPE_MULTI_FIRST, OUT_S, COLOR_CYAN, "select %s: [read", desc);
     for (ii = 0; ii < highest + 1; ii++) {
@@ -316,8 +318,9 @@ static void mainloop(void) {
         select_dump("try", highests);
     }
 
-    if (gdata.attop)
+    if (gdata.attop) {
         gotobot();
+    }
 
     tostdout_write();
 
@@ -450,8 +453,9 @@ static void mainloop(void) {
     changesec = 0;
     if (gdata.curtime != lasttime) {
         if (gdata.curtime < lasttime - 3) {
-            if (!gdata.attop)
+            if (!gdata.attop) {
                 gototop();
+            }
             outerror(OUTERROR_TYPE_WARN,
                      "System Time Changed Backwards %lim %lis!!\n",
                      (long)(lasttime - gdata.curtime) / 60,
@@ -459,8 +463,9 @@ static void mainloop(void) {
         }
 
         if (gdata.curtime > lasttime + 10) {
-            if (!gdata.attop)
+            if (!gdata.attop) {
                 gototop();
+            }
             outerror(
                 OUTERROR_TYPE_WARN,
                 "System Time Changed Forward or Mainloop Skipped %lim %lis!!\n",
@@ -490,10 +495,12 @@ static void mainloop(void) {
     if (changesec) {
         gdata.totaluptime++;
         xdccsent = 0;
-        for (i = 0; i < XDCC_SENT_SIZE; i++)
+        for (i = 0; i < XDCC_SENT_SIZE; i++) {
             xdccsent += (uint64_t)gdata.xdccsent[i];
-        if (((float)xdccsent) / XDCC_SENT_SIZE / 1024.0 > gdata.sentrecord)
+        }
+        if (((float)xdccsent) / XDCC_SENT_SIZE / 1024.0 > gdata.sentrecord) {
             gdata.sentrecord = ((float)xdccsent) / XDCC_SENT_SIZE / 1024.0;
+        }
         gdata.xdccsent[(gdata.curtime + 1) % XDCC_SENT_SIZE] = 0;
     }
 
@@ -514,8 +521,9 @@ static void mainloop(void) {
 
     /*----- see if anything waiting on console ----- */
     gdata.needsclear = 0;
-    if (!gdata.background && FD_ISSET(fileno(stdin), &gdata.readset))
+    if (!gdata.background && FD_ISSET(fileno(stdin), &gdata.readset)) {
         parseconsole();
+    }
 
     updatecontext();
     /*----- see if gdata.ircserver is sending anything to us ----- */
@@ -598,8 +606,9 @@ static void mainloop(void) {
                     "Server Connection Established, Logging In");
             gdata.serverstatus = SERVERSTATUS_CONNECTED;
             FD_CLR(gdata.ircserver, &gdata.writeset);
-            if (set_socket_nonblocking(gdata.ircserver, 0) < 0)
+            if (set_socket_nonblocking(gdata.ircserver, 0) < 0) {
                 outerror(OUTERROR_TYPE_WARN, "Couldn't Set Blocking");
+            }
 
             if (!gdata.usenatip) {
                 struct sockaddr_in localaddr = {0};
@@ -932,17 +941,19 @@ static void mainloop(void) {
     /*----- send server stuff ----- */
     if (changesec) {
         sendserver();
-        if (gdata.curtime % INAMNT_SIZE == (INAMNT_SIZE - 1))
+        if (gdata.curtime % INAMNT_SIZE == (INAMNT_SIZE - 1)) {
             gdata.inamnt[0] = 0;
-        else
+        } else {
             gdata.inamnt[gdata.curtime % INAMNT_SIZE + 1] = 0;
+        }
     }
 
     /*----- see if we can send out some xdcc lists */
     if (changesec && gdata.serverstatus == SERVERSTATUS_CONNECTED) {
         if (!irlist_size(&gdata.serverq_normal) &&
-            !irlist_size(&gdata.serverq_slow))
+            !irlist_size(&gdata.serverq_slow)) {
             sendxdlqueue();
+        }
     }
 
     /*----- see if its time to change maxb */
@@ -954,8 +965,9 @@ static void mainloop(void) {
 
             if (localt->tm_hour >= gdata.overallmaxspeeddaytimestart &&
                 localt->tm_hour < gdata.overallmaxspeeddaytimeend &&
-                (gdata.overallmaxspeeddaydays & (1 << localt->tm_wday)))
+                (gdata.overallmaxspeeddaydays & (1 << localt->tm_wday))) {
                 gdata.maxb = gdata.overallmaxspeeddayspeed;
+            }
         }
     }
 
@@ -1077,8 +1089,9 @@ static void mainloop(void) {
         ignore = irlist_get_head(&gdata.ignorelist);
 
         while (ignore) {
-            if (!gdata.attop)
+            if (!gdata.attop) {
                 gototop();
+            }
             ignore->bucket--;
             if ((ignore->flags & IGN_IGNORING) && (ignore->bucket < 0)) {
                 ignore->flags &= ~IGN_IGNORING;
@@ -1105,8 +1118,9 @@ static void mainloop(void) {
         lastperiodicmsg = gdata.curtime;
 
         if (gdata.periodicmsg_nick && gdata.periodicmsg_msg &&
-            (gdata.serverstatus == SERVERSTATUS_CONNECTED))
+            (gdata.serverstatus == SERVERSTATUS_CONNECTED)) {
             privmsg(gdata.periodicmsg_nick, "%s", gdata.periodicmsg_msg);
+        }
     }
 
     updatecontext();
@@ -1216,8 +1230,9 @@ static void mainloop(void) {
 
     updatecontext();
     /*----- check for size change ----- */
-    if (changesec)
+    if (changesec) {
         checktermsize();
+    }
 
     updatecontext();
 
@@ -1314,8 +1329,9 @@ static void mainloop(void) {
         last3min = gdata.curtime;
 
         xdccsent = 0;
-        for (i = 0; i < XDCC_SENT_SIZE; i++)
+        for (i = 0; i < XDCC_SENT_SIZE; i++) {
             xdccsent += (uint64_t)gdata.xdccsent[i];
+        }
         xdccsent /= XDCC_SENT_SIZE * 1024;
 
         if ((xdccsent < gdata.lowbdwth) && !gdata.exiting &&
@@ -1400,7 +1416,8 @@ static void mainloop(void) {
         updatecontext();
 
         /* try to regain nick */
-        if (!gdata.user_nick || strcmp(gdata.config_nick, gdata.user_nick)) {
+        if (!gdata.user_nick ||
+            strcmp(gdata.config_nick, gdata.user_nick) != 0) {
             writeserver(WRITESERVER_NORMAL, "NICK %s", gdata.config_nick);
         }
 
@@ -1411,8 +1428,9 @@ static void mainloop(void) {
             char tempstr[maxtextlength];
             char tempstr2[maxtextlengthshort];
 
-            if (gdata.attop)
+            if (gdata.attop) {
                 gotobot();
+            }
 
             tostdout("\x1b[s");
 
@@ -1500,8 +1518,7 @@ static void mainloop(void) {
                 ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
                         "[MD5]: Calculating pack %d", packnum);
 
-                gdata.md5build.file_fd =
-                    open(xd->file, O_RDONLY);
+                gdata.md5build.file_fd = open(xd->file, O_RDONLY);
                 if (gdata.md5build.file_fd >= 0) {
                     gdata.md5build.xpack = xd;
                     MD5_Init(&gdata.md5build.md5sum);
@@ -1533,8 +1550,9 @@ static void mainloop(void) {
 
         tostdout_disable_buffering();
         uninitscreen();
-        if (gdata.pidfile)
+        if (gdata.pidfile) {
             unlink(gdata.pidfile);
+        }
         exit(0);
     }
 
@@ -1575,10 +1593,12 @@ static void mainloop(void) {
 
     /* END */
     updatecontext();
-    if (gdata.needsclear)
+    if (gdata.needsclear) {
         drawbot();
-    if (gdata.attop)
+    }
+    if (gdata.attop) {
         gotobot();
+    }
 
     changehour = changemin = 0;
 }
@@ -1596,8 +1616,9 @@ static void parseline(char* line) {
     /* we only support lines upto maxtextlength, truncate line */
     line[maxtextlength - 1] = '\0';
 
-    if (gdata.debug > 0)
+    if (gdata.debug > 0) {
         ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_CYAN, ">IRC>: %s", line);
+    }
 
     part2 = getpart(line, 2);
     if (part2 == NULL) {
@@ -1616,8 +1637,9 @@ static void parseline(char* line) {
 
     /* NOTICE nick */
     if (part3 && gdata.caps_nick && !strcmp(caps(part2), "NOTICE") &&
-        !strcmp(caps(part3), gdata.caps_nick))
+        !strcmp(caps(part3), gdata.caps_nick)) {
         privmsgparse("NOTICE", line);
+    }
 
     /* :server 001  xxxx :welcome.... */
     if (!strcmp(part2, "001")) {
@@ -1752,9 +1774,9 @@ static void parseline(char* line) {
     /* ERROR :Closing Link */
     if (strncmp(line, "ERROR :Closing Link", strlen("ERROR :Closing Link")) ==
         0) {
-        if (gdata.exiting)
+        if (gdata.exiting) {
             gdata.recentsent = 0;
-        else {
+        } else {
             ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_RED,
                     "Server Closed Connection: %s", line);
 
@@ -1772,9 +1794,10 @@ static void parseline(char* line) {
 
     /* server ping */
     if (PING_SRVR && (strncmp(line, "PING :", 6) == 0)) {
-        if (gdata.debug > 0)
+        if (gdata.debug > 0) {
             ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_NO_COLOR, "Server Ping: %s",
                     line);
+        }
         writeserver(WRITESERVER_NOW, "PO%s", line + 2);
     }
 
@@ -2173,9 +2196,10 @@ void sendxdccfile(const char* nick, const char* hostname, const char* hostmask,
 
 done:
 
-    if (!man)
+    if (!man) {
         ioutput(CALLTYPE_MULTI_END, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
                 "%s (%s)", nick, hostname);
+    }
 }
 
 void sendxdccinfo(const char* nick, const char* hostname, const char* hostmask,
@@ -2217,7 +2241,7 @@ void sendxdccinfo(const char* nick, const char* hostname, const char* hostmask,
     sendnamestr = getsendname(xd->file);
     notice_slow(nick, " Filename       %s", sendnamestr);
 
-    if (strcmp(sendnamestr, xd->desc)) {
+    if (strcmp(sendnamestr, xd->desc) != 0) {
         notice_slow(nick, " Description    %s", xd->desc);
     }
     mydelete(sendnamestr);
@@ -2251,8 +2275,6 @@ done:
 
     ioutput(CALLTYPE_MULTI_END, OUT_S | OUT_L | OUT_D, COLOR_YELLOW, "%s (%s)",
             nick, hostname);
-
-    return;
 }
 
 static char* addtoqueue(const char* nick, const char* hostname, int pack) {
@@ -2330,8 +2352,9 @@ void sendaqueue(int type) {
 
     updatecontext();
 
-    if (!gdata.attop)
+    if (!gdata.attop) {
         gototop();
+    }
 
     if (irlist_size(&gdata.mainqueue)) {
         /*

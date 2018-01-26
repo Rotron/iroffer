@@ -52,24 +52,29 @@ void getconfig(void) {
     printf("** Checking for completeness of config file ...\n");
 
     if (!irlist_size(&gdata.servers) || gdata.config_nick == NULL ||
-        gdata.user_realname == NULL || gdata.slotsmax == 0)
+        gdata.user_realname == NULL || gdata.slotsmax == 0) {
         outerror(OUTERROR_TYPE_CRASH,
                  "Config File Missing Necessary Information");
+    }
 
     if (irlist_size(&gdata.uploadhost) &&
-        (gdata.uploaddir == NULL || strlen(gdata.uploaddir) < 2))
+        (gdata.uploaddir == NULL || strlen(gdata.uploaddir) < 2)) {
         outerror(OUTERROR_TYPE_CRASH, "Config File Missing Upload Information");
+    }
 
-    if (!irlist_size(&gdata.downloadhost))
+    if (!irlist_size(&gdata.downloadhost)) {
         outerror(OUTERROR_TYPE_CRASH,
                  "Config File Missing Download Host Information");
+    }
 
-    if (!gdata.statefile)
+    if (!gdata.statefile) {
         outerror(OUTERROR_TYPE_CRASH,
                  "Config File Missing State File Information");
+    }
 
-    if (gdata.background)
+    if (gdata.background) {
         gdata.debug = 0;
+    }
 
     if (!gdata.noscreen && !gdata.background) {
         printf("\x1b[%i;12H%s) >", gdata.termlines, "");
@@ -331,46 +336,53 @@ void getconfig_set(const char* line, int rehash) {
         for (i = 2; i < 20 && ok && (tptr = getpart(var, i)); i++) {
             if (!strcmp(tptr, "-plist")) {
                 i++;
-                if ((tptr2 = getpart(var, i)))
+                if ((tptr2 = getpart(var, i))) {
                     cptr->plisttime = atoi(tptr2);
-                else
+                } else {
                     ok = 0;
+                }
             } else if (!strcmp(tptr, "-pformat")) {
                 i++;
                 if ((tptr2 = getpart(var, i))) {
-                    if (!strcmp(tptr2, "full"))
+                    if (!strcmp(tptr2, "full")) {
                         ;
-                    else if (!strcmp(tptr2, "minimal"))
+                    } else if (!strcmp(tptr2, "minimal")) {
                         cptr->flags |= CHAN_MINIMAL;
-                    else if (!strcmp(tptr2, "summary"))
+                    } else if (!strcmp(tptr2, "summary")) {
                         cptr->flags |= CHAN_SUMMARY;
-                    else
+                    } else {
                         ok = 0;
-                } else
+                    }
+                } else {
                     ok = 0;
+                }
             } else if (!strcmp(tptr, "-plistoffset")) {
                 i++;
-                if ((tptr2 = getpart(var, i)))
+                if ((tptr2 = getpart(var, i))) {
                     cptr->plistoffset = atoi(tptr2);
-                else
+                } else {
                     cptr->plistoffset = 0;
+                }
             } else if (!strcmp(tptr, "-key")) {
                 i++;
                 if ((tptr2 = getpart(var, i))) {
                     cptr->key = mymalloc(strlen(tptr2) + 1);
                     strcpy(cptr->key, tptr2);
-                } else
+                } else {
                     ok = 0;
-            } else
+                }
+            } else {
                 ok = 0;
+            }
 
             mydelete(tptr);
             mydelete(tptr2);
         }
 
-        if (!ok)
+        if (!ok) {
             ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
                     " !!! Bad syntax for channel %s in config file !!!", tname);
+        }
 
         if (cptr->plisttime && (cptr->plistoffset >= cptr->plisttime)) {
             outerror(
@@ -434,8 +446,9 @@ void getconfig_set(const char* line, int rehash) {
         mydelete(var);
     } else if (!strcmp(type, "overallmaxspeeddaydays")) {
         gdata.overallmaxspeeddaydays = 0;
-        for (i = 0; (i < sstrlen(var) && i < 8); i++)
+        for (i = 0; (i < sstrlen(var) && i < 8); i++) {
             gdata.overallmaxspeeddaydays |= dayofweektomask(var[i]);
+        }
         mydelete(var);
     } else if (!strcmp(type, "transferlimits")) {
         char* part;
@@ -470,12 +483,15 @@ void getconfig_set(const char* line, int rehash) {
         }
         mydelete(var);
     } else if (!strcmp(type, "logrotate")) {
-        if (!strcmp(var, "daily"))
+        if (!strcmp(var, "daily")) {
             gdata.logrotate = 24 * 60 * 60;
-        if (!strcmp(var, "weekly"))
+        }
+        if (!strcmp(var, "weekly")) {
             gdata.logrotate = 7 * 24 * 60 * 60;
-        if (!strcmp(var, "monthly"))
+        }
+        if (!strcmp(var, "monthly")) {
             gdata.logrotate = 30 * 24 * 60 * 60;
+        }
         mydelete(var);
     } else if (!strcmp(type, "adminpass")) {
         mydelete(gdata.adminpass);
@@ -497,10 +513,10 @@ void getconfig_set(const char* line, int rehash) {
         mydelete(gdata.statefile);
         gdata.statefile = var;
         convert_to_unix_slash(gdata.statefile);
-        i = open(gdata.statefile, O_RDWR | O_CREAT,
-                 CREAT_PERMISSIONS);
-        if (i >= 0)
+        i = open(gdata.statefile, O_RDWR | O_CREAT, CREAT_PERMISSIONS);
+        if (i >= 0) {
             close(i);
+        }
     } else if (!strcmp(type, "xdcclistfile")) {
         mydelete(gdata.xdcclistfile);
         gdata.xdcclistfile = var;
@@ -529,8 +545,9 @@ void getconfig_set(const char* line, int rehash) {
             gdata.periodicmsg_time = max2(1, atoi(tnum));
 
             offset = strlen(gdata.periodicmsg_nick) + strlen(tnum) + 2;
-            for (i = offset; i <= strlen(var); i++)
+            for (i = offset; i <= strlen(var); i++) {
                 var[i - offset] = var[i];
+            }
 
             mydelete(gdata.periodicmsg_msg);
             gdata.periodicmsg_msg = var;
@@ -550,9 +567,10 @@ void getconfig_set(const char* line, int rehash) {
             gdata.ourip = (ipparts[0] << 24) | (ipparts[1] << 16) |
                           (ipparts[2] << 8) | ipparts[3];
 
-            if (gdata.debug > 0)
+            if (gdata.debug > 0) {
                 ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_YELLOW, "ip=0x%8.8lX\n",
                         gdata.ourip);
+            }
 
             /* check for 10.0.0.0/8 172.16.0.0/12 192.168.0.0/16 */
             if (((gdata.ourip & 0xFF000000UL) == 0x0A000000UL) ||
@@ -695,8 +713,9 @@ static int connectirc(server_t* tserver) {
 
     gdata.serverbucket = EXCESS_BUCKET_MAX;
 
-    if (!tserver)
+    if (!tserver) {
         return 1;
+    }
 
     gdata.lastservercontact = gdata.curtime;
 
@@ -881,8 +900,9 @@ int connectirc2(struct in_addr* remote) {
         }
     }
 
-    if (set_socket_nonblocking(gdata.ircserver, 1) < 0)
+    if (set_socket_nonblocking(gdata.ircserver, 1) < 0) {
         outerror(OUTERROR_TYPE_WARN, "Couldn't Set Non-Blocking");
+    }
 
     alarm(CTIMEOUT);
     retval = connect(gdata.ircserver, (struct sockaddr*)&ircserverip,
@@ -1103,7 +1123,6 @@ void vwriteserver(writeserver_type_e type, const char* format, va_list ap) {
     }
 
     mydelete(msg);
-    return;
 }
 
 void sendserver(void) {
@@ -1143,8 +1162,9 @@ void sendserver(void) {
     item = irlist_get_head(&gdata.serverq_fast);
 
     while (item && (strlen(item) < gdata.serverbucket)) {
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
         if (gdata.debug > 0) {
             ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_MAGENTA, "<IRC<: %s", item);
         }
@@ -1164,8 +1184,9 @@ void sendserver(void) {
     item = irlist_get_head(&gdata.serverq_normal);
 
     while (item && (strlen(item) < gdata.serverbucket)) {
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
         if (gdata.debug > 0) {
             ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_MAGENTA, "<IRC<: %s", item);
         }
@@ -1185,8 +1206,9 @@ void sendserver(void) {
     item = irlist_get_head(&gdata.serverq_slow);
 
     while (item && (strlen(item) < gdata.serverbucket)) {
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
         if (gdata.debug > 0) {
             ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_MAGENTA, "<IRC<: %s", item);
         }
@@ -1203,8 +1225,6 @@ void sendserver(void) {
     } else {
         gdata.recentsent = 6;
     }
-
-    return;
 }
 
 
@@ -1246,9 +1266,11 @@ const char* getfilename(const char* const full) {
     updatecontext();
 
     lastslash = -1;
-    for (i = 0; i < sstrlen(full); i++)
-        if (full[i] == '/' || full[i] == '\\')
+    for (i = 0; i < sstrlen(full); i++) {
+        if (full[i] == '/' || full[i] == '\\') {
             lastslash = i;
+        }
+    }
 
     return full + lastslash + 1;
 }
@@ -1279,8 +1301,8 @@ void xdccsavetext(void) {
     sprintf(xdcclistfile_tmp, "%s.tmp", gdata.xdcclistfile);
     sprintf(xdcclistfile_bkup, "%s~", gdata.xdcclistfile);
 
-    fd = open(xdcclistfile_tmp, O_WRONLY | O_CREAT | O_TRUNC,
-              CREAT_PERMISSIONS);
+    fd =
+        open(xdcclistfile_tmp, O_WRONLY | O_CREAT | O_TRUNC, CREAT_PERMISSIONS);
     if (fd < 0) {
         outerror(OUTERROR_TYPE_WARN_LOUD, "Cant Create XDCC List File '%s': %s",
                  xdcclistfile_tmp, strerror(errno));
@@ -1329,7 +1351,6 @@ void xdccsavetext(void) {
 error_out:
     mydelete(xdcclistfile_tmp);
     mydelete(xdcclistfile_bkup);
-    return;
 }
 
 void writepidfile(const char* filename) {
@@ -1342,11 +1363,11 @@ void writepidfile(const char* filename) {
             "Writing pid file...");
 
     filedescriptor =
-        open(filename, O_WRONLY | O_TRUNC | O_CREAT,
-             CREAT_PERMISSIONS);
-    if (filedescriptor < 0)
+        open(filename, O_WRONLY | O_TRUNC | O_CREAT, CREAT_PERMISSIONS);
+    if (filedescriptor < 0) {
         outerror(OUTERROR_TYPE_CRASH, "Cant Create PID File '%s': %s", filename,
                  strerror(errno));
+    }
 
     snprintf(tempstr2, maxtextlengthshort - 1, "%i\n", (int)getpid());
     write(filedescriptor, tempstr2, strlen(tempstr2));
@@ -1369,9 +1390,9 @@ void gobackground(void) {
 
     /* parent forks */
     s = fork();
-    if (s < 0)
+    if (s < 0) {
         outerror(OUTERROR_TYPE_CRASH, "Unable to Fork");
-    else if (s > 0) {
+    } else if (s > 0) {
         /* parent exits */
         exit(0);
     }
@@ -1382,21 +1403,24 @@ void gobackground(void) {
     /*   if ( r.rlim_max < 1 || s < 0) */
     /*      outerror(OUTERROR_TYPE_CRASH,"Couldn't get rlimit"); */
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++) {
         close(i);
+    }
     /*   for (i=0; i< r.rlim_max; i++) close(i); */
 
     s = setsid();
-    if (s < 0)
+    if (s < 0) {
         outerror(OUTERROR_TYPE_CRASH, "Couldn't set sid");
+    }
 
     /* parent forks */
     s = fork();
-    if (s < 0)
+    if (s < 0) {
         outerror(OUTERROR_TYPE_CRASH, "Unable to fork");
-    else if (s > 0)
+    } else if (s > 0) {
         /* parent exits */
         exit(0);
+    }
 
 
     /* background continues... */
@@ -1646,7 +1670,6 @@ static void iroffer_signal_handler(int signo)
         exit(1);
     }
     }
-    return;
 }
 
 
@@ -1662,19 +1685,22 @@ void floodchk(void) {
         count += gdata.inamnt[i];
     }
 
-    if (count > 6)
+    if (count > 6) {
         gdata.ignore = 1;
-    else
+    } else {
         gdata.ignore = 0;
+    }
 
     if (last - gdata.ignore == -1) {
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
         outerror(OUTERROR_TYPE_WARN, "Flood Protection Activated");
     }
     if (last - gdata.ignore == 1) {
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
         outerror(OUTERROR_TYPE_WARN, "Flood Protection Deactivated");
     }
 }
@@ -1699,8 +1725,9 @@ void joinchannel(channel_t* c) {
 
     updatecontext();
 
-    if (!c)
+    if (!c) {
         return;
+    }
 
     if (c->key) {
         writeserver(WRITESERVER_NORMAL, "JOIN %s %s", c->name, c->key);
@@ -1726,18 +1753,21 @@ void shutdowniroffer(void) {
 
     updatecontext();
 
-    if (!gdata.attop)
+    if (!gdata.attop) {
         gototop();
+    }
 
-    if (SAVEQUIT)
+    if (SAVEQUIT) {
         write_statefile();
+    }
 
     if (gdata.exiting || gdata.serverstatus != SERVERSTATUS_CONNECTED) {
-        if (gdata.exiting)
+        if (gdata.exiting) {
             ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_NO_COLOR,
                     "Shutting Down (FORCED)");
-        else
+        } else {
             ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_NO_COLOR, "Shutting Down");
+        }
 
         for (chat = irlist_get_head(&gdata.dccchats); chat;
              chat = irlist_delete(&gdata.dccchats, chat)) {
@@ -1750,8 +1780,9 @@ void shutdowniroffer(void) {
 
         tostdout_disable_buffering();
         uninitscreen();
-        if (gdata.pidfile)
+        if (gdata.pidfile) {
             unlink(gdata.pidfile);
+        }
         exit(0);
     }
 
@@ -1883,10 +1914,12 @@ void switchserver(int which) {
         which = (int)(((float)i) * rand() / (RAND_MAX + 0.0));
 
         while (which > i || which < 0) {
-            if (which < 0)
+            if (which < 0) {
                 which += i;
-            if (which > i)
+            }
+            if (which > i) {
                 which -= i;
+            }
         }
     }
 
@@ -2045,8 +2078,9 @@ int isthisforme(const char* dest, char* msg1) {
         (!strcmp(gdata.caps_nick, dest) &&
          (!strcmp(caps(msg1), "XDCC") || !strcmp(msg1, "\1XDCC") ||
           !strcmp(caps(msg1), "CDCC") || !strcmp(msg1, "\1CDCC"))) ||
-        !strcmp(dest, gdata.caps_nick))
+        !strcmp(dest, gdata.caps_nick)) {
         return 1;
+    }
 
     return 0;
 }
@@ -2136,7 +2170,6 @@ void reinit_config_vars(void) {
     mydelete(gdata.statefile);
     mydelete(gdata.xdcclistfile);
     gdata.xdcclistfileraw = 0;
-    return;
 }
 
 void initprefixes(void) {
@@ -2183,8 +2216,6 @@ void initvars(void) {
     gdata.console_input_line = mycalloc(INPUT_BUFFER_LENGTH);
 
     gdata.last_logrotate = gdata.curtime;
-
-    return;
 }
 
 void startupiroffer(void) {
@@ -2211,13 +2242,15 @@ void startupiroffer(void) {
     }
 
     printf("\n");
-    if (!gdata.background && !gdata.nocolor)
+    if (!gdata.background && !gdata.nocolor) {
         printf("\x1b[1;33m");
+    }
     printf(
         "Welcome to iroffer by PMG - http://iroffer.org/\n"
         "Version " VERSIONLONG "\n");
-    if (!gdata.background && !gdata.nocolor)
+    if (!gdata.background && !gdata.nocolor) {
         printf("\x1b[0m");
+    }
     printf("\n");
 
     /* signal handling */
@@ -2257,10 +2290,12 @@ void startupiroffer(void) {
 #if !defined(NO_SETUID)
     if (gdata.runasuser) {
         struct passwd* pw_ent = NULL;
-        if ((pw_ent = getpwnam(gdata.runasuser)) == NULL)
-            if ((pw_ent = getpwuid(atoi(gdata.runasuser))) == NULL)
+        if ((pw_ent = getpwnam(gdata.runasuser)) == NULL) {
+            if ((pw_ent = getpwuid(atoi(gdata.runasuser))) == NULL) {
                 outerror(OUTERROR_TYPE_CRASH, "Can't lookup user: %s",
                          strerror(errno));
+            }
+        }
         runasuid = pw_ent->pw_uid;
         runasgid = pw_ent->pw_gid;
 
@@ -2332,8 +2367,9 @@ void startupiroffer(void) {
             "iroffer should not be run as root!");
     }
 
-    if (!gdata.background)
+    if (!gdata.background) {
         printf("** Window Size: %ix%i\n", gdata.termcols, gdata.termlines);
+    }
 
     tempstr23 = mycalloc(maxtextlength);
     printf("** Started on: %s\n", getdatestr(tempstr23, 0, maxtextlength));
@@ -2405,11 +2441,13 @@ void startupiroffer(void) {
     }
 
     /* fork to background if in background mode */
-    if (gdata.background)
+    if (gdata.background) {
         gobackground();
+    }
 
-    if (gdata.pidfile)
+    if (gdata.pidfile) {
         writepidfile(gdata.pidfile);
+    }
 
     /* start stdout buffered I/O */
     fflush(stdout);
@@ -2472,8 +2510,6 @@ void isrotatelog(void) {
     }
 
     mydelete(newname);
-
-    return;
 }
 
 
@@ -2509,10 +2545,11 @@ void createpassword(void) {
             len--;
         }
 
-        if (len < 5 || len > 8)
+        if (len < 5 || len > 8) {
             printf("Wrong Length, Try Again\n");
-        else
+        } else {
             ok = 1;
+        }
     }
 
     printf("And Again for Verification: ");
@@ -2527,7 +2564,7 @@ void createpassword(void) {
         len--;
     }
 
-    if (strcmp(pw1, pw2)) {
+    if (strcmp(pw1, pw2) != 0) {
         fprintf(stderr, "The Password Didn't Match, Try Again\n");
         exit(1);
     }
@@ -2541,7 +2578,7 @@ void createpassword(void) {
 
     pwout = crypt(pw1, salt);
 
-    if (pwout && strlen(pwout) == 13)
+    if (pwout && strlen(pwout) == 13) {
         printf(
             "\n"
             "To use \"%s\" as your password use the following in your config "
@@ -2549,11 +2586,12 @@ void createpassword(void) {
             "adminpass %s\n"
             "\n",
             pw1, pwout);
-    else
+    } else {
         printf(
             "\n"
             "The crypt() function does not appear to be working correctly\n"
             "\n");
+    }
 
 #else
     printf(
@@ -2564,17 +2602,17 @@ void createpassword(void) {
 
 /* 0 .. 63 */
 char inttosaltchar(int n) {
-    if (n < 26)
+    if (n < 26) {
         return n + 'a';
-    else if (n < 26 * 2)
+    } else if (n < 26 * 2) {
         return n - 26 + 'A';
-    else if (n < 26 * 2 + 10)
+    } else if (n < 26 * 2 + 10) {
         return n - 26 - 26 + '0';
-    else if (n < 26 * 2 + 10 + 1)
+    } else if (n < 26 * 2 + 10 + 1) {
         return '.';
-    else if (n < 26 * 2 + 10 + 2)
+    } else if (n < 26 * 2 + 10 + 2) {
         return '/';
-
+    }
     return 0; /* error */
 }
 
@@ -2590,8 +2628,9 @@ void notifyqueued(void) {
     if (!gdata.exiting && irlist_size(&gdata.mainqueue)) {
         if (gdata.lowbdwth) {
             xdccsent = 0;
-            for (i = 0; i < XDCC_SENT_SIZE; i++)
+            for (i = 0; i < XDCC_SENT_SIZE; i++) {
                 xdccsent += gdata.xdccsent[i];
+            }
 
             ioutput(
                 CALLTYPE_NORMAL, OUT_S | OUT_D, COLOR_YELLOW,
@@ -2663,10 +2702,12 @@ void notifybandwidth(void) {
 
     updatecontext();
 
-    if (gdata.exiting)
+    if (gdata.exiting) {
         return;
-    if (!gdata.maxb)
+    }
+    if (!gdata.maxb) {
         return;
+    }
 
     xdccsent = 0;
     for (i = 0; i < XDCC_SENT_SIZE; i++) {
@@ -2694,8 +2735,9 @@ void notifybandwidthtrans(void) {
 
     updatecontext();
 
-    if (gdata.exiting)
+    if (gdata.exiting) {
         return;
+    }
 
     tr = irlist_get_head(&gdata.trans);
     while (tr) {
@@ -2740,7 +2782,8 @@ void look_for_file_changes(xdcc* xpack) {
     xpack->st_ino = st.st_ino;
 
     if ((xpack->mtime != st.st_mtime) || (xpack->st_size != st.st_size)) {
-        if (!gdata.xdcclistfile || strcmp(xpack->file, gdata.xdcclistfile)) {
+        if (!gdata.xdcclistfile ||
+            strcmp(xpack->file, gdata.xdcclistfile) != 0) {
             outerror(OUTERROR_TYPE_WARN, "File '%s' has changed", xpack->file);
         }
 
@@ -2773,8 +2816,6 @@ void look_for_file_changes(xdcc* xpack) {
         assert(!irlist_size(&xpack->mmaps));
 #endif
     }
-
-    return;
 }
 
 void user_changed_nick(const char* oldnick, const char* newnick) {
@@ -2796,8 +2837,6 @@ void user_changed_nick(const char* oldnick, const char* newnick) {
             strcpy(pq->nick, newnick);
         }
     }
-
-    return;
 }
 
 void reverify_restrictsend(void) {
@@ -2810,7 +2849,7 @@ void reverify_restrictsend(void) {
 
     for (tr = irlist_get_head(&gdata.trans); tr; tr = irlist_get_next(tr)) {
         if ((tr->tr_status != TRANSFER_STATUS_DONE) &&
-            strcmp(tr->hostname, "man")) {
+            strcmp(tr->hostname, "man") != 0) {
             if (isinmemberlist(tr->nick)) {
                 tr->restrictsend_bad = 0;
             } else if (!tr->restrictsend_bad) {
@@ -2823,7 +2862,7 @@ void reverify_restrictsend(void) {
     }
 
     for (pq = irlist_get_head(&gdata.mainqueue); pq;) {
-        if (strcmp(pq->hostname, "man")) {
+        if (strcmp(pq->hostname, "man") != 0) {
             if (isinmemberlist(pq->nick)) {
                 pq->restrictsend_bad = 0;
                 pq = irlist_get_next(pq);
@@ -2845,6 +2884,4 @@ void reverify_restrictsend(void) {
             pq = irlist_get_next(pq);
         }
     }
-
-    return;
 }

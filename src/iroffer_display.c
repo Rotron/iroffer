@@ -30,14 +30,16 @@ void initscreen(int startup) {
 
     updatecontext();
 
-    if (gdata.background == 2)
+    if (gdata.background == 2) {
         return;
+    }
 
     /* clear */
     gdata.attop = 0;
 
-    if (gdata.noscreen)
+    if (gdata.noscreen) {
         return;
+    }
 
     tostdout("\x1b[H\x1b[J\x1b[r");
 
@@ -87,17 +89,17 @@ void initscreen(int startup) {
 }
 
 void uninitscreen(void) {
-    if (gdata.background == 2)
+    if (gdata.background == 2) {
         return;
+    }
 
-    if (gdata.noscreen)
+    if (gdata.noscreen) {
         return;
+    }
 
     printf("\x1b[r\x1b[%i;1H\n", gdata.termlines);
 
     tcsetattr(fileno(stdin), TCSANOW, &gdata.startup_tio);
-
-    return;
 }
 
 void checktermsize(void) {
@@ -107,20 +109,24 @@ void checktermsize(void) {
     updatecontext();
 
     notok = 0;
-    if (gdata.background == 2)
+    if (gdata.background == 2) {
         return;
+    }
 
     if ((ioctl(0, TIOCGWINSZ, &win) == 0) && win.ws_col && win.ws_row) {
-        if (gdata.termcols != win.ws_col)
+        if (gdata.termcols != win.ws_col) {
             notok++;
-        if (gdata.termlines != win.ws_row)
+        }
+        if (gdata.termlines != win.ws_row) {
             notok++;
+        }
         if (notok) {
             gdata.termcols = win.ws_col;
             gdata.termlines = win.ws_row;
             initscreen(0);
-            if (!gdata.attop)
+            if (!gdata.attop) {
                 gototop();
+            }
             tostdout("** Window Size Changed To: %dx%d\n", gdata.termcols,
                      gdata.termlines);
             gotobot();
@@ -129,11 +135,13 @@ void checktermsize(void) {
 }
 
 void gototop(void) {
-    if (gdata.background == 2)
+    if (gdata.background == 2) {
         return;
+    }
     gdata.attop = 1;
-    if (gdata.noscreen)
+    if (gdata.noscreen) {
         return;
+    }
 
     tostdout("\x1b[%d;1H", gdata.termlines - 2);
 }
@@ -176,18 +184,18 @@ void drawbot(void) {
     if ((len > maxlen)) {
         gdata.console_input_line[maxlen] = tchar;
     }
-
-    return;
 }
 
 void gotobot(void) {
     int maxlen;
 
-    if (gdata.background == 2)
+    if (gdata.background == 2) {
         return;
+    }
     gdata.attop = 0;
-    if (gdata.noscreen)
+    if (gdata.noscreen) {
         return;
+    }
 
     maxlen =
         gdata.termcols - (gdata.user_nick ? 17 + strlen(gdata.user_nick) : 17);
@@ -218,8 +226,6 @@ void tostdout_write(void) {
     }
 
     ir_boutput_attempt_flush(&gdata.stdout_buffer);
-
-    return;
 }
 
 void tostdout(const char* format, ...) {
@@ -245,8 +251,6 @@ void vtostdout(const char* format, va_list ap) {
 
         ir_boutput_write(&gdata.stdout_buffer, tempstr, len);
     }
-
-    return;
 }
 
 
@@ -376,7 +380,7 @@ void parseconsole(void) {
 
                 hist = irlist_get_tail(&gdata.console_history);
 
-                if ((!hist || strcmp(hist, gdata.console_input_line)) &&
+                if ((!hist || strcmp(hist, gdata.console_input_line) != 0) &&
                     gdata.console_input_line[0]) {
                     hist = irlist_add(&gdata.console_history, linelength + 1);
                     strncpy(hist, gdata.console_input_line, linelength);
@@ -390,8 +394,9 @@ void parseconsole(void) {
                 gdata.console_history_offset =
                     irlist_size(&gdata.console_history);
 
-                if (!gdata.attop)
+                if (!gdata.attop) {
                     gototop();
+                }
 
                 u_fillwith_console(&ui, gdata.console_input_line);
                 u_parseit(&ui);

@@ -192,8 +192,7 @@ void write_statefile(void) {
                 "Saving State File... ");
     }
 
-    fd = open(statefile_tmp, O_WRONLY | O_CREAT | O_TRUNC,
-              CREAT_PERMISSIONS);
+    fd = open(statefile_tmp, O_WRONLY | O_CREAT | O_TRUNC, CREAT_PERMISSIONS);
 
     if (fd < 0) {
         outerror(OUTERROR_TYPE_WARN_LOUD, "Cant Create State File '%s': %s",
@@ -725,8 +724,7 @@ void read_statefile(void) {
     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
             "Loading State File... ");
 
-    fd = open(gdata.statefile, O_RDONLY | O_CREAT,
-              CREAT_PERMISSIONS);
+    fd = open(gdata.statefile, O_RDONLY | O_CREAT, CREAT_PERMISSIONS);
 
     if (fd < 0) {
         outerror(OUTERROR_TYPE_WARN_LOUD, "Cant Access State File '%s': %s",
@@ -761,7 +759,7 @@ void read_statefile(void) {
     MD5_Final(digest, &md5sum);
 
     if (memcmp(digest, buffer + (buffer_len / sizeof(uint32_t)),
-               sizeof(MD5Digest))) {
+               sizeof(MD5Digest)) != 0) {
         outerror(OUTERROR_TYPE_CRASH,
                  "\"%s\" Appears corrupt or is not an iroffer state file",
                  gdata.statefile);

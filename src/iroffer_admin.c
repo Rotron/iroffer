@@ -3063,7 +3063,7 @@ static void u_shutdown(const userinput* const u) {
     }
 
     if (!u->arg1 ||
-        (strcmp(u->arg1, "NOW") != 0 && strcmp(u->arg1, "DELAYED") &&
+        (strcmp(u->arg1, "NOW") != 0 && strcmp(u->arg1, "DELAYED") != 0 &&
          strcmp(u->arg1, "CANCEL") != 0)) {
         u_respond(u, "Usage: SHUTDOWN <now|delayed|cancel>");
         return;
@@ -3300,7 +3300,7 @@ static void u_listul(const userinput* const u) {
     }
 
     while ((f = readdir(d))) {
-        if (strcmp(f->d_name, ".") != 0 && strcmp(f->d_name, "..")) {
+        if (strcmp(f->d_name, ".") != 0 && strcmp(f->d_name, "..") != 0) {
             thefile = irlist_add(&dirlist, strlen(f->d_name) + 1);
             strcpy(thefile, f->d_name);
         }

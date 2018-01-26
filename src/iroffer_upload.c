@@ -45,8 +45,7 @@ void l_establishcon(upload* const l) {
     sprintf(fullfile, "%s/%s", gdata.uploaddir, l->file);
 
     l->filedescriptor =
-        open(fullfile, O_WRONLY | O_CREAT | O_EXCL,
-             CREAT_PERMISSIONS);
+        open(fullfile, O_WRONLY | O_CREAT | O_EXCL, CREAT_PERMISSIONS);
 
     if ((l->filedescriptor < 0) && (errno == EEXIST)) {
         retval = stat(fullfile, &s);
@@ -58,16 +57,13 @@ void l_establishcon(upload* const l) {
             mydelete(fullfile);
             return;
         }
-#if 1
+
         if (!S_ISREG(s.st_mode) || (s.st_size >= l->totalsize)) {
             l_closeconn(l, "File Error, That filename already exists", 0);
             mydelete(fullfile);
             return;
-        } else
-#endif
-        {
-            l->filedescriptor =
-                open(fullfile, O_WRONLY | O_APPEND);
+        } else {
+            l->filedescriptor = open(fullfile, O_WRONLY | O_APPEND);
 
             if (l->filedescriptor >= 0) {
                 l->resumesize = l->bytesgot = s.st_size;
@@ -141,8 +137,6 @@ void l_establishcon(upload* const l) {
 
     l->ul_status = UPLOAD_STATUS_CONNECTING;
     notice(l->nick, "DCC Send Accepted, Connecting...");
-
-    return;
 }
 
 
@@ -173,8 +167,9 @@ void l_transfersome(upload* const l) {
                 return;
             }
 
-            if (howmuch > 0)
+            if (howmuch > 0) {
                 l->lastcontact = gdata.curtime;
+            }
 
             l->bytesgot += howmuch2;
             gdata.xdccsent[gdata.curtime % XDCC_SENT_SIZE] += howmuch2;
@@ -195,16 +190,19 @@ void l_transfersome(upload* const l) {
         l->ul_status = UPLOAD_STATUS_WAITING;
 
         timetook = gdata.curtime - l->connecttime - 1;
-        if (timetook < 1)
+        if (timetook < 1) {
             timetook = 1;
+        }
 
-        if (l->resumesize)
+        if (l->resumesize) {
             mysize = l->bytesgot - l->resumesize;
-        else
+        } else {
             mysize = l->totalsize;
+        }
 
-        if (mysize <= 0)
+        if (mysize <= 0) {
             mysize = 1;
+        }
 
         tempstr = mycalloc(maxtextlength);
 
@@ -260,8 +258,9 @@ void l_istimeout(upload* const l) {
     }
 
     if ((gdata.curtime - l->lastcontact) > 180) {
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
         l_closeconn(l, "DCC Timeout (180 Sec Timeout)", 0);
     }
 }

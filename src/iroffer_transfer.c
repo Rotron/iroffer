@@ -88,8 +88,9 @@ void t_establishcon(transfer* const t) {
 
     addrlen = sizeof(struct sockaddr_in);
 
-    if (!gdata.attop)
+    if (!gdata.attop) {
         gototop();
+    }
 
     if ((t->clientsocket =
              accept(t->listensocket, (struct sockaddr*)&t->serveraddress,
@@ -129,22 +130,26 @@ void t_establishcon(transfer* const t) {
 
 #if !defined(_OS_SunOS)
     tempi = sizeof(int);
-    if (gdata.debug > 0)
+    if (gdata.debug > 0) {
         ioutput(CALLTYPE_MULTI_FIRST, OUT_S, COLOR_YELLOW, "SO_SNDBUF ");
+    }
     getsockopt(t->clientsocket, SOL_SOCKET, SO_SNDBUF, &tempc, &tempi);
-    if (gdata.debug > 0)
+    if (gdata.debug > 0) {
         ioutput(CALLTYPE_MULTI_MIDDLE, OUT_S, COLOR_YELLOW, " a %li",
                 (long)tempc);
+    }
 
     tempc = 65535;
     setsockopt(t->clientsocket, SOL_SOCKET, SO_SNDBUF, &tempc, sizeof(int));
 
-    if (gdata.debug > 0)
+    if (gdata.debug > 0) {
         ioutput(CALLTYPE_MULTI_MIDDLE, OUT_S, COLOR_YELLOW, " b %li",
                 (long)tempc);
+    }
     getsockopt(t->clientsocket, SOL_SOCKET, SO_SNDBUF, &tempc, &tempi);
-    if (gdata.debug > 0)
+    if (gdata.debug > 0) {
         ioutput(CALLTYPE_MULTI_END, OUT_S, COLOR_YELLOW, " c %li", (long)tempc);
+    }
 #endif
 
 #if defined(_OS_BSD_ANY)
@@ -171,8 +176,9 @@ void t_establishcon(transfer* const t) {
     setsockopt(t->clientsocket, SOL_IP, IP_TOS, &tempc, sizeof(int));
 #endif
 
-    if (set_socket_nonblocking(t->clientsocket, 1) < 0)
+    if (set_socket_nonblocking(t->clientsocket, 1) < 0) {
         outerror(OUTERROR_TYPE_WARN, "Couldn't Set Non-Blocking");
+    }
 
 
     t->lastcontact = gdata.curtime;
@@ -182,18 +188,19 @@ void t_establishcon(transfer* const t) {
     t->lastspeedamt = t->startresume;
 
     if ((getpeername(t->clientsocket, (struct sockaddr*)&temp1, &(addrlen))) <
-        0)
+        0) {
         outerror(OUTERROR_TYPE_WARN, "Couldn't get Remote IP");
-    else {
+    } else {
         t->remoteip = ntohl(temp1.sin_addr.s_addr);
         t->remoteport = ntohs(temp1.sin_port);
     }
 
     if ((getsockname(t->clientsocket, (struct sockaddr*)&temp1, &(addrlen))) <
-        0)
+        0) {
         outerror(OUTERROR_TYPE_WARN, "Couldn't get Local IP");
-    else
+    } else {
         t->localip = ntohl(temp1.sin_addr.s_addr);
+    }
 
     ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
             "XDCC [%02i:%s]: Connection established (%ld.%ld.%ld.%ld:%d -> "
@@ -495,8 +502,6 @@ done:
 
         t->tr_status = TRANSFER_STATUS_WAITING;
     }
-
-    return;
 }
 
 void t_readjunk(transfer* const t) {
@@ -540,21 +545,21 @@ void t_readjunk(transfer* const t) {
 
         t->bytesgot += i;
     }
-
-    return;
 }
 
 void t_istimeout(transfer* const t) {
     updatecontext();
 
     if ((gdata.curtime - t->lastcontact) > 180) {
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
         t_closeconn(t, "DCC Timeout (180 Sec Timeout)", 0);
     } else if ((gdata.curtime - t->lastcontact) > 150) {
         if (!t->close_to_timeout) {
-            if (!gdata.attop)
+            if (!gdata.attop) {
                 gototop();
+            }
             ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
                     "XDCC [%02i:%s]: Connection close to timeout 30 sec remain",
                     t->id, t->nick);
@@ -754,21 +759,26 @@ void t_checkminspeed(transfer* const t) {
 
     updatecontext();
 
-    if (t->tr_status != TRANSFER_STATUS_SENDING)
+    if (t->tr_status != TRANSFER_STATUS_SENDING) {
         return; /* no checking unless we're sending */
-    if (t->connecttime + MIN_TL > gdata.curtime)
+    }
+    if (t->connecttime + MIN_TL > gdata.curtime) {
         return; /* no checking until time has passed */
-    if (t->nomin || (t->xpack->minspeed) == 0.0)
+    }
+    if (t->nomin || (t->xpack->minspeed) == 0.0) {
         return; /* no minspeed for this transfer */
-    if (t->lastspeed + 0.11 > t->xpack->minspeed)
+    }
+    if (t->lastspeed + 0.11 > t->xpack->minspeed) {
         return; /* over minspeed */
+    }
 
     tempstr2 = mycalloc(maxtextlength);
     snprintf(tempstr2, maxtextlength - 1,
              "Under Min Speed Requirement, %2.1fK/sec is less than %2.1fK/sec",
              t->lastspeed, t->xpack->minspeed);
-    if (!gdata.attop)
+    if (!gdata.attop) {
         gototop();
+    }
     t_closeconn(t, tempstr2, 0);
     mydelete(tempstr2);
 

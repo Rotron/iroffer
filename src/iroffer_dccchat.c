@@ -362,8 +362,9 @@ void parsedccchat(dccchat_t* chat, char* line) {
         break;
 
     case DCCCHAT_CONNECTED:
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
         if (gdata.debug > 0) {
             ioutput(CALLTYPE_NORMAL, OUT_S, COLOR_CYAN, ">DCC>: %s", line);
         }
@@ -431,7 +432,6 @@ void flushdccchat(dccchat_t* chat) {
         (chat->status == DCCCHAT_CONNECTED)) {
         ir_boutput_attempt_flush(&chat->boutput);
     }
-    return;
 }
 
 void writestatus(dccchat_t* chat) {
@@ -474,5 +474,4 @@ void shutdowndccchat(dccchat_t* chat, int flush) {
 
         gdata.num_dccchats--;
     }
-    return;
 }

@@ -76,11 +76,9 @@ void t_setuplisten(transfer* const t) {
 void t_establishcon(transfer* const t) {
     struct sockaddr_in temp1;
     SIGNEDSOCK int addrlen;
-
-#if !defined(_OS_SunOS)
     SIGNEDSOCK int tempi;
-#endif
-#if !defined(_OS_SunOS) || defined(_OS_BSD_ANY) || !defined(CANT_SET_TOS)
+
+#ifndef CANT_SET_TOS
     int tempc;
 #endif
 
@@ -128,7 +126,6 @@ void t_establishcon(transfer* const t) {
 
     t->bytessent = t->startresume;
 
-#if !defined(_OS_SunOS)
     tempi = sizeof(int);
     if (gdata.debug > 0) {
         ioutput(CALLTYPE_MULTI_FIRST, OUT_S, COLOR_YELLOW, "SO_SNDBUF ");
@@ -150,7 +147,6 @@ void t_establishcon(transfer* const t) {
     if (gdata.debug > 0) {
         ioutput(CALLTYPE_MULTI_END, OUT_S, COLOR_YELLOW, " c %li", (long)tempc);
     }
-#endif
 
 #if defined(_OS_BSD_ANY)
     /* #define SO_SNDLOWAT     0x1003     */
@@ -170,7 +166,7 @@ void t_establishcon(transfer* const t) {
         ioutput(CALLTYPE_MULTI_END, OUT_S, COLOR_YELLOW, " %i\n", tempc);
 #endif
 
-#if !defined(CANT_SET_TOS)
+#ifndef CANT_SET_TOS
     /* Set TOS socket option to max throughput */
     tempc = 0x8; /* IPTOS_THROUGHPUT */
     setsockopt(t->clientsocket, SOL_IP, IP_TOS, &tempc, sizeof(int));

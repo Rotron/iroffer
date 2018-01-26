@@ -211,33 +211,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
     defined(_OS_BSDI) || defined(_OS_BSD_OS) || defined(_OS_Darwin)
 #define _OS_BSD_ANY
 
-/* sunos */
-#elif defined(_OS_SunOS)
-
-/* HP-UX */
-#elif defined(_OS_HPUX)
-
-/* IRIX */
-#elif defined(_OS_IRIX)
-
-/* IRIX64 */
-#elif defined(_OS_IRIX64)
-
-/* Digital UNIX */
-#elif defined(_OS_OSF1)
-
-/* MacOS X Server */
-#elif defined(_OS_Rhapsody)
-
-/* MacOS X */
-#elif defined(_OS_Darwin)
-
-/* AIX */
-#elif defined(_OS_AIX)
-
-/* other */
-#else
-#error "** ERROR: This OS Is Not Supported Or You Didn't Run Configure **"
 #endif
 
 #endif // IROFFER_DEFINES_H

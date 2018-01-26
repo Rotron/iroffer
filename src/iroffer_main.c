@@ -575,7 +575,7 @@ static void mainloop(void) {
         FD_ISSET(gdata.ircserver, &gdata.writeset)) {
         int callval_i;
         int connect_error;
-        int connect_error_len = sizeof(connect_error);
+        socklen_t connect_error_len = sizeof(connect_error);
 
         callval_i = getsockopt(gdata.ircserver, SOL_SOCKET, SO_ERROR,
                                &connect_error, &connect_error_len);
@@ -705,7 +705,7 @@ static void mainloop(void) {
             FD_ISSET(ul->clientsocket, &gdata.writeset)) {
             int callval_i;
             int connect_error;
-            int connect_error_len = sizeof(connect_error);
+            socklen_t connect_error_len = sizeof(connect_error);
 
             callval_i = getsockopt(ul->clientsocket, SOL_SOCKET, SO_ERROR,
                                    &connect_error, &connect_error_len);
@@ -762,7 +762,7 @@ static void mainloop(void) {
             FD_ISSET(chat->fd, &gdata.writeset)) {
             int callval_i;
             int connect_error;
-            int connect_error_len = sizeof(connect_error);
+            socklen_t connect_error_len = sizeof(connect_error);
 
             callval_i = getsockopt(chat->fd, SOL_SOCKET, SO_ERROR,
                                    &connect_error, &connect_error_len);

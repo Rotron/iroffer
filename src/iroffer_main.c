@@ -22,13 +22,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #include "iroffer_defines.h"
 #include "iroffer_headers.h"
 #include "iroffer_globals.h"
+#include "autosend.h"
 #include "conversions.h"
 #include "parsing.h"
 
 /* local functions */
 static void mainloop(void);
 static void parseline(char* line);
-static void autosendf(char* line);
 static char* addtoqueue(const char* nick, const char* hostname, int pack);
 static int parsecmdline(int argc, char* argv[]);
 
@@ -2047,68 +2047,6 @@ static void parseline(char* line) {
     mydelete(part5);
 }
 
-static void autosendf(char* line) {
-    char *nick, *hostname, *hostmask;
-    int i, j;
-
-    updatecontext();
-
-    floodchk();
-
-    nick = mycalloc(maxtextlengthshort);
-    hostname = mycalloc(maxtextlength);
-
-    hostmask = caps(getpart(line, 1));
-    for (i = 1; i <= sstrlen(hostmask); i++)
-        hostmask[i - 1] = hostmask[i];
-
-    i = 1;
-    j = 0;
-    while (line[i] != '!' && i < sstrlen(line) && i < maxtextlengthshort - 1) {
-        nick[i - 1] = line[i];
-        i++;
-    }
-    nick[i - 1] = '\0';
-
-    while (line[i] != '@' && i < sstrlen(line)) {
-        i++;
-    }
-    i++;
-
-    while (line[i] != ' ' && i < sstrlen(line) && j < maxtextlength - 1) {
-        hostname[j] = line[i];
-        i++;
-        j++;
-    }
-    hostname[j] = '\0';
-
-    if (!gdata.ignore) {
-        char* tempstr;
-#define SENDING_FORMAT_STR " :** Sending You %s by DCC"
-
-        gdata.inamnt[gdata.curtime % INAMNT_SIZE]++;
-
-        if (!gdata.attop)
-            gototop();
-
-        ioutput(CALLTYPE_MULTI_FIRST, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
-                "AutoSend ");
-
-        tempstr = mycalloc(strlen(gdata.autosend.message) +
-                           strlen(SENDING_FORMAT_STR) - 1);
-        snprintf(tempstr,
-                 strlen(gdata.autosend.message) + strlen(SENDING_FORMAT_STR) -
-                     1,
-                 SENDING_FORMAT_STR, gdata.autosend.message);
-
-        sendxdccfile(nick, hostname, hostmask, gdata.autosend.pack, tempstr);
-
-        mydelete(tempstr);
-    }
-
-    mydelete(nick);
-    mydelete(hostname);
-}
 
 void sendxdccfile(const char* nick, const char* hostname, const char* hostmask,
                   int pack, const char* msg) {

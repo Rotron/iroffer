@@ -600,7 +600,7 @@ static void mainloop(void) {
             close(gdata.ircserver);
             gdata.serverstatus = SERVERSTATUS_NEED_TO_CONNECT;
         } else {
-            SIGNEDSOCK int addrlen;
+            socklen_t addrlen;
 
             ioutput(CALLTYPE_NORMAL, OUT_S | OUT_L | OUT_D, COLOR_NO_COLOR,
                     "Server Connection Established, Logging In");

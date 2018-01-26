@@ -75,8 +75,8 @@ void t_setuplisten(transfer* const t) {
 
 void t_establishcon(transfer* const t) {
     struct sockaddr_in temp1;
-    SIGNEDSOCK int addrlen;
-    SIGNEDSOCK int tempi;
+    socklen_t addrlen;
+    socklen_t tempi;
 
 #ifndef CANT_SET_TOS
     int tempc;

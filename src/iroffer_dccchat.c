@@ -114,7 +114,7 @@ int setupdccchatout(const char* nick) {
 }
 
 void setupdccchataccept(dccchat_t* chat) {
-    SIGNEDSOCK int addrlen;
+    socklen_t addrlen;
     struct sockaddr_in remoteaddr;
     char* tempstr;
     int listen_fd;
@@ -166,7 +166,7 @@ void setupdccchataccept(dccchat_t* chat) {
 
 int setupdccchat(const char* nick, const char* line) {
     char *ip, *port;
-    SIGNEDSOCK int addrlen;
+    socklen_t addrlen;
     int retval;
     dccchat_t* chat;
 

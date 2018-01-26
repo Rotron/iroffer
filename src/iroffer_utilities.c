@@ -2300,7 +2300,7 @@ int ir_bind_listen_socket(int fd, struct sockaddr_in* sa) {
     int retry;
     int max;
     uint16_t port;
-    SIGNEDSOCK int addrlen;
+    socklen_t addrlen;
 
     max = (MAXTRANS + MAXUPLDS + MAXCHATS + irlist_size(&gdata.listen_ports));
 

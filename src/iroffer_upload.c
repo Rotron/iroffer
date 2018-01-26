@@ -33,7 +33,7 @@ void l_initvalues(upload* const l) {
 }
 
 void l_establishcon(upload* const l) {
-    SIGNEDSOCK int addrlen;
+    socklen_t addrlen;
     int retval;
     char* fullfile;
     struct stat s;

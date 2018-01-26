@@ -66,7 +66,7 @@ void autosendf(char* line) {
                            strlen(SENDING_FORMAT_STR) - 1);
         snprintf(tempstr,
                  strlen(gdata.autosend.message) + strlen(SENDING_FORMAT_STR) -
-                 1,
+                     1,
                  SENDING_FORMAT_STR, gdata.autosend.message);
 
         sendxdccfile(nick, hostname, hostmask, gdata.autosend.pack, tempstr);

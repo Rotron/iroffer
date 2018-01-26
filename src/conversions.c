@@ -12,17 +12,16 @@
 
 
 unsigned long atoul(const char* const str) {
-    unsigned long num, temp;
-    int i, j;
     if (str == NULL) {
         return 0;
     }
 
-    num = 0;
+    unsigned long num = 0;
 
-    for (i = strlen(str) - 1; i >= 0; i--) {
-        temp = (str[i] - '0');
-        for (j = strlen(str) - 1; j > i; j--) {
+    for (int i = strlen(str) - 1; i >= 0; i--) {
+        unsigned long temp = (str[i] - '0');
+
+        for (int j = strlen(str) - 1; j > i; j--) {
             temp *= 10;
         }
         num += temp;
@@ -33,17 +32,16 @@ unsigned long atoul(const char* const str) {
 
 // TODO(AnTiZ): evaluate replacement with stdint types
 unsigned long long atoull(const char* const str) {
-    unsigned long long num, temp;
-    int i, j;
     if (str == NULL) {
         return 0;
     }
 
-    num = 0;
+    unsigned long long num = 0;
 
-    for (i = strlen(str) - 1; i >= 0; i--) {
-        temp = (str[i] - '0');
-        for (j = strlen(str) - 1; j > i; j--) {
+    for (int i = strlen(str) - 1; i >= 0; i--) {
+        unsigned long long temp = (str[i] - '0');
+
+        for (int j = strlen(str) - 1; j > i; j--) {
             temp *= 10;
         }
         num += temp;

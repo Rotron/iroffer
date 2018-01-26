@@ -25,8 +25,9 @@ void autosendf(char* line) {
     hostname = mycalloc(maxtextlength);
 
     hostmask = caps(getpart(line, 1));
-    for (i = 1; i <= sstrlen(hostmask); i++)
+    for (i = 1; i <= sstrlen(hostmask); i++) {
         hostmask[i - 1] = hostmask[i];
+    }
 
     i = 1;
     j = 0;
@@ -54,8 +55,9 @@ void autosendf(char* line) {
 
         gdata.inamnt[gdata.curtime % INAMNT_SIZE]++;
 
-        if (!gdata.attop)
+        if (!gdata.attop) {
             gototop();
+        }
 
         ioutput(CALLTYPE_MULTI_FIRST, OUT_S | OUT_L | OUT_D, COLOR_YELLOW,
                 "AutoSend ");

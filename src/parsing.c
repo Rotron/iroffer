@@ -14,46 +14,36 @@
 #include "parsing.h"
 
 void privmsgparse(const char* type, char* line) {
-    char *nick, *hostname, *hostmask, *wildhost;
-    char *msg1, *msg2, *msg3, *msg4, *msg5, *msg6, *dest;
-    int i, j, k;
-    userinput ui;
+    int j;
     igninfo* ignore = NULL;
-    upload* ul;
-    transfer* tr;
-    pqueue* pq;
-    xdcc* xd;
-    int line_len;
 
     updatecontext();
 
     floodchk();
 
-    line_len = sstrlen(line);
-
-    hostmask = caps(getpart(line, 1));
-    for (i = 1; i <= sstrlen(hostmask); i++) {
+    char* hostmask = caps(getpart(line, 1));
+    for (int i = 1; i <= sstrlen(hostmask); i++) {
         hostmask[i - 1] = hostmask[i];
     }
 
-    dest = caps(getpart(line, 3));
-    msg1 = getpart(line, 4);
-    msg2 = getpart(line, 5);
-    msg3 = getpart(line, 6);
-    msg4 = getpart(line, 7);
-    msg5 = getpart(line, 8);
-    msg6 = getpart(line, 9);
+    char* dest = caps(getpart(line, 3));
+    char* msg1 = getpart(line, 4);
+    char* msg2 = getpart(line, 5);
+    char* msg3 = getpart(line, 6);
+    char* msg4 = getpart(line, 7);
+    char* msg5 = getpart(line, 8);
+    char* msg6 = getpart(line, 9);
 
     if (msg1) {
         msg1++; /* point past the ":" */
     }
 
-    nick = mycalloc(line_len + 1);
-    hostname = mycalloc(line_len + 1);
-    wildhost = mycalloc(line_len + 2);
+    int line_len = sstrlen(line);
+    char* nick = mycalloc(line_len + 1);
+    char* hostname = mycalloc(line_len + 1);
+    char* wildhost = mycalloc(line_len + 2);
 
-
-    i = 1;
+    int i = 1;
     j = 0;
     while (line[i] != '!' && i < line_len) {
         nick[i - 1] = line[i];
@@ -249,6 +239,9 @@ noignore:
         if (!gdata.attop) {
             gototop();
         }
+
+        upload* ul;
+
         if (!strcmp(caps(msg2), "RESUME") && msg3 && msg4 && msg5) {
             gdata.inamnt[gdata.curtime % INAMNT_SIZE]++;
 
@@ -257,7 +250,7 @@ noignore:
             if (msg5[strlen(msg5) - 1] == '\1') {
                 msg5[strlen(msg5) - 1] = '\0';
             }
-            tr = irlist_get_head(&gdata.trans);
+            transfer* tr = irlist_get_head(&gdata.trans);
             while (tr) {
                 if ((tr->tr_status == TRANSFER_STATUS_LISTENING) &&
                     !strcmp(tr->caps_nick, nick) &&
@@ -425,6 +418,8 @@ noignore:
                     line[line_len - 1] = '\0';
                     line_len--;
                 }
+
+                userinput ui;
                 u_fillwith_msg(&ui, nick, line);
                 u_parseit(&ui);
 
@@ -528,9 +523,9 @@ noignore:
                 if (!gdata.attop) {
                     gototop();
                 }
-                k = 0;
 
-                pq = irlist_get_head(&gdata.mainqueue);
+                int k = 0;
+                pqueue* pq = irlist_get_head(&gdata.mainqueue);
                 while (pq) {
                     if (!strcmp(pq->nick, nick)) {
                         notice(nick,
@@ -562,18 +557,18 @@ noignore:
 
                 notice_slow(nick, "Searching for \"%s\"...", msg3);
 
-                i = 1;
-                k = 0;
-                xd = irlist_get_head(&gdata.xdccs);
+                int n = 1;
+                int k = 0;
+                xdcc* xd = irlist_get_head(&gdata.xdccs);
                 while (xd) {
                     if (strstrnocase(xd->file, msg3) ||
                         strstrnocase(xd->desc, msg3) ||
                         strstrnocase(xd->note, msg3)) {
-                        notice_slow(nick, " - Pack #%i matches, \"%s\"", i,
+                        notice_slow(nick, " - Pack #%i matches, \"%s\"", n,
                                     xd->desc);
                         k++;
                     }
-                    i++;
+                    n++;
                     xd = irlist_get_next(xd);
                 }
 

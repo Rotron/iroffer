@@ -45,7 +45,7 @@ iroffer is a software program that acts as a fileserver for IRC. It is similar t
 
 ### Building
 
-Run the *Configure* script followed by the generated *Makefile*.
+Run the *configure* script followed by the generated *Makefile*.
 
 No errors or warnings should appear when compiling.
 

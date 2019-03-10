@@ -44,27 +44,13 @@ done
 echo -n "Determining OS... "
 uname
 ostype=`uname`
-platform=`uname -m`
 libs=""
 
 rm -f config.error.* config.temp*
 
 case "$ostype" in
- Linux | FreeBSD | OpenBSD | NetBSD | IRIX | IRIX64 | \
- OSF1 | Rhapsody | Darwin | AIX )
+ Linux | FreeBSD | OpenBSD | NetBSD | Darwin )
   # nothing fancy
-  ;;
- GNU/kFreeBSD | GNU )
-  ostype=Linux
-  ;;
- SunOS )
-  libs="$libs -lsocket -lnsl"
-  ;;
- BSD/OS )
-  ostype=BSD_OS
-  ;;
- HP-UX )
-  ostype=HPUX
   ;;
  *)
   echo "***ERROR***: This OS is not supported"

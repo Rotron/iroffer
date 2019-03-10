@@ -207,8 +207,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 #define _GNU_SOURCE
 
 /* bsd */
-#elif defined(_OS_FreeBSD) || defined(_OS_OpenBSD) || defined(_OS_NetBSD) ||   \
-    defined(_OS_BSDI) || defined(_OS_BSD_OS) || defined(_OS_Darwin)
+#elif defined(_OS_FreeBSD) \
+    || defined(_OS_OpenBSD) \
+    || defined(_OS_NetBSD) \
+    || defined(_OS_Darwin)
 #define _OS_BSD_ANY
 
 #endif

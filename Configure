@@ -45,7 +45,6 @@ echo -n "Determining OS... "
 uname
 ostype=`uname`
 platform=`uname -m`
-short_ostype=`uname | cut -d "_" -f 1`
 libs=""
 
 rm -f config.error.* config.temp*
@@ -224,14 +223,7 @@ FD_SETSIZE
 " > config.temp.c
 if $cctype -E -o config.temp.p config.temp.c $WARNS $WERROR ; then
  setsize=`tail -2 config.temp.p |grep -v "config.temp"`
- echo -n " $setsize"
- 
- if [ "$ostype" = CYGWIN -a $setsize -le 255 ]; then
-   echo ", Boosting up to 255"
-   echo "#define FD_SETSIZE 255" >> src/iroffer_config.h
- else
-   echo
- fi
+ echo "$setsize"
 else
  echo " ***ERROR***: couldn't determine it"
  waserror=yes

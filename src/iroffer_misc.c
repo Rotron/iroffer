@@ -2382,19 +2382,12 @@ void startupiroffer(void) {
 
     gdata.max_fds_from_rlimit = FD_SETSIZE;
 
-#ifdef USE_OFILE
-    callval = getrlimit(RLIMIT_OFILE, &rlim);
-#else
     callval = getrlimit(RLIMIT_NOFILE, &rlim);
-#endif
     if (callval >= 0) {
         rlim.rlim_cur = min2(rlim.rlim_max, FD_SETSIZE);
         gdata.max_fds_from_rlimit = rlim.rlim_cur;
-#ifdef USE_OFILE
-        callval = setrlimit(RLIMIT_OFILE, &rlim);
-#else
+        
         callval = setrlimit(RLIMIT_NOFILE, &rlim);
-#endif
         if (callval < 0) {
             outerror(OUTERROR_TYPE_CRASH, "Unable to adjust fd limit to %u: %s",
                      gdata.max_fds_from_rlimit, strerror(errno));

@@ -677,46 +677,6 @@ else
 echo "missing, won't use mmap()"
 fi
 
-
-echo -n "Checking for name of fd limit... "
-echo "
-#define GEX 
-#include \"src/iroffer_config.h\"
-#include \"src/iroffer_defines.h\"
-#include \"src/iroffer_headers.h\"
-#include \"src/iroffer_globals.h\"
-int main (int argc, char **argv)
-{
-  struct rlimit rlim;
-  getrlimit(RLIMIT_NOFILE, &rlim);
-  exit(0);
-}
-" > config.temp.c
-if $cctype config.temp.c $libs -o config.temp $WARNS $WERROR; then
-echo "RLIMIT_NOFILE"
-else
-echo "
-#define GEX 
-#include \"src/iroffer_config.h\"
-#include \"src/iroffer_defines.h\"
-#include \"src/iroffer_headers.h\"
-#include \"src/iroffer_globals.h\"
-int main (int argc, char **argv)
-{
-  struct rlimit rlim;
-  getrlimit(RLIMIT_OFILE, &rlim);
-  exit(0);
-}
-" > config.temp.c
-if $cctype config.temp.c $libs -o config.temp $WARNS $WERROR; then
-echo "RLIMIT_OFILE"
-echo "#define USE_OFILE" >> src/iroffer_config.h
-else
-waserror=yes
-echo "neither work, that's not good"
-fi
-fi
-
 echo -n "Checking for siginfo_t/sa_sigaction... "
 echo "
 #define GEX 

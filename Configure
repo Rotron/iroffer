@@ -1,7 +1,7 @@
 #!/bin/sh
 
-VERSION=1.4.b03
-RELEASE=1
+VERSION=1.5.0
+RELEASE=0
 
 if [ $RELEASE -eq 1 ]; then
  VERSIONLONG="$VERSION"
